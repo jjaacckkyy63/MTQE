@@ -1,4 +1,5 @@
 # Overview
+Task: [Machine translation quality estimation](./references/Capstone_Proposal_QE.PDF)
 
 1. Continue score
 2. 1000 language pair
@@ -17,7 +18,15 @@
 
     a) [API page](https://unbabel.github.io/OpenKiwi/)
 
-    b) [paper](http://www.statmt.org/wmt19/pdf/54/WMT06.pdf)
+    b) [2019 QE + transformer](http://www.statmt.org/wmt19/pdf/54/WMT06.pdf)
+
+    c) [2018 QEbrain](https://github.com/lovecambi/qebrain) <br>
+        https://www.aclweb.org/anthology/W18-6465.pdf
+    
+    d) [2017 Quality estimator paper](https://dl.acm.org/doi/10.1145/3109480)
+
+    e) [2017 Quality estimator paper on WMT17 task](http://www.statmt.org/wmt17/pdf/WMT63.pdf)
+
 
 # Possible Direction
 1) Transfer learning from label data in other languages, including
