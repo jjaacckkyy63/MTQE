@@ -25,6 +25,7 @@ class Trainer:
         for epoch in range(self._epoch + 1, epochs + 1):
             print('Epoch {} of {}'.format(epoch, epochs))
             
+            # train
             self.model.train()
 
             for batch in tqdm(
@@ -43,15 +44,21 @@ class Trainer:
                 
                 train_outputs = dict(loss=loss_dict, model_out=model_out)
 
-                # validation
-                # self.model.eval()
-                # with torch.no_grad():
-                #     for batch in valid_iter:
-                #         model_out = self.model(batch)
-                #         loss_dict = self.model.loss(model_out, batch)
-                #         val_outputs = dict(loss=loss_dict, model_out=model_out)
-                
-                # self.model.train()
+            # validation
+            self.model.eval()
+            with torch.no_grad():
+                for batch in tqdm(
+                    valid_iter,
+                    total=len(valid_iter),
+                    desc='Batches',
+                    unit=' batches',
+                    ncols=80,
+                ):
+                    model_out = self.model(batch)
+                    loss_dict = self.model.loss(model_out, batch)
+                    val_outputs = dict(loss=loss_dict, model_out=model_out)
+            
+            self.model.train()
                 
             self._epoch += 1
             

@@ -89,6 +89,7 @@ def build_training_datasets(
             prefix=Fieldset.TRAIN, 
             filter_pred=filter_pred
     )
+    datasets_for_vocab = [train_dataset]
     if has_valid:
         valid_dataset = build_dataset(
             fieldset,
@@ -96,6 +97,7 @@ def build_training_datasets(
             prefix=Fieldset.VALID,
             filter_pred=filter_pred
         )
+        datasets_for_vocab = [train_dataset, valid_dataset]
     elif split:
         if not 0.0 < split < 1.0:
             raise Exception(
@@ -111,7 +113,6 @@ def build_training_datasets(
         vocab_path = Path(load_vocab)
         load_vocabularies_to_datasets(vocab_path, train_dataset, valid_dataset)
     
-    datasets_for_vocab = [train_dataset]
     fields_vocab_options = fieldset.fields_vocab_options(opt)
     build_vocabulary(fields_vocab_options, *datasets_for_vocab)
 
