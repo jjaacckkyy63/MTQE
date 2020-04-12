@@ -27,6 +27,9 @@ Task: [Machine translation quality estimation](./references/Capstone_Proposal_QE
 
     e) [2017 Quality estimator paper on WMT17 task](http://www.statmt.org/wmt17/pdf/WMT63.pdf)
 
+2)  slides:
+https://docs.google.com/presentation/d/1scd7uLgS4FUexYf7AtmT33L59qtOMURi7YsKUrW0z8g/edit?fbclid=IwAR3MyWSaGAGfAW7G-gA3t6oCd5pi87LhwsLiEcHy3Q0-c8JIDR3Z-hj0YJs#slide=id.g7336ca79bc_0_47
+
 
 # Possible Direction
 1) Transfer learning from label data in other languages, including
