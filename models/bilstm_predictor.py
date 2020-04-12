@@ -83,7 +83,7 @@ class BilstmPredictor(Model):
 
     title = 'PredEst Predictor model (an embedder model)'
 
-    def __init__(self, vocabs, opt):
+    def __init__(self, vocabs, opt, predict_inverse=False):
         """
         Args:
           vocabs: Dictionary Mapping Field Names to Vocabularies.
@@ -146,7 +146,7 @@ class BilstmPredictor(Model):
         self.W1 = self.embedding_target
         if not opt.share_embeddings:
             self.W1 = nn.Embedding(
-                opt.target_vocab_size,
+                self.target_vocab_size,
                 opt.out_embeddings_size,
                 opt.PAD_ID,
             )
@@ -181,13 +181,32 @@ class BilstmPredictor(Model):
 
         self.opt = opt
 
+        self.source_side, self.target_side = (
+                self.opt.source_side,
+                self.opt.target_side,
+            )
+        self.target_vocab_size, self.source_vocab_size = (
+            self.opt.vocabulary_options['target-vocab-size'],
+            self.opt.vocabulary_options['source-vocab-size'],
+        )
+
+        if predict_inverse:
+            self.source_side, self.target_side = (
+                self.opt.target_side,
+                self.opt.source_side,
+            )
+            self.target_vocab_size, self.source_vocab_size = (
+                self.opt.vocabulary_options['source-vocab-size'],
+                self.opt.vocabulary_options['target-vocab-size'],
+            )
+
     @classmethod
     def from_options(cls, vocabs, opt):
         return cls(vocabs, opt)
 
     def loss(self, model_out, batch, target_side=None):
         if not target_side:
-            target_side = self.opt.target_side
+            target_side = self.target_side
         target = getattr(batch, target_side)
         # There are no predictions for first/last element
         target = replace_token(target[:, 1:-1], self.opt.STOP_ID, self.opt.PAD_ID)
@@ -202,9 +221,9 @@ class BilstmPredictor(Model):
 
     def forward(self, batch, source_side=None, target_side=None):
         if not source_side:
-            source_side = self.opt.source_side
+            source_side = self.source_side
         if not target_side:
-            target_side = self.opt.target_side
+            target_side = self.target_side
 
         source = getattr(batch, source_side)
         target = getattr(batch, target_side)

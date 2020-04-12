@@ -31,7 +31,9 @@ class Config:
                           'target-embeddings': 'file'}
     
     # Model
-    model_name = 'BilstmPredictor'
+    model_name = 'Estimator'
+    
+    ###################### Predictor model setting ######################
     model_path = None
     # LSTM Settings (Both SRC and TGT)
     hidden_pred = 400
@@ -48,6 +50,44 @@ class Config:
     # Set to true to predict from target to source
     # (To create a source predictor for source tag prediction)
     predict_inverse = False
+    ###################### Predictor model setting ######################
+
+    ###################### Estimator model setting ######################
+    # LSTM Settings
+    hidden_est = 125
+    rnn_layers_est = 1
+    dropout_est = 0.0
+    # Use linear layer to reduce dimension prior to LSTM
+    mlp_est = True
+
+    # Multitask Learning Settings #
+
+    # Continue training the predictor on the postedited text.
+    # If set, will do an additional forward pass through the predictor
+    # Using the SRC, PE pair and add the `Predictor` loss for the tokens in the
+    # postedited text PE. Recommended if you have access to PE
+    # Requires setting train-pe, valid-pe
+    token_level = False
+    # Predict Sentence Level Scores
+    # Requires setting train-sentence-scores, valid-sentence-scores
+    sentence_level = True
+    # Use probabilistic Loss for sentence scores instead of squared error.
+    # If set, the model will output mean and variance of a truncated Gaussian
+    # distribution over the interval [0, 1], and use log-likelihood loss instead
+    # of mean squared error.
+    # Seems to improve performance
+    sentence_ll = False
+    # Predict Binary Label for each sentence, indicating hter == 0.0
+    # Requires setting train-sentence-scores, valid-sentence-scores
+    binary_level = False
+    
+    load_pred_source = None
+    load_pred_target = None
+
+    # Include start and stop embedding
+    start_stop = True
+    ###################### Estimator model setting ######################
+
 
     ### TRAIN OPTS ###
     epochs = 6
@@ -72,6 +112,8 @@ class Config:
     learning_rate_decay_start = 2
     train_batch_size = 64
     valid_batch_size = 64
+
+
 
 
     # Hyperparameter

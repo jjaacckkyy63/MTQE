@@ -7,7 +7,7 @@ from data.iterators import build_bucket_iterator
 from data.utils import *
 from trainers.utils import retrieve_trainer
 from config import opt
-from models import Model, BilstmPredictor
+from models import Model, BilstmPredictor, Estimator
 
 def train():
 
