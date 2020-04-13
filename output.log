@@ -1,6 +1,0 @@
-2020-04-13 14:29:47,999 - trainers.trainers - INFO - Epoch 1 of 6
-2020-04-13 14:29:55,329 - trainers.trainers - INFO - Current Training Loss at step 1: 57.37097930908203
-2020-04-13 14:29:58,643 - trainers.trainers - INFO - Current Training Loss at step 2: 65.119140625
-2020-04-13 14:30:04,796 - trainers.trainers - INFO - Current Training Loss at step 3: 65.834716796875
-2020-04-13 14:36:47,547 - trainers.trainers - INFO - Epoch 1 of 6
-2020-04-13 14:37:12,197 - trainers.trainers - INFO - Current Training Loss at step 1: 9970.35546875

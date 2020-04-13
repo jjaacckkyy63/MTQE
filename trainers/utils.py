@@ -25,7 +25,7 @@ def retrieve_trainer(ModelClass, opt, vocabs, device):
 
     # Build model
     if opt.model_path:
-        model = ModelClass.create_from_file(opt.model_path)
+        model = ModelClass.create_from_file(opt.model_path, opt)
     else:
         model = ModelClass.from_options(vocabs=vocabs, opt=opt)
     
@@ -49,6 +49,7 @@ def retrieve_trainer(ModelClass, opt, vocabs, device):
     trainer = Trainer(
         model,
         optimizer,
+        opt,
         log_interval=opt.log_interval,
         scheduler=scheduler
     )

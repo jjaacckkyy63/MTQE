@@ -176,7 +176,7 @@ class BilstmPredictor(Model):
                 nn.init.xavier_uniform_(p)
 
         self._loss = nn.CrossEntropyLoss(
-            reduction='sum', ignore_index=opt.PAD_ID
+            reduction='mean', ignore_index=opt.PAD_ID
         )
 
         self.opt = opt

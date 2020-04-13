@@ -6,7 +6,7 @@ from models.model import Model
 
 class Trainer:
 
-    def __init__(self, model, optimizer, log_interval=100, scheduler=None):
+    def __init__(self, model, optimizer, opt, log_interval=100, scheduler=None):
         """
         Args:
           model: A Model to train
@@ -19,13 +19,13 @@ class Trainer:
         self.optimizer = optimizer
         self.scheduler = scheduler
         self._step = 0
-        self._epoch = 0
-        self.logger = self.get_logger()
+        self.logger = self.get_logger(opt)
 
     
     def run(self, train_iter, valid_iter, opt):
+        self.logger.info('Start Logging...')
         
-        for epoch in range(self._epoch + 1, opt.epochs + 1):
+        for epoch in range(opt.epochs + 1):
             print('Epoch {} of {}'.format(epoch, opt.epochs))
             self.logger.info('Epoch {} of {}'.format(epoch, opt.epochs))
             
@@ -47,23 +47,17 @@ class Trainer:
                 self.optimizer.step()
                 
                 train_outputs = dict(loss=loss_dict, model_out=model_out)
-                self.logger.info("Current Training Loss at step {}: {}".format(self._step, loss_dict['loss']))
 
                 if self._step % opt.log_interval == 0:
-                    print()
+                    self.logger.info("Current Training Loss at step {}: {}".format(self._step, loss_dict['loss']))
             
                 if opt.checkpoint_validation_steps and self._step % opt.checkpoint_validation_steps == 0:
                     # validation
+                    print('\n======= Validation Start =======')
                     validation_loss = 0
                     self.model.eval()
                     with torch.no_grad():
-                        for batch in tqdm(
-                            valid_iter,
-                            total=len(valid_iter),
-                            desc='Batches',
-                            unit=' batches',
-                            ncols=80,
-                        ):
+                        for batch in valid_iter:
                             model_out = self.model(batch)
                             loss_dict = self.model.loss(model_out, batch)
                             val_outputs = dict(loss=loss_dict, model_out=model_out)
@@ -71,20 +65,21 @@ class Trainer:
                             validation_loss += loss_dict['loss']
                         
                         validation_loss /= len(valid_iter)*opt.valid_batch_size
-                        self.logger.info("====== Current Validation Loss at step {}: {} ======".format(self._step, loss_dict['loss']))
+                        self.logger.info(" ====== Current Validation Loss at step {}: {} ====== ".format(self._step, loss_dict['loss']))
 
                     self.model.train()
+                    print('======= Validation Done =======')
             
-            if opt.save_checkpoint_interval == 0:
-                self.model.save(opt.checkpoint_path+'{}_{}'.format(self.model.__name__, epoch))
-
-            self._epoch += 1
+            if epoch % opt.save_checkpoint_interval == 0:
+                self.model.save(opt.checkpoint_path+'{}_{}.pth'.format(opt.model_name, epoch))
     
-    def get_logger(self):
+    def get_logger(self, opt):
+        
         logger = logging.getLogger(__name__)
         logger.setLevel(level=logging.INFO)
         
-        handler = logging.FileHandler('output.log')
+        path = opt.checkpoint_path+'{}.log'.format(opt.model_name)
+        handler = logging.FileHandler(path)
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         handler.setFormatter(formatter)
         
