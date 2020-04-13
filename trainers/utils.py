@@ -1,5 +1,7 @@
 import torch
 from torch import optim
+from more_itertools import collapse
+import numpy as np
 from trainers.trainers import Trainer
 
 # Define function for training
@@ -48,9 +50,68 @@ def retrieve_trainer(ModelClass, opt, vocabs, device):
         model,
         optimizer,
         log_interval=opt.log_interval,
-        scheduler=scheduler,
+        scheduler=scheduler
     )
     return trainer
+
+
+# For metrics
+def precision(tp, fp, fn):
+    if tp + fp > 0:
+        return tp / (tp + fp)
+    return 0
+
+def recall(tp, fp, fn):
+    if tp + fn > 0:
+        return tp / (tp + fn)
+    return 0
+
+def fscore(tp, fp, fn):
+    p = precision(tp, fp, fn)
+    r = recall(tp, fp, fn)
+    if p + r > 0:
+        return 2 * (p * r) / (p + r)
+    return 0
+
+def precision_recall_fscore_support(hat_y, y, labels=None):
+    n_classes = len(labels) if labels else None
+    cnfm = confusion_matrix(hat_y, y, n_classes)
+
+    if n_classes is None:
+        n_classes = cnfm.shape[0]
+
+    scores = np.zeros((n_classes, 4))
+    for class_id in range(n_classes):
+        scores[class_id] = scores_for_class(class_id, cnfm)
+    return scores.T.tolist()
+
+def confusion_matrix(hat_y, y, n_classes=None):
+    hat_y = np.array(list(collapse(hat_y)))
+    y = np.array(list(collapse(y)))
+
+    if n_classes is None:
+        classes = np.unique(np.union1d(hat_y, y))
+        n_classes = len(classes)
+
+    cnfm = np.zeros((n_classes, n_classes))
+    for j in range(y.shape[0]):
+        cnfm[y[j], hat_y[j]] += 1
+    return cnfm
+
+
+def scores_for_class(class_index, cnfm):
+    tp = cnfm[class_index, class_index]
+    fp = cnfm[:, class_index].sum() - tp
+    fn = cnfm[class_index, :].sum() - tp
+    tn = cnfm.sum() - tp - fp - fn
+
+    p = precision(tp, fp, fn)
+    r = recall(tp, fp, fn)
+    f1 = fscore(tp, fp, fn)
+    support = tp + tn
+    return p, r, f1, support
+
+
 
 
 

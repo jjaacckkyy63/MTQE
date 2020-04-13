@@ -93,9 +93,11 @@ class Config:
     epochs = 6
     # Eval and checkpoint every n samples
     # Disable by setting to zero (default)
-    checkpoint_validation_steps = 5000
-    # If False, never save the Models
-    checkpoint_save = True
+    checkpoint_validation_steps = 200
+    # Save Model Every n epochs
+    save_checkpoint_interval = 10
+    # Save Model path
+    checkpoint_path = 'checkpoints/predictor/'
     # Keep Only the n best models according to the main metric (Perplexity by default)
     # Ueful to avoid filling the harddrive during a long run
     checkpoint_keep_only_best = 1

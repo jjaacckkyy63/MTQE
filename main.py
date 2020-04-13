@@ -41,7 +41,7 @@ def train():
     )
 
     # Run training
-    trainer.run(train_iter, valid_iter, epochs=opt.epochs)
+    trainer.run(train_iter, valid_iter, opt)
     
 
     for batch in train_iter:

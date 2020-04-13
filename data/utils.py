@@ -11,6 +11,7 @@ from data.fieldsets.fieldset import Fieldset
 # serialize or deserialize vocabs
 def serialize_vocabs(vocabs, include_vectors=False):
     """Make vocab dictionary serializable.
+       ('source': dict(word: idx), 'target': dict(word: idx))
     """
     serialized_vocabs = []
 
@@ -47,7 +48,7 @@ def load_vocabularies_to_fields(vocab_path, fields):
         )
         vocabs = vocabs_dict[const.VOCAB]
         fields = deserialize_fields_from_vocabs(fields, vocabs)
-        logger.info('Loaded vocabularies from {}'.format(vocab_path))
+        #logger.info('Loaded vocabularies from {}'.format(vocab_path))
         return all(
             [vocab_loaded_if_needed(field) for _, field in fields.items()]
         )
