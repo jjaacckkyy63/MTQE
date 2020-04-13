@@ -44,11 +44,11 @@ def train():
     trainer.run(train_iter, valid_iter, opt)
     
 
-    for batch in train_iter:
-        print(batch.source)
-        print(batch.target)
-        print(batch.sentences_scores)
-        break
+    # for batch in train_iter:
+    #     print(batch.source)
+    #     print(batch.target)
+    #     print(batch.sentences_scores)
+    #     break
 
 if __name__ == '__main__':
     train()
