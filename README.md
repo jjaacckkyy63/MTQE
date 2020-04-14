@@ -1,5 +1,5 @@
 # Overview
-Task: [Machine translation quality estimation](./references/Capstone_Proposal_QE.PDF)
+Task: [Machine translation quality estimation](./Capstone_Proposal_QE.PDF)
 
 1. Continue score
 2. 1000 language pair
