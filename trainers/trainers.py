@@ -23,6 +23,7 @@ class Trainer:
 
     
     def run(self, train_iter, valid_iter, opt):
+        self.logger.info(' ')
         self.logger.info('Start Logging...')
         
         for epoch in range(opt.epochs + 1):
@@ -64,8 +65,8 @@ class Trainer:
 
                             validation_loss += loss_dict['loss']
                         
-                        validation_loss /= len(valid_iter)*opt.valid_batch_size
-                        self.logger.info(" ====== Current Validation Loss at step {}: {} ====== ".format(self._step, loss_dict['loss']))
+                        validation_loss /= len(valid_iter)
+                        self.logger.info(" ====== Current Validation Loss at step {}: {} ====== ".format(self._step, validation_loss))
 
                     self.model.train()
                     print('======= Validation Done =======')

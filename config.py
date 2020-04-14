@@ -30,10 +30,18 @@ class Config:
                           'source-embeddings': 'file',
                           'target-embeddings': 'file'}
     
+
+
     # Model
-    model_name = 'Estimator'
+    model_name = 'BilstmPredictor' #'Estimator'
     pre_model_name = 'BilstmPredictor'
+    # Save Model path
+    checkpoint_path = 'checkpoints/'+model_name+'/'
+    # Load Model path
+    model_path = None #'checkpoints/'+model_name+'/'+model_name+'.pth'
     
+
+
     ###################### Predictor model setting ######################
     # LSTM Settings (Both SRC and TGT)
     hidden_pred = 400
@@ -96,10 +104,6 @@ class Config:
     checkpoint_validation_steps = 200
     # Save Model Every n epochs
     save_checkpoint_interval = 2
-    # Save Model path
-    checkpoint_path = 'checkpoints/'+model_name+'/'
-    # Load Model path
-    model_path = None #'checkpoints/'+model_name+'/'+model_name+'.pth'
     # Keep Only the n best models according to the main metric (Perplexity by default)
     # Ueful to avoid filling the harddrive during a long run
     checkpoint_keep_only_best = 1
