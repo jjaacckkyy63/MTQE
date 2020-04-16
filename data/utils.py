@@ -3,7 +3,6 @@ import logging
 from collections import defaultdict
 from math import ceil
 from pathlib import Path
-
 import torch
 
 from data.fieldsets.fieldset import Fieldset
@@ -24,51 +23,54 @@ def serialize_vocabs(vocabs, include_vectors=False):
 
     return serialized_vocabs
 
-def deserialize_vocabs(vocabs):
+def deserialize_vocabs(vocabs, opt):
     """Restore defaultdict lost in serialization.
     """
     vocabs = dict(vocabs)
     for name, vocab in vocabs.items():
         # Hack. Can't pickle defaultdict :(
-        vocab.stoi = defaultdict(lambda: const.UNK_ID, vocab.stoi)
+        vocab.stoi = defaultdict(lambda: opt.UNK_ID, vocab.stoi)
     return vocabs
 
 # load vocab
-def load_vocabularies_to_datasets(vocab_path, *datasets):
+def load_vocabularies_to_datasets(vocab_path, opt, *datasets):
     fields = {}
     for dataset in datasets:
         fields.update(dataset.fields)
-    return load_vocabularies_to_fields(vocab_path, fields)
+    return load_vocabularies_to_fields(vocab_path, fields, opt)
 
-def load_vocabularies_to_fields(vocab_path, fields):
+def load_vocabularies_to_fields(vocab_path, fields, opt):
     """Load serialized Vocabularies from disk into fields."""
     if Path(vocab_path).exists():
         vocabs_dict = torch.load(
             str(vocab_path), map_location=lambda storage, loc: storage
         )
-        vocabs = vocabs_dict[const.VOCAB]
-        fields = deserialize_fields_from_vocabs(fields, vocabs)
+        vocabs = vocabs_dict['vocab']
+        fields = deserialize_fields_from_vocabs(fields, vocabs, opt)
         #logger.info('Loaded vocabularies from {}'.format(vocab_path))
         return all(
             [vocab_loaded_if_needed(field) for _, field in fields.items()]
         )
     return False
 
-def deserialize_fields_from_vocabs(fields, vocabs):
+def vocab_loaded_if_needed(field):
+    return not field.use_vocab or (hasattr(field, 'vocab') and field.vocab)
+
+def deserialize_fields_from_vocabs(fields, vocabs, opt):
     """
     Load serialized vocabularies into their fields.
     """
-    vocabs = deserialize_vocabs(vocabs)
-    return fields_from_vocabs(fields, vocabs)
+    vocabs = deserialize_vocabs(vocabs, opt)
+    return fields_from_vocabs(fields, vocabs, opt)
 
 
 # load fields from vocab or opposite
-def fields_from_vocabs(fields, vocabs):
+def fields_from_vocabs(fields, vocabs, opt):
     """
     Load Field objects from vocabs dict.
     From OpenNMT
     """
-    vocabs = deserialize_vocabs(vocabs)
+    vocabs = deserialize_vocabs(vocabs, opt)
     for name, vocab in vocabs.items():
         if name not in fields:
             logger.debug(
@@ -102,3 +104,19 @@ def filter_len(
     return (source_min_length <= len(x.source) <= source_max_length) and (
         target_min_length <= len(x.target) <= target_max_length
     )
+
+def save_file(file_path, data, token_sep=' ', example_sep='\n'):
+    if data and isinstance(data[0], list):
+        data = [token_sep.join(map(str, sentence)) for sentence in data]
+    else:
+        data = map(str, data)
+    example_str = example_sep.join(data) + '\n'
+    Path(file_path).write_text(example_str)
+
+def save_predicted_probabilities(directory, predictions, prefix=''):
+    for key, preds in predictions.items():
+        if prefix:
+            key = '{}.{}'.format(prefix, key)
+        output_path = Path(directory, key)
+        #logger.info('Saving {} predictions to {}'.format(key, output_path))
+        save_file(output_path, preds, token_sep=' ', example_sep='\n')

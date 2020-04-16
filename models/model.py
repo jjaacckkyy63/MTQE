@@ -87,7 +87,7 @@ class Model(nn.Module):
     
     @classmethod
     def from_dict(cls, model_dict, opt):
-        vocabs = deserialize_vocabs(model_dict['vocab'])
+        vocabs = deserialize_vocabs(model_dict['vocab'], opt)
         class_dict = model_dict[cls.__name__]
         model = cls(vocabs=vocabs, opt=opt)
         model.load_state_dict(class_dict['state_dict'])

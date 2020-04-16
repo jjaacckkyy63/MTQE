@@ -111,10 +111,31 @@ def build_training_datasets(
     # Handle vocabulary
     if load_vocab:
         vocab_path = Path(load_vocab)
-        load_vocabularies_to_datasets(vocab_path, train_dataset, valid_dataset)
+        load_vocabularies_to_datasets(vocab_path, opt, train_dataset, valid_dataset)
     
     fields_vocab_options = fieldset.fields_vocab_options(opt)
     build_vocabulary(fields_vocab_options, *datasets_for_vocab)
 
 
     return train_dataset, valid_dataset
+
+def build_test_dataset(fieldset, opt, load_vocab=None):
+    """Build a test QE dataset.
+    Args:
+      fieldset (Fieldset): specific set of fields to be used (depends on
+                           the model to be used.)
+      load_vocab: A path to a saved vocabulary.
+    Returns:
+        A Dataset object.
+    """
+
+    test_dataset = build_dataset(fieldset, opt, prefix=Fieldset.TEST)
+    
+    fields_vocab_options = fieldset.fields_vocab_options(opt)
+    if load_vocab:
+        vocab_path = Path(load_vocab)
+        load_vocabularies_to_datasets(vocab_path, opt, test_dataset)
+    else:
+        build_vocabulary(fields_vocab_options, test_dataset)
+
+    return test_dataset
