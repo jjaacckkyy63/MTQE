@@ -104,7 +104,8 @@ def build_training_datasets(
                 'Invalid data split value: {}; it must be in the '
                 '(0, 1) interval.'.format(split)
             )
-        train_dataset, valid_dataset = train_dataset.split(split)
+        train_dataset, valid_dataset = train_dataset.split(split_ratio=split)
+        datasets_for_vocab = [train_dataset, valid_dataset]
     else:
         raise Exception('Validation data not provided.')
 

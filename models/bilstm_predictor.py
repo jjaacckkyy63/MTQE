@@ -107,14 +107,17 @@ class BilstmPredictor(Model):
             opt.hidden_pred * 2, opt.hidden_pred * 2, layers=2
         )
 
+        self.source_vocab_size = len(vocabs['source'])
+        self.target_vocab_size = len(vocabs['target'])
+
         self.attention = Attention(scorer)
         self.embedding_source = nn.Embedding(
-            opt.vocabulary_options['source-vocab-size'],
+            self.source_vocab_size,
             opt.source_embeddings_size,
             opt.PAD_ID,
         )
         self.embedding_target = nn.Embedding(
-            opt.vocabulary_options['target-vocab-size'],
+            self.target_vocab_size,
             opt.target_embeddings_size,
             opt.PAD_ID,
         )
@@ -185,10 +188,7 @@ class BilstmPredictor(Model):
                 self.opt.source_side,
                 self.opt.target_side,
             )
-        self.target_vocab_size, self.source_vocab_size = (
-            self.opt.vocabulary_options['target-vocab-size'],
-            self.opt.vocabulary_options['source-vocab-size'],
-        )
+        
 
         if predict_inverse:
             self.source_side, self.target_side = (
@@ -196,8 +196,8 @@ class BilstmPredictor(Model):
                 self.opt.source_side,
             )
             self.target_vocab_size, self.source_vocab_size = (
-                self.opt.vocabulary_options['source-vocab-size'],
-                self.opt.vocabulary_options['target-vocab-size'],
+                self.source_vocab_size,
+                self.target_vocab_size,
             )
 
     @classmethod

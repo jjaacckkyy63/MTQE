@@ -69,9 +69,10 @@ def train():
     # Data
     fieldset = build_fieldset(opt)
     
-    train_dataset, valid_dataset = build_training_datasets(fieldset, opt, has_valid=True)
+    train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=False)
 
     vocabs = fields_to_vocabs(train_dataset.fields)
+
     # Call vocabulary
     #print(fieldset.fields['target'].vocab.itos)
     

@@ -21,9 +21,7 @@ class Config:
              'test': 'raw_data/test/'}
     
     # Vocabulary
-    vocabulary_options = {'source-vocab-size': 100000,
-                          'target-vocab-size': 100000,
-                          'source-vocab-min-frequency': 2,
+    vocabulary_options = {'source-vocab-min-frequency': 2,
                           'target-vocab-min-frequency': 2,
                           'keep-rare-words-with-embeddings': True,
                           'add-embeddings-vocab': False,
@@ -103,7 +101,7 @@ class Config:
     epochs = 4
     # Eval and checkpoint every n samples
     # Disable by setting to zero (default)
-    checkpoint_validation_steps = 200
+    checkpoint_validation_steps = 20
     # Save Model Every n epochs
     save_checkpoint_interval = 2
     # Keep Only the n best models according to the main metric (Perplexity by default)
