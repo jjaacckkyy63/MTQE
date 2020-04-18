@@ -46,3 +46,14 @@ https://docs.google.com/presentation/d/1scd7uLgS4FUexYf7AtmT33L59qtOMURi7YsKUrW0
 
 # Submission Link:
 https://competitions.codalab.org/competitions/24207
+
+# Apr. 17 Notes:
+Tasks:
+1. Embedding (XLM-R)
+2. Predictor arch (transformer), Pre/Post QEFV
+3. Training objective (currently MLM)
+4. Dataset
+
+7k training dataset:
+https://github.com/facebookresearch/mlqe/tree/master/data
+
