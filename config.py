@@ -21,24 +21,35 @@ class Config:
              'test': 'raw_data/test/'}
     
     # Vocabulary
+    # vocabulary_options = {'source-vocab-min-frequency': 2,
+    #                       'target-vocab-min-frequency': 2,
+    #                       'keep-rare-words-with-embeddings': True,
+    #                       'add-embeddings-vocab': False,
+    #                       'source-embeddings': 'file',
+    #                       'target-embeddings': 'file'}
     vocabulary_options = {'source-vocab-min-frequency': 2,
                           'target-vocab-min-frequency': 2,
                           'keep-rare-words-with-embeddings': True,
-                          'add-embeddings-vocab': False,
-                          'source-embeddings': 'file',
-                          'target-embeddings': 'file'}
+                          'add-embeddings-vocab': True,
+                          'emb_format': 'bert',
+                          'source-embeddings': '/home/gpu_user/ej/MTQE/pretrained/enwiki_20180420_100d.txt',
+                          'target-embeddings': '/home/gpu_user/ej/MTQE/pretrained/dewiki_20180420_100d.txt'}
+    
     
 
 
     # Model
-    model_name = 'Estimator' #'BilstmPredictor'
+    # model_name = 'Estimator' #'BilstmPredictor'
+    model_name = 'BilstmPredictor'
     pre_model_name = 'BilstmPredictor'
     # Save Model path
     checkpoint_path = 'checkpoints/'+model_name+'/'
     # Load Model path
-    model_path = 'checkpoints/'+model_name+'/'+model_name+'.pth'
+    # model_path = 'checkpoints/'+model_name+'/'+model_name+'.pth'
+    model_path = None
     # Prediction path
-    pred_path = 'prediction/'+model_name+'/'
+    # pred_path = 'prediction/'+model_name+'/'
+    pred_path = None
     
 
 
@@ -89,8 +100,10 @@ class Config:
     # Requires setting train-sentence-scores, valid-sentence-scores
     binary_level = False
     
-    load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
-    load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
+    # load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
+    load_pred_source = None
+    # load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
+    load_pred_target = None
 
     # Include start and stop embedding
     start_stop = True
@@ -98,10 +111,10 @@ class Config:
 
 
     ### TRAIN OPTS ###
-    epochs = 4
+    epochs = 10
     # Eval and checkpoint every n samples
     # Disable by setting to zero (default)
-    checkpoint_validation_steps = 20
+    checkpoint_validation_steps = 100
     # Save Model Every n epochs
     save_checkpoint_interval = 2
     # Keep Only the n best models according to the main metric (Perplexity by default)

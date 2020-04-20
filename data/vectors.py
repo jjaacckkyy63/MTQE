@@ -36,6 +36,7 @@ class WordEmbeddings(Vectors):
         self.vectors = None
 
         self.map_fn = map_fn
+
         super().__init__(name, **kwargs)
 
     def __getitem__(self, token):
@@ -68,14 +69,15 @@ class WordEmbeddings(Vectors):
             except ImportError:
                 logger.error('Please install `gensim` package first.')
                 return None
+            print("Embedding from wordvec: ", name)
             embeddings = KeyedVectors.load_word2vec_format(
                 name, unicode_errors='ignore', binary=self.binary
             )
-            print("Embedding from wordvec")
             self.itos = embeddings.index2word
             self.stoi = dict(zip(self.itos, range(len(self.itos))))
             self.dim = embeddings.vector_size
             self.vectors = torch.Tensor(embeddings.vectors).view(-1, self.dim)
+
 
         elif self.emb_format == 'text':
             tokens = []
@@ -105,7 +107,38 @@ class WordEmbeddings(Vectors):
 
         # Add bert and XLMR
 
-        # elif self.emb_format == 'bert':        
+        # elif self.emb_format == 'bert':  
+        elif self.emb_format == 'bert':
+            try:
+                from transformers import BertTokenizer, BertModel
+            except ImportError:
+                logger.error('Please install `transformers` package first.')
+                return None
+            print("Embedding from transformers")
+            
+            tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased', do_basic_tokenize=True)
+            embeddings = BertModel.from_pretrained('bert-base-multilingual-cased').embeddings.word_embeddings.weight
+            
+            self.itos = tokenizer.ids_to_tokens
+            self.stoi = dict(zip(self.itos, range(len(self.itos))))
+            self.dim = embeddings.shape[1]
+            self.vectors = torch.Tensor(embeddings).view(-1, self.dim)
+        
+        elif self.emb_format == 'xlmr':
+            try:
+                from transformers import BertTokenizer, BertModel
+            except ImportError:
+                logger.error('Please install `transformers` package first.')
+                return None
+            print("Embedding from transformers")
+            
+            tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased', do_basic_tokenize=True)
+            embeddings = BertModel.from_pretrained('bert-base-multilingual-cased').embeddings.word_embeddings.weight
+            
+            self.itos = tokenizer.ids_to_tokens
+            self.stoi = dict(zip(self.itos, range(len(self.itos))))
+            self.dim = embeddings.shape[1]
+            self.vectors = torch.Tensor(embeddings).view(-1, self.dim)  
 
 
 def map_to_polyglot(token):
@@ -120,6 +153,7 @@ Word2Vec = partial(WordEmbeddings, emb_format='word2vec')
 FastText = partial(WordEmbeddings, emb_format='fasttext')
 Glove = partial(WordEmbeddings, emb_format='glove')
 TextVectors = partial(WordEmbeddings, emb_format='text')
+Bert = partial(WordEmbeddings, emb_format='bert')
 
 AvailableVectors = {
     'polyglot': Polyglot,
@@ -127,4 +161,5 @@ AvailableVectors = {
     'fasttext': FastText,
     'glove': Glove,
     'text': TextVectors,
+    'bert': Bert
 }

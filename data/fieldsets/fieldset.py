@@ -70,7 +70,7 @@ class Fieldset:
         self,
         name,
         opt,
-        embeddings_format='polyglot',
+        embeddings_format='word2vec',
         embeddings_binary=False
     ):
         if name not in self._vocab_vectors:
@@ -84,6 +84,7 @@ class Fieldset:
         if option_name:
             option_value = opt.vocabulary_options.get(option_name)
             if option_value:
+                # embeddings_format = opt.vocabulary_options.get('emb_format')
                 emb_model = AvailableVectors[embeddings_format]
                 vectors_fn = partial(
                     emb_model, option_value, binary=embeddings_binary
