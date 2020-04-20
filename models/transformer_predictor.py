@@ -3,7 +3,7 @@ from torch import nn
 from collections import OrderedDict
 import math
 
-from models import Model
+from models import Model, NCELoss
 from models.utils import apply_packed_sequence, replace_token
 from data.utils import deserialize_vocabs
 
@@ -30,7 +30,7 @@ class TransformerPredictor(Model):
     
     title = 'Transformer based model (an embedder model)'
 
-    def __init__(self, vocabs, opt, predict_inverse=False):
+    def __init__(self, vocabs, opt, idx2count=None, predict_inverse=False):
         """
         Args:
           vocabs: Dictionary Mapping Field Names to Vocabularies.
@@ -134,6 +134,15 @@ class TransformerPredictor(Model):
             reduction='mean', ignore_index=opt.PAD_ID
         )
 
+        self.nce_loss = NCELoss(
+                 idx2count,
+                 noise_ratio=opt.noise_ratio,
+                 norm_term='auto',
+                 reduction='elementwise_mean',
+                 per_word=False,
+                 loss_type='nce',
+                 )
+
         self.opt = opt
 
         self.source_side, self.target_side = (
@@ -153,8 +162,8 @@ class TransformerPredictor(Model):
             )
 
     @classmethod
-    def from_options(cls, vocabs, opt, PreModelClass=None):
-        return cls(vocabs, opt)
+    def from_options(cls, vocabs, opt, PreModelClass=None, idx2count=None):
+        return cls(vocabs, opt, idx2count)
     
     # Load other model path
     @classmethod
@@ -187,6 +196,7 @@ class TransformerPredictor(Model):
         # Load directly
         #model.load_state_dict(pretrained_dict)
         return model
+    
 
     def loss(self, model_out, batch, target_side=None):
         if not target_side:

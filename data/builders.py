@@ -28,18 +28,18 @@ def build_vocabulary(fields_vocab_options, *datasets, rebuild=False):
                 del kwargs_vocab['vectors_fn']
             field.build_vocab(*datasets, **kwargs_vocab)
 
-def build_dataset(fieldset, opt, prefix='', filter_pred=None, **kwargs):
+def build_dataset(fieldset, opt, prefix='', filter_pred=None, counter=None, **kwargs):
     """
     fields: {'source': data.Field, 'target': data.Field}
     files: {'et': filename, 'ne': filename, 'ro':filename}
     """
 
     fields, files = fieldset.fields_and_files(prefix, opt, **kwargs)
-    corpus = Corpus.from_files(opt, fields=fields, files=files)
+    corpus = Corpus.from_files(opt, fields=fields, files=files, counter=counter)
     dataset = QEDataset(
         examples=corpus.fields_examples, fields=corpus.dataset_fields, filter_pred=filter_pred
     )
-    return dataset
+    return dataset, corpus.freqs
 
 def build_training_datasets(
     fieldset,
@@ -84,7 +84,7 @@ def build_training_datasets(
         target_min_length=opt.lengths.get('target_min_length', 1),
         target_max_length=opt.lengths.get('target_max_length', float('inf')),
     )
-    train_dataset = build_dataset(
+    train_dataset, counter = build_dataset(
             fieldset, 
             opt, 
             prefix=Fieldset.TRAIN, 
@@ -92,11 +92,12 @@ def build_training_datasets(
     )
     datasets_for_vocab = [train_dataset]
     if has_valid:
-        valid_dataset = build_dataset(
+        valid_dataset, counter = build_dataset(
             fieldset,
             opt,
             prefix=Fieldset.VALID,
-            filter_pred=filter_pred
+            filter_pred=filter_pred,
+            counter=counter
         )
         datasets_for_vocab = [train_dataset, valid_dataset]
     elif split:
@@ -119,7 +120,7 @@ def build_training_datasets(
     build_vocabulary(fields_vocab_options, *datasets_for_vocab, rebuild=rebuild)
 
 
-    return train_dataset, valid_dataset
+    return train_dataset, valid_dataset, counter
 
 def build_test_dataset(fieldset, opt, load_vocab=None):
     """Build a test QE dataset.

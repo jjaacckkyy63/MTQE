@@ -125,6 +125,8 @@ def train():
     else:
         train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=True, rebuild=True)
 
+    idx2count = [counter[word] for word in fieldset.fields['target'].vocab.itos]
+    print(len(counter))
     vocabs = fields_to_vocabs(train_dataset.fields)
 
     # Call vocabulary
@@ -134,7 +136,7 @@ def train():
     
     # Trainer
     ModelClass = eval(opt.model_name)
-    trainer = retrieve_trainer(ModelClass, opt, vocabs, device)
+    trainer = retrieve_trainer(ModelClass, opt, vocabs, device, idx2count)
 
     # Dataset iterators
     train_iter = build_bucket_iterator(

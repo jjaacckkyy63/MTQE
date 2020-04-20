@@ -21,13 +21,13 @@ def optimizer_class(name):
         raise RuntimeError("Invalid optim method: " + name)
     return OptimizerClass
 
-def retrieve_trainer(ModelClass, opt, vocabs, device):
+def retrieve_trainer(ModelClass, opt, vocabs, device, idx2count=None):
 
     # Build model
     if opt.model_path:
         model = ModelClass.create_from_file(opt.model_path, opt, vocabs=vocabs)
     else:
-        model = ModelClass.from_options(vocabs=vocabs, opt=opt, PreModelClass=opt.pre_model_name)
+        model = ModelClass.from_options(vocabs=vocabs, opt=opt, PreModelClass=opt.pre_model_name, idx2count=idx2count)
     
     model = model.to(device)
     

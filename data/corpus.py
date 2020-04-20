@@ -1,8 +1,9 @@
 from torchtext import data
 import glob
+from collections import Counter
 
 class Corpus:
-    def __init__(self, fields_examples=None, dataset_fields=None):
+    def __init__(self, fields_examples=None, dataset_fields=None, counter=None):
         """Create a Corpus by specifying examples and fields.
         Arguments:
             fields_examples: A list of lists of field values per example.
@@ -18,9 +19,11 @@ class Corpus:
         self.number_of_examples = (
             len(self.fields_examples) if self.fields_examples else 0
         )
+        self.freqs = counter
+        
     
     @classmethod
-    def from_files(cls, opt, fields, files):
+    def from_files(cls, opt, fields, files, counter=None):
         """Create a QualityEstimationDataset given paths and fields.
         Arguments:
             fields: A dict between field name and field object.
@@ -29,11 +32,14 @@ class Corpus:
         fields_examples = []
         dataset_fields = [(key, value) for key, value in fields.items()]
 
+        if not counter:
+            counter = Counter()
+
         print("\n========== Loaded Files ==========")
         for filename in files:
-            pdata = cls.read_tabular_file(filename)
             
             if filename in glob.glob('raw_data/*/'+opt.file):
+                pdata, counter = cls.read_tabular_file(filename, counter)
                 for source, target, score in zip(pdata['original'], pdata['translation'], pdata['z_mean']):
                     fields_examples.append(data.Example.fromlist([source, target, score], dataset_fields))
                 print(filename)
@@ -47,10 +53,10 @@ class Corpus:
             #     print(filename)
         print("========== Loaded Files ==========\n")
         
-        return cls(fields_examples, dataset_fields)
+        return cls(fields_examples, dataset_fields, counter)
     
     @staticmethod
-    def read_tabular_file(file_path, sep='\t', extract_column=None):
+    def read_tabular_file(file_path, counter, sep='\t', extract_column=None):
         
         examples = []
         line_values = []
@@ -62,6 +68,8 @@ class Corpus:
                 line = line.rstrip()
                 if line:
                     values = line.split(sep)
+                    counter_value = values[2].split(" ")
+                    counter.update(counter_value)
                     line_values.append(values)
                     if num_columns is None:
                         num_columns = len(values)
@@ -107,6 +115,6 @@ class Corpus:
         
         data = {value[0]: value[1:] for value in examples[0]}
 
-        return data
+        return data, counter
 
         
