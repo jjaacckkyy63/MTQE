@@ -31,7 +31,7 @@ class Config:
 
 
     # Model
-    model_name = 'Estimator' #'BilstmPredictor'
+    model_name = 'TransformerPredictor' #'BilstmPredictor'
     pre_model_name = 'BilstmPredictor'
     # Save Model path
     checkpoint_path = 'checkpoints/'+model_name+'/'
@@ -58,6 +58,11 @@ class Config:
     # Set to true to predict from target to source
     # (To create a source predictor for source tag prediction)
     predict_inverse = False
+
+    # Transformer perdictor
+    nhead = 8
+    tdropout_pred = 0.1
+    transformer_layers_pred = 6
     ###################### Predictor model setting ######################
 
     ###################### Estimator model setting ######################
@@ -98,10 +103,10 @@ class Config:
 
 
     ### TRAIN OPTS ###
-    epochs = 4
+    epochs = 10
     # Eval and checkpoint every n samples
     # Disable by setting to zero (default)
-    checkpoint_validation_steps = 20
+    checkpoint_validation_steps = 100
     # Save Model Every n epochs
     save_checkpoint_interval = 2
     # Keep Only the n best models according to the main metric (Perplexity by default)
@@ -115,7 +120,7 @@ class Config:
     log_interval = 20
     # Learning Rate
     # 1e_3 * (batch_size / 32) seems to work well
-    lr = 2e-3
+    lr =  2e-3
     learning_rate_decay = 0.6
     learning_rate_decay_start = 2
     train_batch_size = 64
