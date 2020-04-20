@@ -3,6 +3,8 @@ from functools import partial
 
 import torch
 from torchtext.vocab import Vectors
+from torchtext.vocab import GloVe, FastText
+
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +13,7 @@ class WordEmbeddings(Vectors):
     def __init__(
         self,
         name,
-        emb_format='polyglot',
+        emb_format='word2vec',
         binary=True,
         map_fn=lambda x: x,
         **kwargs
@@ -54,6 +56,7 @@ class WordEmbeddings(Vectors):
                 embeddings = Embedding.load(name)
             else:
                 embeddings = Embedding.from_glove(name)
+                # embeddings = torchtext.vocab.GloVe(name='840B', dim=300)
             self.itos = embeddings.vocabulary.id_word
             self.stoi = embeddings.vocabulary.word_id
             self.dim = embeddings.shape[1]
@@ -68,6 +71,7 @@ class WordEmbeddings(Vectors):
             embeddings = KeyedVectors.load_word2vec_format(
                 name, unicode_errors='ignore', binary=self.binary
             )
+            print("Embedding from wordvec")
             self.itos = embeddings.index2word
             self.stoi = dict(zip(self.itos, range(len(self.itos))))
             self.dim = embeddings.vector_size
@@ -97,6 +101,11 @@ class WordEmbeddings(Vectors):
             self.stoi = dict(zip(self.itos, range(len(self.itos))))
             self.vectors = torch.Tensor(vectors)
             self.dim = self.vectors.shape[1]
+        
+
+        # Add bert and XLMR
+
+        # elif self.emb_format == 'bert':        
 
 
 def map_to_polyglot(token):
