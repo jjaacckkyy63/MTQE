@@ -18,23 +18,31 @@ class Config:
     # Data
     paths = {'train': 'raw_data/train/',
              'valid': 'raw_data/valid/',
-             'test': 'raw_data/test'}
+             'test': 'raw_data/test/'}
     
     # Vocabulary
-    vocabulary_options = {'source-vocab-size': 100000,
-                          'target-vocab-size': 100000,
-                          'source-vocab-min-frequency': 2,
+    vocabulary_options = {'source-vocab-min-frequency': 2,
                           'target-vocab-min-frequency': 2,
                           'keep-rare-words-with-embeddings': True,
                           'add-embeddings-vocab': False,
                           'source-embeddings': 'file',
                           'target-embeddings': 'file'}
     
+
+
     # Model
-    model_name = 'Estimator'
+    model_name = 'Estimator' #'BilstmPredictor'
+    pre_model_name = 'BilstmPredictor'
+    # Save Model path
+    checkpoint_path = 'checkpoints/'+model_name+'/'
+    # Load Model path
+    model_path = 'checkpoints/'+model_name+'/'+model_name+'.pth'
+    # Prediction path
+    pred_path = 'prediction/'+model_name+'/'
     
+
+
     ###################### Predictor model setting ######################
-    model_path = None
     # LSTM Settings (Both SRC and TGT)
     hidden_pred = 400
     rnn_layers_pred = 2
@@ -81,8 +89,8 @@ class Config:
     # Requires setting train-sentence-scores, valid-sentence-scores
     binary_level = False
     
-    load_pred_source = None
-    load_pred_target = None
+    load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
+    load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
 
     # Include start and stop embedding
     start_stop = True
@@ -90,12 +98,12 @@ class Config:
 
 
     ### TRAIN OPTS ###
-    epochs = 6
+    epochs = 4
     # Eval and checkpoint every n samples
     # Disable by setting to zero (default)
-    checkpoint_validation_steps = 5000
-    # If False, never save the Models
-    checkpoint_save = True
+    checkpoint_validation_steps = 20
+    # Save Model Every n epochs
+    save_checkpoint_interval = 2
     # Keep Only the n best models according to the main metric (Perplexity by default)
     # Ueful to avoid filling the harddrive during a long run
     checkpoint_keep_only_best = 1
@@ -104,7 +112,7 @@ class Config:
 
     optimizer = 'adam'
     # Print Train Stats Every n batches
-    log_interval = 100
+    log_interval = 20
     # Learning Rate
     # 1e_3 * (batch_size / 32) seems to work well
     lr = 2e-3
@@ -113,7 +121,11 @@ class Config:
     train_batch_size = 64
     valid_batch_size = 64
 
+    ### Prediction OPTS ###
+    seed = 42  # random
+    test_batch_size = 64
 
+    ###########################
 
 
     # Hyperparameter

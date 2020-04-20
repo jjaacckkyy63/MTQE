@@ -1,5 +1,5 @@
 # Overview
-Task: [Machine translation quality estimation](./references/Capstone_Proposal_QE.PDF)
+Task: [Machine translation quality estimation](./Capstone_Proposal_QE.PDF)
 
 1. Continue score
 2. 1000 language pair
@@ -46,3 +46,14 @@ https://docs.google.com/presentation/d/1scd7uLgS4FUexYf7AtmT33L59qtOMURi7YsKUrW0
 
 # Submission Link:
 https://competitions.codalab.org/competitions/24207
+
+# Apr. 17 Notes:
+Tasks:
+1. Embedding (XLM-R)
+2. Predictor arch (change to transformer), Pre/Post QEFV extraction
+3. Training objective (currently MLM)
+4. Training method for few-shot learning - word2vec
+
+7k training dataset:
+https://github.com/facebookresearch/mlqe/tree/master/data
+

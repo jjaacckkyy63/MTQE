@@ -83,9 +83,9 @@ class Estimator(Model):
     def from_options(cls, vocabs, opt):
         predictor_src = predictor_tgt = None
         if opt.load_pred_source:
-            predictor_src = BilstmPredictor.from_file(opt.load_pred_source)
+            predictor_src = BilstmPredictor.from_file(opt.load_pred_source, opt)
         if opt.load_pred_target:
-            predictor_tgt = BilstmPredictor.from_file(opt.load_pred_target)
+            predictor_tgt = BilstmPredictor.from_file(opt.load_pred_target, opt)
 
         return cls(vocabs, opt, 
                 predictor_tgt=predictor_tgt, predictor_src=predictor_src)
@@ -192,13 +192,13 @@ class Estimator(Model):
         )
 
         # Predict Source from Target
-        model_out_src = self.predictor_src(batch)
-        input_seq, target_lengths = self.make_input(
-            model_out_src, batch, 'source'
-        )
-        contexts_src, h_src = apply_packed_sequence(
-            self.lstm, input_seq, target_lengths
-        )
+        # model_out_src = self.predictor_src(batch)
+        # input_seq, target_lengths = self.make_input(
+        #     model_out_src, batch, 'source'
+        # )
+        # contexts_src, h_src = apply_packed_sequence(
+        #     self.lstm, input_seq, target_lengths
+        # )
 
         sentence_input = self.make_sentence_input(h_tgt, h_src)
         outputs = self.predict_sentence(sentence_input)
