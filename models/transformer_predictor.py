@@ -3,7 +3,7 @@ from torch import nn
 from collections import OrderedDict
 import math
 
-from models import Model, NCELoss
+from models import Model
 from models.utils import apply_packed_sequence, replace_token
 
 class PositionalEncoding(nn.Module):
@@ -124,11 +124,6 @@ class TransformerPredictor(Model):
             if len(p.shape) > 1:
                 nn.init.xavier_uniform_(p)
 
-        # self._loss = NCELoss(
-        #     idx2count,
-        #     noise_ratio=30,
-        #     loss_type='nce',
-        #     reduction='none')
         self._loss = nn.CrossEntropyLoss(
             reduction='mean', ignore_index=opt.PAD_ID
         )
