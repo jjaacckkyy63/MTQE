@@ -35,7 +35,7 @@ def build_dataset(fieldset, opt, prefix='', filter_pred=None, **kwargs):
     """
 
     fields, files = fieldset.fields_and_files(prefix, opt, **kwargs)
-    corpus = Corpus.from_files(fields=fields, files=files)
+    corpus = Corpus.from_files(opt, fields=fields, files=files)
     dataset = QEDataset(
         examples=corpus.fields_examples, fields=corpus.dataset_fields, filter_pred=filter_pred
     )

@@ -41,12 +41,14 @@ class Fieldset:
         fields = {}
         files = []
         file_path = opt.paths.get(set_name)
-        for file_name in glob.glob(file_path + '*/*.tsv'):
+        for file_name in glob.glob(file_path + opt.used_set + '/*.tsv'):
+        #for file_name in glob.glob(file_path + '*/*.tsv'):
             if not file_name:
                 raise FileNotFoundError(
                     'File {} is required.'.format(file_name)
                 )
             elif file_name:
+                print(file_name)
                 files.append(file_name)
         fields = self._fields
         return fields, files

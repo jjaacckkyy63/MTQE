@@ -50,13 +50,14 @@ def evaluate():
     gt = []
     for filename in glob.glob(file_path + '*/*.tsv'):
         pdata = Corpus.read_tabular_file(filename)
+        #print(len(pdata['z_mean']))
         gt.extend(pdata['z_mean'])
     gt = np.array(gt).astype(float)
 
     ## Predictions
     pred_file = opt.pred_path + 'scores'
     preds = np.array([line.strip() for line in open(pred_file)], dtype="float")
-    
+
     ## Evaluate
     scores, ranks = eval_sentence_level(gt, preds)
     print_sentences_scoring_table(scores)
@@ -69,7 +70,10 @@ def train():
     # Data
     fieldset = build_fieldset(opt)
     
-    train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=False)
+    if opt.model_name == 'Estimator':
+        train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=False, load_vocab=opt.load_pred_source)
+    else:
+        train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=False)
 
     vocabs = fields_to_vocabs(train_dataset.fields)
 
@@ -105,8 +109,8 @@ def train():
     #     break
 
 if __name__ == '__main__':
-    #train()
-    predict()
+    train()
+    #predict()
     #evaluate()
 
 

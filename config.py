@@ -19,6 +19,8 @@ class Config:
     paths = {'train': 'raw_data/train/',
              'valid': 'raw_data/valid/',
              'test': 'raw_data/test/'}
+    num_data = 0.5  # proportion of en-de and en-zh data used (0~1)
+    used_set = '*'  # '*', '*-en', 'en-*'
     
     # Vocabulary
     vocabulary_options = {'source-vocab-min-frequency': 2,
@@ -34,11 +36,12 @@ class Config:
     model_name = 'Estimator' #'BilstmPredictor'
     pre_model_name = 'BilstmPredictor'
     # Save Model path
-    checkpoint_path = 'checkpoints/'+model_name+'/'
+    checkpoint_path = 'checkpoints/'+model_name+'_exp4/'
     # Load Model path
-    model_path = 'checkpoints/'+model_name+'/'+model_name+'.pth'
+    #model_path = None
+    model_path = 'checkpoints/'+model_name+'_exp4/'+model_name+'_8.pth'
     # Prediction path
-    pred_path = 'prediction/'+model_name+'/'
+    pred_path = 'prediction/'+model_name+'_exp4/'
     
 
 
@@ -89,8 +92,8 @@ class Config:
     # Requires setting train-sentence-scores, valid-sentence-scores
     binary_level = False
     
-    load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
-    load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
+    load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'_2.pth'
+    load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'_2.pth'
 
     # Include start and stop embedding
     start_stop = True
@@ -98,10 +101,10 @@ class Config:
 
 
     ### TRAIN OPTS ###
-    epochs = 4
+    epochs = 8
     # Eval and checkpoint every n samples
     # Disable by setting to zero (default)
-    checkpoint_validation_steps = 20
+    checkpoint_validation_steps = 500
     # Save Model Every n epochs
     save_checkpoint_interval = 2
     # Keep Only the n best models according to the main metric (Perplexity by default)
@@ -123,7 +126,7 @@ class Config:
 
     ### Prediction OPTS ###
     seed = 42  # random
-    test_batch_size = 64
+    test_batch_size = 1
 
     ###########################
 

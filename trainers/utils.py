@@ -30,6 +30,10 @@ def retrieve_trainer(ModelClass, opt, vocabs, device):
         model = ModelClass.from_options(vocabs=vocabs, opt=opt)
     
     model = model.to(device)
+    
+    #for name, param in model.named_parameters():
+    #    if param.requires_grad:
+    #        print (name, param.data)
 
     # Build optimizer
     Optimizer = optimizer_class(opt.optimizer)

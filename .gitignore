@@ -54,5 +54,7 @@ target/
 
 
 references/
+checkpoints/
 checkpoints/*/*.pth
 prediction/
+__pycache__/
