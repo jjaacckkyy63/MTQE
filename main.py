@@ -52,7 +52,7 @@ def predict():
 
 def evaluate():
     ## Ground-truth (z_mean)
-    file_path = opt.paths['test']
+    file_path = opt.paths['valid']
     gt = []
     for filename in glob.glob(file_path + '*/*.tsv'):
         pdata = Corpus.read_tabular_file(filename)
