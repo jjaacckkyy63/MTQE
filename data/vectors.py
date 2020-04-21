@@ -3,6 +3,8 @@ from functools import partial
 
 import torch
 from torchtext.vocab import Vectors
+from torchtext.vocab import GloVe, FastText
+
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +13,7 @@ class WordEmbeddings(Vectors):
     def __init__(
         self,
         name,
-        emb_format='polyglot',
+        emb_format='word2vec',
         binary=True,
         map_fn=lambda x: x,
         **kwargs
@@ -34,6 +36,7 @@ class WordEmbeddings(Vectors):
         self.vectors = None
 
         self.map_fn = map_fn
+
         super().__init__(name, **kwargs)
 
     def __getitem__(self, token):
@@ -54,6 +57,7 @@ class WordEmbeddings(Vectors):
                 embeddings = Embedding.load(name)
             else:
                 embeddings = Embedding.from_glove(name)
+                # embeddings = torchtext.vocab.GloVe(name='840B', dim=300)
             self.itos = embeddings.vocabulary.id_word
             self.stoi = embeddings.vocabulary.word_id
             self.dim = embeddings.shape[1]
@@ -65,6 +69,7 @@ class WordEmbeddings(Vectors):
             except ImportError:
                 logger.error('Please install `gensim` package first.')
                 return None
+            print("Embedding from wordvec: ", name)
             embeddings = KeyedVectors.load_word2vec_format(
                 name, unicode_errors='ignore', binary=self.binary
             )
@@ -72,6 +77,7 @@ class WordEmbeddings(Vectors):
             self.stoi = dict(zip(self.itos, range(len(self.itos))))
             self.dim = embeddings.vector_size
             self.vectors = torch.Tensor(embeddings.vectors).view(-1, self.dim)
+
 
         elif self.emb_format == 'text':
             tokens = []
@@ -97,6 +103,42 @@ class WordEmbeddings(Vectors):
             self.stoi = dict(zip(self.itos, range(len(self.itos))))
             self.vectors = torch.Tensor(vectors)
             self.dim = self.vectors.shape[1]
+        
+
+        # Add bert and XLMR
+
+        # elif self.emb_format == 'bert':  
+        elif self.emb_format == 'bert':
+            try:
+                from transformers import BertTokenizer, BertModel
+            except ImportError:
+                logger.error('Please install `transformers` package first.')
+                return None
+            print("Embedding from transformers")
+            
+            tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased', do_basic_tokenize=True)
+            embeddings = BertModel.from_pretrained('bert-base-multilingual-cased').embeddings.word_embeddings.weight
+            
+            self.itos = tokenizer.ids_to_tokens
+            self.stoi = dict(zip(self.itos, range(len(self.itos))))
+            self.dim = embeddings.shape[1]
+            self.vectors = torch.Tensor(embeddings).view(-1, self.dim)
+        
+        elif self.emb_format == 'xlmr':
+            try:
+                from transformers import BertTokenizer, BertModel
+            except ImportError:
+                logger.error('Please install `transformers` package first.')
+                return None
+            print("Embedding from transformers")
+            
+            tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased', do_basic_tokenize=True)
+            embeddings = BertModel.from_pretrained('bert-base-multilingual-cased').embeddings.word_embeddings.weight
+            
+            self.itos = tokenizer.ids_to_tokens
+            self.stoi = dict(zip(self.itos, range(len(self.itos))))
+            self.dim = embeddings.shape[1]
+            self.vectors = torch.Tensor(embeddings).view(-1, self.dim)  
 
 
 def map_to_polyglot(token):
@@ -111,6 +153,7 @@ Word2Vec = partial(WordEmbeddings, emb_format='word2vec')
 FastText = partial(WordEmbeddings, emb_format='fasttext')
 Glove = partial(WordEmbeddings, emb_format='glove')
 TextVectors = partial(WordEmbeddings, emb_format='text')
+Bert = partial(WordEmbeddings, emb_format='bert')
 
 AvailableVectors = {
     'polyglot': Polyglot,
@@ -118,4 +161,5 @@ AvailableVectors = {
     'fasttext': FastText,
     'glove': Glove,
     'text': TextVectors,
+    'bert': Bert
 }
