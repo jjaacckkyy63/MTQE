@@ -133,15 +133,14 @@ class TransformerPredictor(Model):
         self._loss = nn.CrossEntropyLoss(
             reduction='mean', ignore_index=opt.PAD_ID
         )
-
-        self.nce_loss = NCELoss(
-                 idx2count,
-                 noise_ratio=opt.noise_ratio,
-                 norm_term='auto',
-                 reduction='elementwise_mean',
-                 per_word=False,
-                 loss_type='nce',
-                 )
+        
+        self._nceloss = NCELoss(
+            idx2count,
+            noise_ratio=30,
+            loss_type='nce',
+            reduction='elementwise_mean',
+            target_vocab_size=self.target_vocab_size,
+            opt=opt)
 
         self.opt = opt
 
@@ -167,7 +166,7 @@ class TransformerPredictor(Model):
     
     # Load other model path
     @classmethod
-    def from_file(cls, path, opt):
+    def from_file(cls, path, opt, idx2count):
         model_dict = torch.load(
             str(path), map_location=lambda storage, loc: storage
         )
@@ -176,7 +175,7 @@ class TransformerPredictor(Model):
                 '{} model data not found in {}'.format(cls.__name__, path)
             )
 
-        return cls.from_dict(model_dict, opt)
+        return cls.from_dict(model_dict, opt, idx2count=idx2count)
     
     @classmethod
     def from_dict(cls, model_dict, opt, PreModelClass=None, vocabs=None):
@@ -210,6 +209,10 @@ class TransformerPredictor(Model):
         logits = model_out[target_side]
         logits = logits.transpose(1, 2)
         loss = self._loss(logits, target)
+        
+        # nce loss
+        # logits = model_out['target_side_hidden']
+        # loss = self._nceloss(target, logits)
         
         loss_dict = OrderedDict()
         loss_dict[target_side] = loss

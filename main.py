@@ -4,6 +4,7 @@ import glob
 import logging
 from tqdm import tqdm
 from joblib import dump, load
+import pickle
 
 from data.fieldsets.build_fieldsets import build_fieldset
 from data.builders import build_training_datasets, build_test_dataset
@@ -59,10 +60,13 @@ def predict():
     output_dir = setup_output_directory(opt.pred_path, create=True)
     configure_seed(opt.seed)
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
+    with open('idx2count.pkl', 'rb') as f:
+        idx2count = pickle.load(f)
     
     # Model
     ModelClass = eval(opt.model_name)
-    model = ModelClass.create_from_file(opt.model_path, opt)
+    model = ModelClass.create_from_file(opt.model_path, opt, idx2count=idx2count)
     model = model.to(device)
     predicter = Predicter(model, opt)
 
@@ -126,8 +130,10 @@ def train():
         train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=True, rebuild=True)
 
     idx2count = [counter[word] for word in fieldset.fields['target'].vocab.itos]
-    print(len(counter))
     vocabs = fields_to_vocabs(train_dataset.fields)
+
+    with open('idx2count.pkl', 'wb') as f:
+        pickle.dump(idx2count, f)
 
     # Call vocabulary
     print('Source vocabulary size: ', len(fieldset.fields['source'].vocab.itos))

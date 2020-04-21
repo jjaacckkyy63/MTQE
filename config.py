@@ -68,7 +68,7 @@ class Config:
     # Source, Target, and Target Softmax Embedding
     source_embeddings_size = 200
     target_embeddings_size = 200
-    out_embeddings_size = 200
+    out_embeddings_size = 400 #200
     share_embeddings = True
     # Dropout
     dropout_pred = 0.5

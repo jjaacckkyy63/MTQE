@@ -56,7 +56,7 @@ class Corpus:
         return cls(fields_examples, dataset_fields, counter)
     
     @staticmethod
-    def read_tabular_file(file_path, counter, sep='\t', extract_column=None):
+    def read_tabular_file(file_path, counter=None, sep='\t', extract_column=None):
         
         examples = []
         line_values = []
@@ -68,8 +68,9 @@ class Corpus:
                 line = line.rstrip()
                 if line:
                     values = line.split(sep)
-                    counter_value = values[2].split(" ")
-                    counter.update(counter_value)
+                    if counter is not None:
+                        counter_value = values[2].split(" ")
+                        counter.update(counter_value)
                     line_values.append(values)
                     if num_columns is None:
                         num_columns = len(values)

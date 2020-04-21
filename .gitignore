@@ -61,3 +61,4 @@ __pycache__/
 predictors/*.joblib
 data.pkl
 raw_data/processed/
+.vscode/

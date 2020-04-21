@@ -8,8 +8,8 @@ class Model(nn.Module):
 
     subclasses = {}
 
-    def __init__(self, vocabs, opt):
-
+    def __init__(self, vocabs, opt, idx2count=None):
+    
         super(Model, self).__init__()
 
         self.vocabs = vocabs
@@ -58,8 +58,8 @@ class Model(nn.Module):
     
     # Load main model path
     @staticmethod
-    def create_from_file(path, opt, vocabs=None):
-
+    def create_from_file(path, opt, vocabs=None, idx2count=None):
+    
         try:
             model_dict = torch.load(path, map_location=lambda s,l: s)
         except FileNotFoundError:
@@ -72,8 +72,29 @@ class Model(nn.Module):
             if 'Predictor' in model_dict:
                 model_dict[model_name] = model_dict['Predictor']
             if model_name in model_dict:
-                model = Model.subclasses[model_name].from_dict(model_dict, opt, PreModelClass=opt.pre_model_name, vocabs=vocabs)
+                model = Model.subclasses[model_name].from_dict(model_dict, opt, PreModelClass=opt.pre_model_name, vocabs=vocabs, idx2count=idx2count)
                 return model
+    
+    # Load other model path
+    @classmethod
+    def from_file(cls, path, opt):
+        model_dict = torch.load(
+            str(path), map_location=lambda storage, loc: storage
+        )
+        if cls.__name__ not in model_dict:
+            raise KeyError(
+                '{} model data not found in {}'.format(cls.__name__, path)
+            )
+
+        return cls.from_dict(model_dict, opt)
+    
+    @classmethod
+    def from_dict(cls, model_dict, opt, idx2count=None):
+        vocabs = deserialize_vocabs(model_dict['vocab'], opt)
+        class_dict = model_dict[cls.__name__]
+        model = cls(vocabs=vocabs, opt=opt, idx2count=idx2count)
+        model.load_state_dict(class_dict['state_dict'])
+        return model
     
     def save(self, path):
         vocabs = serialize_vocabs(self.vocabs)
@@ -124,6 +145,8 @@ class NCELoss(nn.Module):
                  reduction='elementwise_mean',
                  per_word=False,
                  loss_type='nce',
+                 target_vocab_size=None,
+                 opt=None
                  ):
         super(NCELoss, self).__init__()
 
@@ -149,6 +172,9 @@ class NCELoss(nn.Module):
         self.bce_with_logits = nn.BCEWithLogitsLoss(reduction='none')
         self.ce = nn.CrossEntropyLoss(reduction='none')
         self.loss_type = loss_type
+        
+        self.emb = nn.Embedding(target_vocab_size, opt.out_embeddings_size) #opt.hidden_pred
+        self.bias = nn.Embedding(target_vocab_size, 1)
     
     def forward(self, target, *args, **kwargs):
         """compute the loss with output and the desired target
@@ -165,8 +191,6 @@ class NCELoss(nn.Module):
 
             # B,N,Nr
             logit_noise_in_noise = self.logprob_noise[noise_samples.data.view(-1)].view_as(noise_samples)
-            print(self.logprob_noise.shape)
-            print(target.shape)
             logit_target_in_noise = self.logprob_noise[target.data.view(-1)].view_as(target)
 
             # (B,N), (B,N,Nr)
@@ -313,6 +337,7 @@ class NCELoss(nn.Module):
         noise_idx = noise_idx[0, 0].view(-1)
 
         target_batch = self.emb(target_idx)
+        
         # target_bias = self.bias.index_select(0, target_idx)  # N
         target_bias = self.bias(target_idx).squeeze(1)  # N
         target_score = torch.sum(input * target_batch, dim=1) + target_bias  # N X E * N X E

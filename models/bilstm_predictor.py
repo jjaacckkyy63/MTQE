@@ -2,7 +2,7 @@ import torch
 from torch import nn
 from collections import OrderedDict
 
-from models import Model
+from models import Model, NCELoss
 from models.utils import apply_packed_sequence, replace_token
 from data.utils import deserialize_vocabs
 
@@ -84,7 +84,7 @@ class BilstmPredictor(Model):
 
     title = 'PredEst Predictor model (an embedder model)'
 
-    def __init__(self, vocabs, opt, predict_inverse=False):
+    def __init__(self, vocabs, opt, idx2count=None, predict_inverse=False):
         """
         Args:
           vocabs: Dictionary Mapping Field Names to Vocabularies.
@@ -183,6 +183,14 @@ class BilstmPredictor(Model):
             reduction='mean', ignore_index=opt.PAD_ID
         )
 
+        self._nceloss = NCELoss(
+            idx2count,
+            noise_ratio=30,
+            loss_type='nce',
+            reduction='elementwise_mean',
+            target_vocab_size=self.target_vocab_size,
+            opt=opt)
+
         self.opt = opt
 
         self.source_side, self.target_side = (
@@ -202,12 +210,12 @@ class BilstmPredictor(Model):
             )
 
     @classmethod
-    def from_options(cls, vocabs, opt, PreModelClass=None):
-        return cls(vocabs, opt)
+    def from_options(cls, vocabs, opt, PreModelClass=None, idx2count=None):
+        return cls(vocabs, opt, idx2count)
     
     # Load other model path
     @classmethod
-    def from_file(cls, path, opt):
+    def from_file(cls, path, opt, idx2count):
         model_dict = torch.load(
             str(path), map_location=lambda storage, loc: storage
         )
@@ -219,11 +227,11 @@ class BilstmPredictor(Model):
         return cls.from_dict(model_dict, opt)
     
     @classmethod
-    def from_dict(cls, model_dict, opt, PreModelClass=None, vocabs=None):
+    def from_dict(cls, model_dict, opt, PreModelClass=None, vocabs=None, idx2count=None):
         if not vocabs:
             vocabs = deserialize_vocabs(model_dict['vocab'], opt)
         class_dict = model_dict[cls.__name__]
-        model = cls(vocabs=vocabs, opt=opt)
+        model = cls(vocabs=vocabs, opt=opt, idx2count=idx2count)
 
         pretrained_dict = class_dict['state_dict']
 
@@ -235,7 +243,7 @@ class BilstmPredictor(Model):
         
         # Load directly
         #model.load_state_dict(pretrained_dict)
-        return model
+        return cls.from_dict(model_dict, opt, idx2count=idx2count)
 
     def loss(self, model_out, batch, target_side=None):
         if not target_side:
@@ -244,9 +252,16 @@ class BilstmPredictor(Model):
         # There are no predictions for first/last element
         target = replace_token(target[:, 1:-1], self.opt.STOP_ID, self.opt.PAD_ID)
         # Predicted Class must be in dim 1 for xentropyloss
+
+        # ce loss
         logits = model_out[target_side]
         logits = logits.transpose(1, 2)
         loss = self._loss(logits, target)
+        
+        # nce loss
+        # logits = model_out['target_side_hidden']
+        # loss = self._nceloss(target, logits)
+        
         loss_dict = OrderedDict()
         loss_dict[target_side] = loss
         loss_dict['loss'] = loss
@@ -321,6 +336,7 @@ class BilstmPredictor(Model):
         PostQEFV = torch.cat([forward_contexts, backward_contexts], dim=-1)
         return {
             target_side: logits,
+            'target_side_hidden': f,
             'PREQEFV': PreQEFV,
             'POSTQEFV': PostQEFV,
         }

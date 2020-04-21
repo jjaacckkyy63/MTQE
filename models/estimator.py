@@ -12,7 +12,7 @@ class Estimator(Model):
     title = 'PredEst Estimator model'
 
     def __init__(
-        self, vocabs, opt, predictor_tgt=None, predictor_src=None, PreModelClass='TransformerPredictor'
+        self, vocabs, opt, predictor_tgt=None, predictor_src=None, PreModelClass='BilstmPredictor', idx2count=None
         ):
 
         super().__init__(vocabs=vocabs, opt=opt)
@@ -21,13 +21,13 @@ class Estimator(Model):
             if opt.load_pred_target:
                 predictor_tgt = eval(PreModelClass).from_file(opt.load_pred_target, opt)
             else:
-                predictor_tgt = eval(PreModelClass)(vocabs, opt, predict_inverse=False)
+                predictor_tgt = eval(PreModelClass)(vocabs, opt, predict_inverse=False, idx2count=idx2count)
         
         if not predictor_src:
             if opt.load_pred_source:
                 predictor_src = eval(PreModelClass).from_file(opt.load_pred_source, opt)
             else:
-                predictor_src = eval(PreModelClass)(vocabs, opt, predict_inverse=True)
+                predictor_src = eval(PreModelClass)(vocabs, opt, predict_inverse=True, idx2count=idx2count)
         
         if opt.token_level:
             if predictor_src:
@@ -88,19 +88,19 @@ class Estimator(Model):
         self.opt = opt
     
     @classmethod
-    def from_options(cls, vocabs, opt, PreModelClass='TransformerPredictor'):
+    def from_options(cls, vocabs, opt, PreModelClass='TransformerPredictor', idx2count=None):
         predictor_src = predictor_tgt = None
         if opt.load_pred_source:
-            predictor_src = eval(PreModelClass).from_file(opt.load_pred_source, opt)
+            predictor_src = eval(PreModelClass).from_file(opt.load_pred_source, opt, idx2count)
         if opt.load_pred_target:
-            predictor_tgt = eval(PreModelClass).from_file(opt.load_pred_target, opt)
+            predictor_tgt = eval(PreModelClass).from_file(opt.load_pred_target, opt, idx2count)
 
         return cls(vocabs, opt, 
                 predictor_tgt=predictor_tgt, predictor_src=predictor_src, PreModelClass=PreModelClass)
     
     # Load other model path
     @classmethod
-    def from_file(cls, path, opt):
+    def from_file(cls, path, opt, idx2count):
         model_dict = torch.load(
             str(path), map_location=lambda storage, loc: storage
         )
@@ -109,13 +109,13 @@ class Estimator(Model):
                 '{} model data not found in {}'.format(cls.__name__, path)
             )
 
-        return cls.from_dict(model_dict, opt)
+        return cls.from_dict(model_dict, opt, idx2count)
     
     @classmethod
-    def from_dict(cls, model_dict, opt, PreModelClass=None, vocabs=None):
+    def from_dict(cls, model_dict, opt, PreModelClass=None, vocabs=None, idx2count=None):
         vocabs = deserialize_vocabs(model_dict['vocab'], opt)
         class_dict = model_dict[cls.__name__]
-        model = cls(vocabs=vocabs, opt=opt, PreModelClass=PreModelClass)
+        model = cls(vocabs=vocabs, opt=opt, idx2count=idx2count, PreModelClass=PreModelClass)
         model.load_state_dict(class_dict['state_dict'])
         return model
     
