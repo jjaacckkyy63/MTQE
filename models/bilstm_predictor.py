@@ -201,7 +201,7 @@ class BilstmPredictor(Model):
             )
 
     @classmethod
-    def from_options(cls, vocabs, opt):
+    def from_options(cls, vocabs, opt, PreModelClass=None):
         return cls(vocabs, opt)
 
     def loss(self, model_out, batch, target_side=None):

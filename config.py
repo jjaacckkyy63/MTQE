@@ -36,7 +36,7 @@ class Config:
     # Save Model path
     checkpoint_path = 'checkpoints/'+model_name+'/'
     # Load Model path
-    model_path = None #'checkpoints/'+model_name+'/'+model_name+'.pth'
+    model_path = 'checkpoints/'+model_name+'/'+model_name+'_tran.pth'
     # Prediction path
     pred_path = 'prediction/'+model_name+'/'
     

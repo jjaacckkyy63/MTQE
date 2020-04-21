@@ -111,9 +111,9 @@ def train():
     #     break
 
 if __name__ == '__main__':
-    train()
+    #train()
     #predict()
-    #evaluate()
+    evaluate()
 
 
 

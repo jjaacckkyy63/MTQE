@@ -3,7 +3,7 @@ from torch import nn
 from collections import OrderedDict
 from torch.distributions.normal import Normal
 
-from models import Model, BilstmPredictor
+from models import Model, BilstmPredictor, TransformerPredictor
 from models.utils import apply_packed_sequence, make_loss_weights
 
 @Model.register_subclass
@@ -11,15 +11,15 @@ class Estimator(Model):
     title = 'PredEst Estimator model'
 
     def __init__(
-        self, vocabs, opt, predictor_tgt=None, predictor_src=None
+        self, vocabs, opt, predictor_tgt=None, predictor_src=None, PreModelClass='TransformerPredictor'
         ):
 
         super().__init__(vocabs=vocabs, opt=opt)
 
         if not predictor_tgt:
-            predictor_tgt = BilstmPredictor(vocabs, opt, predict_inverse=False)
+            predictor_tgt = eval(PreModelClass)(vocabs, opt, predict_inverse=False)
         if not predictor_src:
-            predictor_src = BilstmPredictor(vocabs, opt, predict_inverse=True)
+            predictor_src = eval(PreModelClass)(vocabs, opt, predict_inverse=True)
         
         if opt.token_level:
             if predictor_src:
@@ -80,15 +80,15 @@ class Estimator(Model):
         self.opt = opt
     
     @classmethod
-    def from_options(cls, vocabs, opt):
+    def from_options(cls, vocabs, opt, PreModelClass='TransformerPredictor'):
         predictor_src = predictor_tgt = None
         if opt.load_pred_source:
-            predictor_src = BilstmPredictor.from_file(opt.load_pred_source, opt)
+            predictor_src = eval(PreModelClass).from_file(opt.load_pred_source, opt)
         if opt.load_pred_target:
-            predictor_tgt = BilstmPredictor.from_file(opt.load_pred_target, opt)
+            predictor_tgt = eval(PreModelClass).from_file(opt.load_pred_target, opt)
 
         return cls(vocabs, opt, 
-                predictor_tgt=predictor_tgt, predictor_src=predictor_src)
+                predictor_tgt=predictor_tgt, predictor_src=predictor_src, PreModelClass=PreModelClass)
     
     def loss(self, model_out, batch):
 
