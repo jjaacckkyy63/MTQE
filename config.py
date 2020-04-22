@@ -31,12 +31,12 @@ class Config:
 
 
     # Model
-    model_name = 'Estimator' #'BilstmPredictor'
+    model_name = 'TransformerPredictor' #'BilstmPredictor'
     pre_model_name = 'TransformerPredictor'
     # Save Model path
     checkpoint_path = 'checkpoints/'+model_name+'/'
     # Load Model path
-    model_path = 'checkpoints/'+model_name+'/'+model_name+'_tran.pth'
+    model_path = None #'checkpoints/'+model_name+'/'+model_name+'_tran.pth'
     # Prediction path
     pred_path = 'prediction/'+model_name+'/'
     
@@ -51,7 +51,7 @@ class Config:
     # Source, Target, and Target Softmax Embedding
     source_embeddings_size = 200
     target_embeddings_size = 200
-    out_embeddings_size = 400
+    out_embeddings_size = 200
     share_embeddings = True
     # Dropout
     dropout_pred = 0.5
