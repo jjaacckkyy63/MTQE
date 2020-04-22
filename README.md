@@ -57,3 +57,15 @@ Tasks:
 7k training dataset:
 https://github.com/facebookresearch/mlqe/tree/master/data
 
+
+# Apr. 21 Notes:
+TODO:
+1. Check loading of vocabs
+2. Use more data
+   https://github.com/facebookresearch/mlqe?fbclid=IwAR3hEEWsklEGzm0qQ-FLD0_qFz5-VZEKijEhJtfVQhwAQDL_8TmGCRvpUUs
+3. Use XLM-R as predictor (extract feature)
+4. Draft report
+5. Baseline: Predictor train w/ all five languages, Estimator train w/o de and zh datasets
+
+Questions for FB:
+1. What dataset is used for training (predictor and estimator)?
