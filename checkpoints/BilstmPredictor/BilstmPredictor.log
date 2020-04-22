@@ -4481,3 +4481,391 @@ INFO:root: ====== Validation Loss at epoch 14: 14.692923545837402 ======
 2020-04-21 11:17:24,668 - trainers.trainers - INFO - Current Training Loss at step 740: 3.856670379638672
 2020-04-21 11:17:35,538 - trainers.trainers - INFO - Current Training Loss at step 760: 2.604951858520508
 2020-04-21 11:17:45,174 - trainers.trainers - INFO - Current Training Loss at step 780: 2.6949563026428223
+2020-04-21 17:34:15,718 - trainers.trainers - INFO -  
+2020-04-21 17:34:15,718 - trainers.trainers - INFO - Start Logging...
+2020-04-21 17:34:15,718 - trainers.trainers - INFO - Epoch 0 of 10
+2020-04-21 17:34:25,863 - trainers.trainers - INFO - Current Training Loss at step 20: 4.27495002746582
+2020-04-21 17:34:36,975 - trainers.trainers - INFO - Current Training Loss at step 40: 4.397576808929443
+2020-04-21 17:34:47,978 - trainers.trainers - INFO - Current Training Loss at step 60: 4.844520092010498
+2020-04-21 17:34:58,634 - trainers.trainers - INFO - Current Training Loss at step 80: 4.503093242645264
+2020-04-21 17:35:09,872 - trainers.trainers - INFO - Current Training Loss at step 100: 4.6642842292785645
+2020-04-21 17:35:20,910 - trainers.trainers - INFO - Current Training Loss at step 120: 4.219671726226807
+2020-04-21 17:35:33,234 - trainers.trainers - INFO - Current Training Loss at step 140: 5.076948165893555
+2020-04-21 17:35:44,145 - trainers.trainers - INFO - Current Training Loss at step 160: 4.965362548828125
+2020-04-21 17:35:54,299 - trainers.trainers - INFO - Current Training Loss at step 180: 4.459120273590088
+2020-04-21 17:36:03,104 - trainers.trainers - INFO - Current Training Loss at step 200: 4.621788024902344
+2020-04-21 17:36:27,622 - trainers.trainers - INFO -  ====== Current Validation Loss at step 200: 4.645245552062988 ====== 
+2020-04-21 17:36:37,275 - trainers.trainers - INFO - Current Training Loss at step 220: 4.585028648376465
+2020-04-21 17:36:47,321 - trainers.trainers - INFO - Current Training Loss at step 240: 4.789660453796387
+2020-04-21 17:36:59,640 - trainers.trainers - INFO - Current Training Loss at step 260: 4.861777305603027
+2020-04-21 17:37:02,418 - trainers.trainers - INFO - Epoch 1 of 10
+2020-04-21 17:37:11,819 - trainers.trainers - INFO - Current Training Loss at step 280: 3.39262318611145
+2020-04-21 17:37:24,392 - trainers.trainers - INFO - Current Training Loss at step 300: 3.401876449584961
+2020-04-21 17:37:35,177 - trainers.trainers - INFO - Current Training Loss at step 320: 2.7778804302215576
+2020-04-21 17:37:45,758 - trainers.trainers - INFO - Current Training Loss at step 340: 3.28655743598938
+2020-04-21 17:37:56,618 - trainers.trainers - INFO - Current Training Loss at step 360: 2.681450605392456
+2020-04-21 17:38:08,192 - trainers.trainers - INFO - Current Training Loss at step 380: 2.2311348915100098
+2020-04-21 17:38:18,124 - trainers.trainers - INFO - Current Training Loss at step 400: 2.6591901779174805
+2020-04-21 17:38:45,091 - trainers.trainers - INFO -  ====== Current Validation Loss at step 400: 4.93196964263916 ====== 
+2020-04-21 17:38:56,132 - trainers.trainers - INFO - Current Training Loss at step 420: 2.943906545639038
+2020-04-21 17:39:07,672 - trainers.trainers - INFO - Current Training Loss at step 440: 2.7371180057525635
+2020-04-21 17:39:18,452 - trainers.trainers - INFO - Current Training Loss at step 460: 3.363391399383545
+2020-04-21 17:39:28,179 - trainers.trainers - INFO - Current Training Loss at step 480: 3.351377010345459
+2020-04-21 17:39:39,775 - trainers.trainers - INFO - Current Training Loss at step 500: 3.425232172012329
+2020-04-21 17:39:51,027 - trainers.trainers - INFO - Current Training Loss at step 520: 3.644993543624878
+2020-04-21 17:39:53,635 - trainers.trainers - INFO - Epoch 2 of 10
+2020-04-21 17:40:02,877 - trainers.trainers - INFO - Current Training Loss at step 540: 1.3368902206420898
+2020-04-21 17:40:14,649 - trainers.trainers - INFO - Current Training Loss at step 560: 1.75199294090271
+2020-04-21 17:40:25,235 - trainers.trainers - INFO - Current Training Loss at step 580: 1.3312658071517944
+2020-04-21 17:40:36,653 - trainers.trainers - INFO - Current Training Loss at step 600: 2.4019837379455566
+2020-04-21 17:41:03,222 - trainers.trainers - INFO -  ====== Current Validation Loss at step 600: 5.560192108154297 ====== 
+2020-04-21 17:41:13,390 - trainers.trainers - INFO - Current Training Loss at step 620: 1.220952033996582
+2020-04-21 17:41:26,345 - trainers.trainers - INFO - Current Training Loss at step 640: 2.2561092376708984
+2020-04-21 17:41:37,404 - trainers.trainers - INFO - Current Training Loss at step 660: 2.316962957382202
+2020-04-21 17:41:48,061 - trainers.trainers - INFO - Current Training Loss at step 680: 2.3602123260498047
+2020-04-21 17:41:59,535 - trainers.trainers - INFO - Current Training Loss at step 700: 2.3603885173797607
+2020-04-21 17:42:10,892 - trainers.trainers - INFO - Current Training Loss at step 720: 1.766526460647583
+2020-04-21 17:42:22,323 - trainers.trainers - INFO - Current Training Loss at step 740: 1.6537318229675293
+2020-04-21 17:42:34,180 - trainers.trainers - INFO - Current Training Loss at step 760: 1.6885749101638794
+2020-04-21 17:42:44,595 - trainers.trainers - INFO - Current Training Loss at step 780: 2.189702033996582
+2020-04-21 17:42:49,750 - trainers.trainers - INFO - Epoch 3 of 10
+2020-04-21 17:42:55,841 - trainers.trainers - INFO - Current Training Loss at step 800: 1.0472097396850586
+2020-04-21 17:43:19,532 - trainers.trainers - INFO -  ====== Current Validation Loss at step 800: 5.788086414337158 ====== 
+2020-04-21 17:43:30,516 - trainers.trainers - INFO - Current Training Loss at step 820: 0.8101949095726013
+2020-04-21 17:43:42,128 - trainers.trainers - INFO - Current Training Loss at step 840: 0.8072713613510132
+2020-04-21 17:43:51,976 - trainers.trainers - INFO - Current Training Loss at step 860: 1.223645806312561
+2020-04-21 17:44:02,361 - trainers.trainers - INFO - Current Training Loss at step 880: 1.7573453187942505
+2020-04-21 17:44:13,793 - trainers.trainers - INFO - Current Training Loss at step 900: 1.1395660638809204
+2020-04-21 17:44:23,821 - trainers.trainers - INFO - Current Training Loss at step 920: 1.3245130777359009
+2020-04-21 17:44:33,217 - trainers.trainers - INFO - Current Training Loss at step 940: 1.359256625175476
+2020-04-21 17:44:45,832 - trainers.trainers - INFO - Current Training Loss at step 960: 1.1361699104309082
+2020-04-21 17:44:56,677 - trainers.trainers - INFO - Current Training Loss at step 980: 1.3203996419906616
+2020-04-21 17:45:07,490 - trainers.trainers - INFO - Current Training Loss at step 1000: 1.7856910228729248
+2020-04-21 17:45:31,384 - trainers.trainers - INFO -  ====== Current Validation Loss at step 1000: 6.166242599487305 ====== 
+2020-04-21 17:45:43,001 - trainers.trainers - INFO - Current Training Loss at step 1020: 0.9326764345169067
+2020-04-21 17:45:53,416 - trainers.trainers - INFO - Current Training Loss at step 1040: 1.5466036796569824
+2020-04-21 17:45:59,767 - trainers.trainers - INFO - Epoch 4 of 10
+2020-04-21 17:46:04,627 - trainers.trainers - INFO - Current Training Loss at step 1060: 1.025477647781372
+2020-04-21 17:46:16,360 - trainers.trainers - INFO - Current Training Loss at step 1080: 0.4577506482601166
+2020-04-21 17:46:27,579 - trainers.trainers - INFO - Current Training Loss at step 1100: 0.8205662369728088
+2020-04-21 17:46:37,869 - trainers.trainers - INFO - Current Training Loss at step 1120: 0.7339035272598267
+2020-04-21 17:46:48,013 - trainers.trainers - INFO - Current Training Loss at step 1140: 1.2724790573120117
+2020-04-21 17:46:59,457 - trainers.trainers - INFO - Current Training Loss at step 1160: 1.0341107845306396
+2020-04-21 17:47:10,342 - trainers.trainers - INFO - Current Training Loss at step 1180: 0.6452617645263672
+2020-04-21 17:47:21,958 - trainers.trainers - INFO - Current Training Loss at step 1200: 1.1698930263519287
+2020-04-21 17:47:46,612 - trainers.trainers - INFO -  ====== Current Validation Loss at step 1200: 6.9593634605407715 ====== 
+2020-04-21 17:47:57,348 - trainers.trainers - INFO - Current Training Loss at step 1220: 1.4256300926208496
+2020-04-21 17:48:08,962 - trainers.trainers - INFO - Current Training Loss at step 1240: 0.9947534203529358
+2020-04-21 17:48:19,963 - trainers.trainers - INFO - Current Training Loss at step 1260: 0.5013238787651062
+2020-04-21 17:48:30,302 - trainers.trainers - INFO - Current Training Loss at step 1280: 1.3603179454803467
+2020-04-21 17:48:41,091 - trainers.trainers - INFO - Current Training Loss at step 1300: 0.9900774359703064
+2020-04-21 17:48:50,856 - trainers.trainers - INFO - Epoch 5 of 10
+2020-04-21 17:48:54,009 - trainers.trainers - INFO - Current Training Loss at step 1320: 0.26155370473861694
+2020-04-21 17:49:04,278 - trainers.trainers - INFO - Current Training Loss at step 1340: 0.4196181297302246
+2020-04-21 17:49:16,800 - trainers.trainers - INFO - Current Training Loss at step 1360: 0.5189228057861328
+2020-04-21 17:49:27,965 - trainers.trainers - INFO - Current Training Loss at step 1380: 0.6111143827438354
+2020-04-21 17:49:38,228 - trainers.trainers - INFO - Current Training Loss at step 1400: 0.387609601020813
+2020-04-21 17:50:01,955 - trainers.trainers - INFO -  ====== Current Validation Loss at step 1400: 7.5232930183410645 ====== 
+2020-04-21 17:50:13,412 - trainers.trainers - INFO - Current Training Loss at step 1420: 0.723327100276947
+2020-04-21 17:50:25,018 - trainers.trainers - INFO - Current Training Loss at step 1440: 0.3689577281475067
+2020-04-21 17:50:36,078 - trainers.trainers - INFO - Current Training Loss at step 1460: 0.862575113773346
+2020-04-21 17:50:47,478 - trainers.trainers - INFO - Current Training Loss at step 1480: 0.40310606360435486
+2020-04-21 17:50:57,524 - trainers.trainers - INFO - Current Training Loss at step 1500: 0.310945987701416
+2020-04-21 17:51:09,251 - trainers.trainers - INFO - Current Training Loss at step 1520: 0.7597796320915222
+2020-04-21 17:51:19,755 - trainers.trainers - INFO - Current Training Loss at step 1540: 1.1208826303482056
+2020-04-21 17:51:27,792 - trainers.trainers - INFO - Current Training Loss at step 1560: 0.3767315745353699
+2020-04-21 17:51:37,757 - trainers.trainers - INFO - Epoch 6 of 10
+2020-04-21 17:51:38,601 - trainers.trainers - INFO - Current Training Loss at step 1580: 0.23420941829681396
+2020-04-21 17:51:50,738 - trainers.trainers - INFO - Current Training Loss at step 1600: 0.6074073314666748
+2020-04-21 17:52:15,501 - trainers.trainers - INFO -  ====== Current Validation Loss at step 1600: 7.866547584533691 ====== 
+2020-04-21 17:52:26,209 - trainers.trainers - INFO - Current Training Loss at step 1620: 0.22542591392993927
+2020-04-21 17:52:37,309 - trainers.trainers - INFO - Current Training Loss at step 1640: 0.3429873287677765
+2020-04-21 17:52:48,748 - trainers.trainers - INFO - Current Training Loss at step 1660: 0.4808349013328552
+2020-04-21 17:52:59,430 - trainers.trainers - INFO - Current Training Loss at step 1680: 0.3976653516292572
+2020-04-21 17:53:10,299 - trainers.trainers - INFO - Current Training Loss at step 1700: 0.19714607298374176
+2020-04-21 17:53:21,628 - trainers.trainers - INFO - Current Training Loss at step 1720: 0.31187382340431213
+2020-04-21 17:53:32,747 - trainers.trainers - INFO - Current Training Loss at step 1740: 0.5914090871810913
+2020-04-21 17:53:43,422 - trainers.trainers - INFO - Current Training Loss at step 1760: 0.7932996153831482
+2020-04-21 17:53:54,150 - trainers.trainers - INFO - Current Training Loss at step 1780: 0.2883151173591614
+2020-04-21 17:54:04,861 - trainers.trainers - INFO - Current Training Loss at step 1800: 0.8673732876777649
+2020-04-21 17:54:32,008 - trainers.trainers - INFO -  ====== Current Validation Loss at step 1800: 8.350924491882324 ====== 
+2020-04-21 17:54:42,999 - trainers.trainers - INFO - Current Training Loss at step 1820: 0.4998948574066162
+2020-04-21 17:54:53,646 - trainers.trainers - INFO - Current Training Loss at step 1840: 0.7110558152198792
+2020-04-21 17:54:55,267 - trainers.trainers - INFO - Epoch 7 of 10
+2020-04-21 17:55:06,210 - trainers.trainers - INFO - Current Training Loss at step 1860: 0.4062328338623047
+2020-04-21 17:55:17,897 - trainers.trainers - INFO - Current Training Loss at step 1880: 0.3392092287540436
+2020-04-21 17:55:29,465 - trainers.trainers - INFO - Current Training Loss at step 1900: 0.4190533459186554
+2020-04-21 17:55:38,205 - trainers.trainers - INFO - Current Training Loss at step 1920: 0.46222221851348877
+2020-04-21 17:55:47,026 - trainers.trainers - INFO - Current Training Loss at step 1940: 0.16481000185012817
+2020-04-21 17:55:57,664 - trainers.trainers - INFO - Current Training Loss at step 1960: 0.19475284218788147
+2020-04-21 17:56:08,926 - trainers.trainers - INFO - Current Training Loss at step 1980: 0.18503326177597046
+2020-04-21 17:56:19,588 - trainers.trainers - INFO - Current Training Loss at step 2000: 0.24523846805095673
+2020-04-21 17:56:43,199 - trainers.trainers - INFO -  ====== Current Validation Loss at step 2000: 8.87217903137207 ====== 
+2020-04-21 17:56:54,401 - trainers.trainers - INFO - Current Training Loss at step 2020: 0.28158095479011536
+2020-04-21 17:57:06,683 - trainers.trainers - INFO - Current Training Loss at step 2040: 0.2890113890171051
+2020-04-21 17:57:18,360 - trainers.trainers - INFO - Current Training Loss at step 2060: 0.4663826525211334
+2020-04-21 17:57:28,236 - trainers.trainers - INFO - Current Training Loss at step 2080: 0.23376616835594177
+2020-04-21 17:57:39,565 - trainers.trainers - INFO - Current Training Loss at step 2100: 0.23039084672927856
+2020-04-21 17:57:41,685 - trainers.trainers - INFO - Epoch 8 of 10
+2020-04-21 17:57:50,979 - trainers.trainers - INFO - Current Training Loss at step 2120: 0.1799488067626953
+2020-04-21 17:58:01,009 - trainers.trainers - INFO - Current Training Loss at step 2140: 0.3033413589000702
+2020-04-21 17:58:12,331 - trainers.trainers - INFO - Current Training Loss at step 2160: 0.1487339287996292
+2020-04-21 17:58:23,734 - trainers.trainers - INFO - Current Training Loss at step 2180: 0.13774631917476654
+2020-04-21 17:58:33,911 - trainers.trainers - INFO - Current Training Loss at step 2200: 0.3537941873073578
+2020-04-21 17:59:02,561 - trainers.trainers - INFO -  ====== Current Validation Loss at step 2200: 9.3220853805542 ====== 
+2020-04-21 17:59:13,267 - trainers.trainers - INFO - Current Training Loss at step 2220: 0.3699130415916443
+2020-04-21 17:59:24,034 - trainers.trainers - INFO - Current Training Loss at step 2240: 0.17084574699401855
+2020-04-21 17:59:35,063 - trainers.trainers - INFO - Current Training Loss at step 2260: 0.12907269597053528
+2020-04-21 17:59:46,284 - trainers.trainers - INFO - Current Training Loss at step 2280: 0.24849605560302734
+2020-04-21 17:59:57,953 - trainers.trainers - INFO - Current Training Loss at step 2300: 0.10674311220645905
+2020-04-21 18:00:08,146 - trainers.trainers - INFO - Current Training Loss at step 2320: 0.2076786458492279
+2020-04-21 18:00:18,091 - trainers.trainers - INFO - Current Training Loss at step 2340: 0.17683587968349457
+2020-04-21 18:00:30,526 - trainers.trainers - INFO - Current Training Loss at step 2360: 0.3032667636871338
+2020-04-21 18:00:35,273 - trainers.trainers - INFO - Epoch 9 of 10
+2020-04-21 18:00:43,206 - trainers.trainers - INFO - Current Training Loss at step 2380: 0.12652230262756348
+2020-04-21 18:00:55,442 - trainers.trainers - INFO - Current Training Loss at step 2400: 0.2601640820503235
+2020-04-21 18:01:20,357 - trainers.trainers - INFO -  ====== Current Validation Loss at step 2400: 9.66938304901123 ====== 
+2020-04-21 18:01:31,687 - trainers.trainers - INFO - Current Training Loss at step 2420: 0.20016783475875854
+2020-04-21 18:01:41,562 - trainers.trainers - INFO - Current Training Loss at step 2440: 0.11556124687194824
+2020-04-21 18:01:52,449 - trainers.trainers - INFO - Current Training Loss at step 2460: 0.269914448261261
+2020-04-21 18:02:03,455 - trainers.trainers - INFO - Current Training Loss at step 2480: 0.12399524450302124
+2020-04-21 18:02:14,273 - trainers.trainers - INFO - Current Training Loss at step 2500: 0.279985636472702
+2020-04-21 18:02:25,547 - trainers.trainers - INFO - Current Training Loss at step 2520: 0.3155989348888397
+2020-04-21 18:02:36,829 - trainers.trainers - INFO - Current Training Loss at step 2540: 0.23657257854938507
+2020-04-21 18:02:47,879 - trainers.trainers - INFO - Current Training Loss at step 2560: 0.22932808101177216
+2020-04-21 18:02:59,172 - trainers.trainers - INFO - Current Training Loss at step 2580: 0.20884037017822266
+2020-04-21 18:03:09,853 - trainers.trainers - INFO - Current Training Loss at step 2600: 0.38079047203063965
+2020-04-21 18:03:33,762 - trainers.trainers - INFO -  ====== Current Validation Loss at step 2600: 10.237998008728027 ====== 
+2020-04-21 18:03:45,013 - trainers.trainers - INFO - Current Training Loss at step 2620: 0.32957372069358826
+2020-04-21 18:03:50,282 - trainers.trainers - INFO - Epoch 10 of 10
+2020-04-21 18:03:56,391 - trainers.trainers - INFO - Current Training Loss at step 2640: 0.2566499412059784
+2020-04-21 18:04:08,126 - trainers.trainers - INFO - Current Training Loss at step 2660: 0.14203740656375885
+2020-04-21 18:04:18,042 - trainers.trainers - INFO - Current Training Loss at step 2680: 0.22126266360282898
+2020-04-21 18:04:27,592 - trainers.trainers - INFO - Current Training Loss at step 2700: 0.2313438504934311
+2020-04-21 18:04:39,825 - trainers.trainers - INFO - Current Training Loss at step 2720: 0.14908331632614136
+2020-04-21 18:04:51,382 - trainers.trainers - INFO - Current Training Loss at step 2740: 0.12161923199892044
+2020-04-21 18:05:00,400 - trainers.trainers - INFO - Current Training Loss at step 2760: 0.18619419634342194
+2020-04-21 18:05:10,673 - trainers.trainers - INFO - Current Training Loss at step 2780: 0.1948809027671814
+2020-04-21 18:05:22,472 - trainers.trainers - INFO - Current Training Loss at step 2800: 0.2597925066947937
+2020-04-21 18:05:51,290 - trainers.trainers - INFO -  ====== Current Validation Loss at step 2800: 10.421806335449219 ====== 
+2020-04-21 18:05:59,311 - trainers.trainers - INFO - Current Training Loss at step 2820: 0.14022135734558105
+2020-04-21 18:06:10,123 - trainers.trainers - INFO - Current Training Loss at step 2840: 0.0993744432926178
+2020-04-21 18:06:20,303 - trainers.trainers - INFO - Current Training Loss at step 2860: 0.17435681819915771
+2020-04-21 18:06:30,015 - trainers.trainers - INFO - Current Training Loss at step 2880: 0.40228673815727234
+2020-04-21 18:14:42,438 - trainers.trainers - INFO -  
+2020-04-21 18:14:42,438 - trainers.trainers - INFO - Start Logging...
+2020-04-21 18:14:42,438 - trainers.trainers - INFO - Epoch 0 of 10
+2020-04-21 18:14:52,990 - trainers.trainers - INFO - Current Training Loss at step 20: 1.600330114364624
+2020-04-21 18:15:04,078 - trainers.trainers - INFO - Current Training Loss at step 40: 1.739745020866394
+2020-04-21 18:15:13,815 - trainers.trainers - INFO - Current Training Loss at step 60: 1.2899866104125977
+2020-04-21 18:15:25,311 - trainers.trainers - INFO - Current Training Loss at step 80: 1.9532197713851929
+2020-04-21 18:15:37,924 - trainers.trainers - INFO - Current Training Loss at step 100: 2.030472993850708
+2020-04-21 18:15:49,007 - trainers.trainers - INFO - Current Training Loss at step 120: 2.239285469055176
+2020-04-21 18:15:59,002 - trainers.trainers - INFO - Current Training Loss at step 140: 1.9339169263839722
+2020-04-21 18:16:09,060 - trainers.trainers - INFO - Current Training Loss at step 160: 2.0579328536987305
+2020-04-21 18:16:21,229 - trainers.trainers - INFO - Current Training Loss at step 180: 2.502892017364502
+2020-04-21 18:16:31,746 - trainers.trainers - INFO - Current Training Loss at step 200: 2.5623579025268555
+2020-04-21 18:16:56,854 - trainers.trainers - INFO -  ====== Current Validation Loss at step 200: 2.486393451690674 ====== 
+2020-04-21 18:17:08,125 - trainers.trainers - INFO - Current Training Loss at step 220: 2.535337209701538
+2020-04-21 18:17:20,641 - trainers.trainers - INFO - Current Training Loss at step 240: 2.162665605545044
+2020-04-21 18:17:31,531 - trainers.trainers - INFO - Current Training Loss at step 260: 2.2853012084960938
+2020-04-21 18:17:34,260 - trainers.trainers - INFO - Epoch 1 of 10
+2020-04-21 18:17:43,208 - trainers.trainers - INFO - Current Training Loss at step 280: 0.8078846335411072
+2020-04-21 18:17:53,581 - trainers.trainers - INFO - Current Training Loss at step 300: 1.1224348545074463
+2020-04-21 18:18:05,323 - trainers.trainers - INFO - Current Training Loss at step 320: 0.7647913098335266
+2020-04-21 18:18:15,681 - trainers.trainers - INFO - Current Training Loss at step 340: 0.57626873254776
+2020-04-21 18:18:25,483 - trainers.trainers - INFO - Current Training Loss at step 360: 0.5327277779579163
+2020-04-21 18:18:37,870 - trainers.trainers - INFO - Current Training Loss at step 380: 1.164219856262207
+2020-04-21 18:18:49,255 - trainers.trainers - INFO - Current Training Loss at step 400: 1.0773371458053589
+2020-04-21 18:19:16,910 - trainers.trainers - INFO -  ====== Current Validation Loss at step 400: 2.9158694744110107 ====== 
+2020-04-21 18:19:26,874 - trainers.trainers - INFO - Current Training Loss at step 420: 0.4864656925201416
+2020-04-21 18:19:38,860 - trainers.trainers - INFO - Current Training Loss at step 440: 0.7835487127304077
+2020-04-21 18:19:48,538 - trainers.trainers - INFO - Current Training Loss at step 460: 0.8851309418678284
+2020-04-21 18:19:58,466 - trainers.trainers - INFO - Current Training Loss at step 480: 0.9450792670249939
+2020-04-21 18:20:09,078 - trainers.trainers - INFO - Current Training Loss at step 500: 0.6880475878715515
+2020-04-21 19:15:46,971 - trainers.trainers - INFO -  
+2020-04-21 19:15:46,971 - trainers.trainers - INFO - Start Logging...
+2020-04-21 19:15:46,972 - trainers.trainers - INFO - Epoch 0 of 10
+2020-04-21 19:16:33,081 - trainers.trainers - INFO -  
+2020-04-21 19:16:33,081 - trainers.trainers - INFO - Start Logging...
+2020-04-21 19:16:33,081 - trainers.trainers - INFO - Epoch 0 of 10
+2020-04-21 19:17:19,055 - trainers.trainers - INFO -  
+2020-04-21 19:17:19,055 - trainers.trainers - INFO - Start Logging...
+2020-04-21 19:17:19,055 - trainers.trainers - INFO - Epoch 0 of 10
+2020-04-21 19:17:31,147 - trainers.trainers - INFO -  
+2020-04-21 19:17:31,147 - trainers.trainers - INFO - Start Logging...
+2020-04-21 19:17:31,147 - trainers.trainers - INFO - Epoch 0 of 10
+2020-04-21 19:18:14,330 - trainers.trainers - INFO -  
+2020-04-21 19:18:14,330 - trainers.trainers - INFO - Start Logging...
+2020-04-21 19:18:14,330 - trainers.trainers - INFO - Epoch 0 of 10
+2020-04-21 19:39:48,954 - trainers.trainers - INFO -  
+2020-04-21 19:39:48,954 - trainers.trainers - INFO - Start Logging...
+2020-04-21 19:39:48,955 - trainers.trainers - INFO - Epoch 0 of 10
+2020-04-21 19:39:59,326 - trainers.trainers - INFO - Current Training Loss at step 20: 2.2937369346618652
+2020-04-21 19:40:09,861 - trainers.trainers - INFO - Current Training Loss at step 40: 5.341805458068848
+2020-04-21 19:40:19,498 - trainers.trainers - INFO - Current Training Loss at step 60: 2.5388565063476562
+2020-04-21 19:40:29,750 - trainers.trainers - INFO - Current Training Loss at step 80: 3.054248571395874
+2020-04-21 19:40:38,967 - trainers.trainers - INFO - Current Training Loss at step 100: 5.655098915100098
+2020-04-21 19:40:49,605 - trainers.trainers - INFO - Current Training Loss at step 120: 3.1455469131469727
+2020-04-21 19:40:59,870 - trainers.trainers - INFO - Current Training Loss at step 140: 3.7661068439483643
+2020-04-21 19:41:07,617 - trainers.trainers - INFO - Current Training Loss at step 160: 2.525705575942993
+2020-04-21 19:41:17,774 - trainers.trainers - INFO - Current Training Loss at step 180: 2.7796080112457275
+2020-04-21 19:41:27,052 - trainers.trainers - INFO - Current Training Loss at step 200: 4.731989860534668
+2020-04-21 19:41:49,005 - trainers.trainers - INFO -  ====== Current Validation Loss at step 200: 8.750370979309082 ====== 
+2020-04-21 19:41:57,524 - trainers.trainers - INFO - Current Training Loss at step 220: 3.5895323753356934
+2020-04-21 19:42:08,217 - trainers.trainers - INFO - Current Training Loss at step 240: 3.3173468112945557
+2020-04-21 19:42:18,691 - trainers.trainers - INFO - Current Training Loss at step 260: 2.5290708541870117
+2020-04-21 19:42:21,075 - trainers.trainers - INFO - Epoch 1 of 10
+2020-04-21 19:42:29,816 - trainers.trainers - INFO - Current Training Loss at step 280: 2.7836742401123047
+2020-04-21 19:42:38,912 - trainers.trainers - INFO - Current Training Loss at step 300: 2.56831431388855
+2020-04-21 19:42:46,947 - trainers.trainers - INFO - Current Training Loss at step 320: 3.5649991035461426
+2020-04-21 19:42:56,930 - trainers.trainers - INFO - Current Training Loss at step 340: 3.2332611083984375
+2020-04-21 19:43:07,084 - trainers.trainers - INFO - Current Training Loss at step 360: 3.161466360092163
+2020-04-21 19:43:17,050 - trainers.trainers - INFO - Current Training Loss at step 380: 2.028080940246582
+2020-04-21 19:43:27,724 - trainers.trainers - INFO - Current Training Loss at step 400: 3.7812554836273193
+2020-04-21 19:43:52,109 - trainers.trainers - INFO -  ====== Current Validation Loss at step 400: 8.7074613571167 ====== 
+2020-04-21 19:44:00,476 - trainers.trainers - INFO - Current Training Loss at step 420: 3.2768046855926514
+2020-04-21 19:44:08,514 - trainers.trainers - INFO - Current Training Loss at step 440: 3.977421283721924
+2020-04-21 19:44:18,702 - trainers.trainers - INFO - Current Training Loss at step 460: 3.703788995742798
+2020-04-21 19:44:27,470 - trainers.trainers - INFO - Current Training Loss at step 480: 3.1853668689727783
+2020-04-21 19:44:38,111 - trainers.trainers - INFO - Current Training Loss at step 500: 3.6496334075927734
+2020-04-21 19:44:48,423 - trainers.trainers - INFO - Current Training Loss at step 520: 6.568502902984619
+2020-04-21 19:44:51,703 - trainers.trainers - INFO - Epoch 2 of 10
+2020-04-21 19:44:59,126 - trainers.trainers - INFO - Current Training Loss at step 540: 3.760684013366699
+2020-04-21 19:45:10,800 - trainers.trainers - INFO - Current Training Loss at step 560: 2.4002697467803955
+2020-04-21 19:45:22,176 - trainers.trainers - INFO - Current Training Loss at step 580: 4.4025702476501465
+2020-04-21 19:45:29,651 - trainers.trainers - INFO - Current Training Loss at step 600: 1.2851577997207642
+2020-04-21 19:45:53,050 - trainers.trainers - INFO -  ====== Current Validation Loss at step 600: 7.346236228942871 ====== 
+2020-04-21 19:46:02,346 - trainers.trainers - INFO - Current Training Loss at step 620: 3.229976177215576
+2020-04-21 19:46:12,447 - trainers.trainers - INFO - Current Training Loss at step 640: 2.2735214233398438
+2020-04-21 19:46:21,978 - trainers.trainers - INFO - Current Training Loss at step 660: 2.8475685119628906
+2020-04-21 19:46:29,833 - trainers.trainers - INFO - Current Training Loss at step 680: 5.4128522872924805
+2020-04-21 19:46:37,500 - trainers.trainers - INFO - Current Training Loss at step 700: 2.4374747276306152
+2020-04-21 19:46:47,461 - trainers.trainers - INFO - Current Training Loss at step 720: 2.083348035812378
+2020-04-21 19:46:57,105 - trainers.trainers - INFO - Current Training Loss at step 740: 2.3860738277435303
+2020-04-21 19:47:07,733 - trainers.trainers - INFO - Current Training Loss at step 760: 4.684569835662842
+2020-04-21 19:47:17,458 - trainers.trainers - INFO - Current Training Loss at step 780: 1.8323243856430054
+2020-04-21 19:47:22,860 - trainers.trainers - INFO - Epoch 3 of 10
+2020-04-21 19:47:28,171 - trainers.trainers - INFO - Current Training Loss at step 800: 3.579836368560791
+2020-04-21 19:47:51,838 - trainers.trainers - INFO -  ====== Current Validation Loss at step 800: 8.340980529785156 ====== 
+2020-04-21 19:47:59,405 - trainers.trainers - INFO - Current Training Loss at step 820: 2.478269338607788
+2020-04-21 19:48:12,330 - trainers.trainers - INFO - Current Training Loss at step 840: 3.5390384197235107
+2020-04-21 19:48:22,454 - trainers.trainers - INFO - Current Training Loss at step 860: 4.111494541168213
+2020-04-21 19:48:33,619 - trainers.trainers - INFO - Current Training Loss at step 880: 2.427011728286743
+2020-04-21 19:48:44,553 - trainers.trainers - INFO - Current Training Loss at step 900: 3.5586113929748535
+2020-04-21 19:48:53,644 - trainers.trainers - INFO - Current Training Loss at step 920: 2.5278866291046143
+2020-04-21 19:49:03,512 - trainers.trainers - INFO - Current Training Loss at step 940: 2.569671630859375
+2020-04-21 19:49:12,815 - trainers.trainers - INFO - Current Training Loss at step 960: 1.6299182176589966
+2020-04-21 19:49:22,527 - trainers.trainers - INFO - Current Training Loss at step 980: 2.392683744430542
+2020-04-21 19:49:33,036 - trainers.trainers - INFO - Current Training Loss at step 1000: 3.3621790409088135
+2020-04-21 19:50:00,087 - trainers.trainers - INFO -  ====== Current Validation Loss at step 1000: 8.175178527832031 ====== 
+2020-04-21 19:50:09,526 - trainers.trainers - INFO - Current Training Loss at step 1020: 1.901611328125
+2020-04-21 19:50:19,068 - trainers.trainers - INFO - Current Training Loss at step 1040: 2.7681336402893066
+2020-04-21 19:50:25,039 - trainers.trainers - INFO - Epoch 4 of 10
+2020-04-21 19:50:28,399 - trainers.trainers - INFO - Current Training Loss at step 1060: 2.450878143310547
+2020-04-21 19:50:38,586 - trainers.trainers - INFO - Current Training Loss at step 1080: 2.3088409900665283
+2020-04-21 19:50:46,323 - trainers.trainers - INFO - Current Training Loss at step 1100: 4.611058235168457
+2020-04-21 19:50:56,274 - trainers.trainers - INFO - Current Training Loss at step 1120: 3.285069465637207
+2020-04-21 19:51:05,782 - trainers.trainers - INFO - Current Training Loss at step 1140: 2.880993366241455
+2020-04-21 19:51:15,131 - trainers.trainers - INFO - Current Training Loss at step 1160: 2.7146828174591064
+2020-04-21 19:51:25,667 - trainers.trainers - INFO - Current Training Loss at step 1180: 1.9219290018081665
+2020-04-21 19:51:35,852 - trainers.trainers - INFO - Current Training Loss at step 1200: 3.8009650707244873
+2020-04-21 19:52:03,439 - trainers.trainers - INFO -  ====== Current Validation Loss at step 1200: 6.725048542022705 ====== 
+2020-04-21 19:52:12,142 - trainers.trainers - INFO - Current Training Loss at step 1220: 3.832875967025757
+2020-04-21 19:52:21,559 - trainers.trainers - INFO - Current Training Loss at step 1240: 2.1307663917541504
+2020-04-21 19:52:32,096 - trainers.trainers - INFO - Current Training Loss at step 1260: 3.565049409866333
+2020-04-21 19:52:41,207 - trainers.trainers - INFO - Current Training Loss at step 1280: 4.548808574676514
+2020-04-21 19:52:48,743 - trainers.trainers - INFO - Current Training Loss at step 1300: 2.219438314437866
+2020-04-21 19:52:57,557 - trainers.trainers - INFO - Epoch 5 of 10
+2020-04-21 19:53:00,307 - trainers.trainers - INFO - Current Training Loss at step 1320: 2.6622135639190674
+2020-04-21 19:53:11,039 - trainers.trainers - INFO - Current Training Loss at step 1340: 2.8545777797698975
+2020-04-21 19:53:21,861 - trainers.trainers - INFO - Current Training Loss at step 1360: 3.7170348167419434
+2020-04-21 19:53:31,511 - trainers.trainers - INFO - Current Training Loss at step 1380: 1.5800360441207886
+2020-04-21 19:53:41,019 - trainers.trainers - INFO - Current Training Loss at step 1400: 1.8111004829406738
+2020-04-21 19:54:05,870 - trainers.trainers - INFO -  ====== Current Validation Loss at step 1400: 7.3058037757873535 ====== 
+2020-04-21 19:54:18,554 - trainers.trainers - INFO - Current Training Loss at step 1420: 1.9133800268173218
+2020-04-21 19:54:29,070 - trainers.trainers - INFO - Current Training Loss at step 1440: 2.0017759799957275
+2020-04-21 19:54:38,724 - trainers.trainers - INFO - Current Training Loss at step 1460: 3.6050946712493896
+2020-04-21 19:54:48,446 - trainers.trainers - INFO - Current Training Loss at step 1480: 4.057570457458496
+2020-04-21 19:55:00,087 - trainers.trainers - INFO - Current Training Loss at step 1500: 1.7863364219665527
+2020-04-21 19:55:10,302 - trainers.trainers - INFO - Current Training Loss at step 1520: 3.4540624618530273
+2020-04-21 19:55:20,495 - trainers.trainers - INFO - Current Training Loss at step 1540: 2.3645169734954834
+2020-04-21 19:55:30,968 - trainers.trainers - INFO - Current Training Loss at step 1560: 5.213125228881836
+2020-04-21 19:55:39,046 - trainers.trainers - INFO - Epoch 6 of 10
+2020-04-21 19:55:39,975 - trainers.trainers - INFO - Current Training Loss at step 1580: 2.3631863594055176
+2020-04-21 19:55:51,681 - trainers.trainers - INFO - Current Training Loss at step 1600: 3.533148765563965
+2020-04-21 19:56:19,480 - trainers.trainers - INFO -  ====== Current Validation Loss at step 1600: 7.481297492980957 ====== 
+2020-04-21 19:56:26,809 - trainers.trainers - INFO - Current Training Loss at step 1620: 3.9044439792633057
+2020-04-21 19:56:34,528 - trainers.trainers - INFO - Current Training Loss at step 1640: 4.9007415771484375
+2020-04-21 19:56:44,202 - trainers.trainers - INFO - Current Training Loss at step 1660: 2.3802242279052734
+2020-04-21 19:56:55,779 - trainers.trainers - INFO - Current Training Loss at step 1680: 3.3990979194641113
+2020-04-21 19:57:06,275 - trainers.trainers - INFO - Current Training Loss at step 1700: 2.6851892471313477
+2020-04-21 19:57:16,412 - trainers.trainers - INFO - Current Training Loss at step 1720: 2.470022201538086
+2020-04-21 19:57:27,210 - trainers.trainers - INFO - Current Training Loss at step 1740: 3.420999526977539
+2020-04-21 19:57:37,572 - trainers.trainers - INFO - Current Training Loss at step 1760: 2.192883253097534
+2020-04-21 19:57:47,613 - trainers.trainers - INFO - Current Training Loss at step 1780: 3.8167924880981445
+2020-04-21 19:57:58,014 - trainers.trainers - INFO - Current Training Loss at step 1800: 2.280428171157837
+2020-04-21 19:58:21,670 - trainers.trainers - INFO -  ====== Current Validation Loss at step 1800: 7.208585739135742 ====== 
+2020-04-21 19:58:30,400 - trainers.trainers - INFO - Current Training Loss at step 1820: 3.5454659461975098
+2020-04-21 19:58:40,107 - trainers.trainers - INFO - Current Training Loss at step 1840: 1.6729174852371216
+2020-04-21 19:58:41,768 - trainers.trainers - INFO - Epoch 7 of 10
+2020-04-21 19:58:51,189 - trainers.trainers - INFO - Current Training Loss at step 1860: 3.1899232864379883
+2020-04-21 19:59:01,251 - trainers.trainers - INFO - Current Training Loss at step 1880: 3.4899091720581055
+2020-04-21 19:59:11,549 - trainers.trainers - INFO - Current Training Loss at step 1900: 3.839169502258301
+2020-04-21 19:59:21,159 - trainers.trainers - INFO - Current Training Loss at step 1920: 1.3488311767578125
+2020-04-21 19:59:28,040 - trainers.trainers - INFO - Current Training Loss at step 1940: 2.552767276763916
+2020-04-21 19:59:38,180 - trainers.trainers - INFO - Current Training Loss at step 1960: 2.605646848678589
+2020-04-21 19:59:46,015 - trainers.trainers - INFO - Current Training Loss at step 1980: 1.2452118396759033
+2020-04-21 19:59:57,116 - trainers.trainers - INFO - Current Training Loss at step 2000: 2.5805206298828125
+2020-04-21 20:00:23,254 - trainers.trainers - INFO -  ====== Current Validation Loss at step 2000: 7.422553062438965 ====== 
+2020-04-21 20:00:34,014 - trainers.trainers - INFO - Current Training Loss at step 2020: 1.933936595916748
+2020-04-21 20:00:43,807 - trainers.trainers - INFO - Current Training Loss at step 2040: 5.466845512390137
+2020-04-21 20:00:53,107 - trainers.trainers - INFO - Current Training Loss at step 2060: 1.647263765335083
+2020-04-21 20:01:01,868 - trainers.trainers - INFO - Current Training Loss at step 2080: 3.04827880859375
+2020-04-21 20:01:09,856 - trainers.trainers - INFO - Current Training Loss at step 2100: 3.7817959785461426
+2020-04-21 20:01:12,139 - trainers.trainers - INFO - Epoch 8 of 10
+2020-04-21 20:01:19,757 - trainers.trainers - INFO - Current Training Loss at step 2120: 1.5226060152053833
+2020-04-21 20:01:27,945 - trainers.trainers - INFO - Current Training Loss at step 2140: 2.6286110877990723
+2020-04-21 20:01:37,279 - trainers.trainers - INFO - Current Training Loss at step 2160: 4.1520586013793945
+2020-04-21 20:01:47,745 - trainers.trainers - INFO - Current Training Loss at step 2180: 4.867984771728516
+2020-04-21 20:01:58,500 - trainers.trainers - INFO - Current Training Loss at step 2200: 2.519401788711548
+2020-04-21 20:02:23,566 - trainers.trainers - INFO -  ====== Current Validation Loss at step 2200: 7.20456600189209 ====== 
+2020-04-21 20:02:33,709 - trainers.trainers - INFO - Current Training Loss at step 2220: 2.678288698196411
+2020-04-21 20:02:43,668 - trainers.trainers - INFO - Current Training Loss at step 2240: 2.009092330932617
+2020-04-21 20:02:52,872 - trainers.trainers - INFO - Current Training Loss at step 2260: 3.205930471420288
+2020-04-21 20:03:03,533 - trainers.trainers - INFO - Current Training Loss at step 2280: 3.3566477298736572
+2020-04-21 20:03:13,936 - trainers.trainers - INFO - Current Training Loss at step 2300: 2.607964515686035
+2020-04-21 20:03:24,932 - trainers.trainers - INFO - Current Training Loss at step 2320: 4.941956996917725
+2020-04-21 20:03:35,086 - trainers.trainers - INFO - Current Training Loss at step 2340: 2.100306510925293
+2020-04-21 20:03:45,214 - trainers.trainers - INFO - Current Training Loss at step 2360: 4.659656524658203
+2020-04-21 20:03:49,878 - trainers.trainers - INFO - Epoch 9 of 10
+2020-04-21 20:03:56,235 - trainers.trainers - INFO - Current Training Loss at step 2380: 1.8704873323440552
+2020-04-21 20:04:05,734 - trainers.trainers - INFO - Current Training Loss at step 2400: 3.317953109741211
+2020-04-21 20:04:28,263 - trainers.trainers - INFO -  ====== Current Validation Loss at step 2400: 7.5319952964782715 ====== 
+2020-04-21 20:04:38,511 - trainers.trainers - INFO - Current Training Loss at step 2420: 4.449011325836182
+2020-04-21 20:04:48,164 - trainers.trainers - INFO - Current Training Loss at step 2440: 3.202033758163452
+2020-04-21 20:04:57,042 - trainers.trainers - INFO - Current Training Loss at step 2460: 2.7572526931762695
+2020-04-21 20:05:07,063 - trainers.trainers - INFO - Current Training Loss at step 2480: 5.215221405029297
+2020-04-21 20:05:16,349 - trainers.trainers - INFO - Current Training Loss at step 2500: 2.310373067855835
+2020-04-21 20:05:24,550 - trainers.trainers - INFO - Current Training Loss at step 2520: 2.8808491230010986
+2020-04-21 20:05:33,980 - trainers.trainers - INFO - Current Training Loss at step 2540: 2.6293609142303467
+2020-04-21 20:05:44,023 - trainers.trainers - INFO - Current Training Loss at step 2560: 3.5597009658813477
+2020-04-21 20:05:54,446 - trainers.trainers - INFO - Current Training Loss at step 2580: 2.5684854984283447
+2020-04-21 20:06:03,704 - trainers.trainers - INFO - Current Training Loss at step 2600: 2.0560410022735596
+2020-04-21 20:06:26,261 - trainers.trainers - INFO -  ====== Current Validation Loss at step 2600: 7.236543655395508 ====== 
+2020-04-21 20:06:34,080 - trainers.trainers - INFO - Current Training Loss at step 2620: 3.481602191925049
+2020-04-21 20:06:37,887 - trainers.trainers - INFO - Epoch 10 of 10
+2020-04-21 20:06:41,915 - trainers.trainers - INFO - Current Training Loss at step 2640: 3.036654233932495
+2020-04-21 20:06:50,887 - trainers.trainers - INFO - Current Training Loss at step 2660: 3.493748903274536
+2020-04-21 20:07:00,332 - trainers.trainers - INFO - Current Training Loss at step 2680: 4.042886734008789
+2020-04-21 20:07:10,388 - trainers.trainers - INFO - Current Training Loss at step 2700: 1.2919546365737915
+2020-04-21 20:07:21,429 - trainers.trainers - INFO - Current Training Loss at step 2720: 2.4766714572906494
+2020-04-21 20:07:31,219 - trainers.trainers - INFO - Current Training Loss at step 2740: 2.3164002895355225
+2020-04-21 20:07:41,615 - trainers.trainers - INFO - Current Training Loss at step 2760: 3.9368886947631836
+2020-04-21 20:07:50,120 - trainers.trainers - INFO - Current Training Loss at step 2780: 2.6465189456939697
+2020-04-21 20:08:00,232 - trainers.trainers - INFO - Current Training Loss at step 2800: 2.946409225463867
+2020-04-21 20:08:24,859 - trainers.trainers - INFO -  ====== Current Validation Loss at step 2800: 6.698670387268066 ====== 
+2020-04-21 20:08:32,662 - trainers.trainers - INFO - Current Training Loss at step 2820: 3.4352798461914062
+2020-04-21 20:08:40,894 - trainers.trainers - INFO - Current Training Loss at step 2840: 2.126682996749878
+2020-04-21 20:08:50,832 - trainers.trainers - INFO - Current Training Loss at step 2860: 1.6023670434951782
+2020-04-21 20:08:59,822 - trainers.trainers - INFO - Current Training Loss at step 2880: 1.5707120895385742

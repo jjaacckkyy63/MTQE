@@ -254,13 +254,13 @@ class BilstmPredictor(Model):
         # Predicted Class must be in dim 1 for xentropyloss
 
         # ce loss
-        logits = model_out[target_side]
-        logits = logits.transpose(1, 2)
-        loss = self._loss(logits, target)
+        # logits = model_out[target_side]
+        # logits = logits.transpose(1, 2)
+        # loss = self._loss(logits, target)
         
         # nce loss
-        # logits = model_out['target_side_hidden']
-        # loss = self._nceloss(target, logits)
+        logits = model_out['target_side_hidden']
+        loss = self._nceloss(target, logits)
         
         loss_dict = OrderedDict()
         loss_dict[target_side] = loss

@@ -96,7 +96,7 @@ class Estimator(Model):
             predictor_tgt = eval(PreModelClass).from_file(opt.load_pred_target, opt, idx2count)
 
         return cls(vocabs, opt, 
-                predictor_tgt=predictor_tgt, predictor_src=predictor_src, PreModelClass=PreModelClass)
+                predictor_tgt=predictor_tgt, predictor_src=predictor_src, PreModelClass=PreModelClass, idx2count=idx2count)
     
     # Load other model path
     @classmethod

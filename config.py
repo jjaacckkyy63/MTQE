@@ -1,5 +1,9 @@
+import torch
+
 class Config:
-    
+
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
     # Const
     UNK_ID = 0
     PAD_ID = 1
@@ -68,7 +72,7 @@ class Config:
     # Source, Target, and Target Softmax Embedding
     source_embeddings_size = 200
     target_embeddings_size = 200
-    out_embeddings_size = 400 #200
+    out_embeddings_size = 200
     share_embeddings = True
     # Dropout
     dropout_pred = 0.5
