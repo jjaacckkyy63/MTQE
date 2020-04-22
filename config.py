@@ -19,14 +19,24 @@ class Config:
     paths = {'train': 'raw_data/train/',
              'valid': 'raw_data/valid/',
              'test': 'raw_data/test/'}
+    num_data = 0.5  # proportion of en-de and en-zh data used (0~1)
+    used_set = '*'  # '*', '*-en', 'en-*'
     
     # Vocabulary
+    # vocabulary_options = {'source-vocab-min-frequency': 2,
+    #                       'target-vocab-min-frequency': 2,
+    #                       'keep-rare-words-with-embeddings': True,
+    #                       'add-embeddings-vocab': False,
+    #                       'source-embeddings': 'file',
+    #                       'target-embeddings': 'file'}
     vocabulary_options = {'source-vocab-min-frequency': 2,
                           'target-vocab-min-frequency': 2,
                           'keep-rare-words-with-embeddings': True,
-                          'add-embeddings-vocab': False,
-                          'source-embeddings': 'file',
-                          'target-embeddings': 'file'}
+                          'add-embeddings-vocab': True,
+                          'emb_format': 'bert',
+                          'source-embeddings': '/home/gpu_user/ej/MTQE/pretrained/enwiki_20180420_100d.txt',
+                          'target-embeddings': '/home/gpu_user/ej/MTQE/pretrained/dewiki_20180420_100d.txt'}
+    
     
 
 
@@ -34,11 +44,12 @@ class Config:
     model_name = 'TransformerPredictor' #'BilstmPredictor'
     pre_model_name = 'TransformerPredictor'
     # Save Model path
-    checkpoint_path = 'checkpoints/'+model_name+'/'
+    checkpoint_path = 'checkpoints/'+model_name+'_exp4/'
     # Load Model path
     model_path = None #'checkpoints/'+model_name+'/'+model_name+'_tran.pth'
     # Prediction path
-    pred_path = 'prediction/'+model_name+'/'
+    # pred_path = 'prediction/'+model_name+'/'
+    pred_path = None
     
 
 
@@ -94,8 +105,10 @@ class Config:
     # Requires setting train-sentence-scores, valid-sentence-scores
     binary_level = False
     
-    load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
-    load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
+    # load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
+    load_pred_source = None
+    # load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
+    load_pred_target = None
 
     # Include start and stop embedding
     start_stop = True
@@ -103,7 +116,7 @@ class Config:
 
 
     ### TRAIN OPTS ###
-    epochs = 4
+    epochs = 10
     # Eval and checkpoint every n samples
     # Disable by setting to zero (default)
     checkpoint_validation_steps = 100
@@ -128,7 +141,7 @@ class Config:
 
     ### Prediction OPTS ###
     seed = 42  # random
-    test_batch_size = 64
+    test_batch_size = 1
 
     ###########################
 

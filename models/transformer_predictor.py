@@ -5,6 +5,7 @@ import math
 
 from models import Model
 from models.utils import apply_packed_sequence, replace_token
+from data.utils import deserialize_vocabs
 
 class PositionalEncoding(nn.Module):
     
@@ -29,7 +30,7 @@ class TransformerPredictor(Model):
     
     title = 'Transformer based model (an embedder model)'
 
-    def __init__(self, vocabs, opt, predict_inverse=False):
+    def __init__(self, vocabs, opt, idx2count=None, predict_inverse=False):
         """
         Args:
           vocabs: Dictionary Mapping Field Names to Vocabularies.
@@ -56,13 +57,21 @@ class TransformerPredictor(Model):
 
         self.embedding_source = nn.Embedding(
             self.source_vocab_size,
-            opt.hidden_pred,
+            opt.source_embeddings_size,
             opt.PAD_ID,
         )
         self.embedding_target = nn.Embedding(
             self.target_vocab_size,
-            opt.hidden_pred,
+            opt.target_embeddings_size,
             opt.PAD_ID,
+        )
+        self.source_hidden = nn.Linear(
+            opt.source_embeddings_size, 
+            opt.hidden_pred
+        )
+        self.target_hidden = nn.Linear(
+            opt.target_embeddings_size, 
+            opt.hidden_pred
         )
         self.pos_encoder_source = PositionalEncoding(
             opt.hidden_pred, 
@@ -91,7 +100,6 @@ class TransformerPredictor(Model):
         self.forward_decoder_target = nn.TransformerDecoder(self.forward_decoder_layer, num_layers=opt.transformer_layers_pred)
         self.backward_decoder_target = nn.TransformerDecoder(self.backward_decoder_layer, num_layers=opt.transformer_layers_pred)
 
-        self.W0 = nn.Linear(opt.out_embeddings_size, opt.hidden_pred)
         self.W1 = self.embedding_target
         if not opt.share_embeddings:
             self.W1 = nn.Embedding(
@@ -147,8 +155,29 @@ class TransformerPredictor(Model):
             )
 
     @classmethod
-    def from_options(cls, vocabs, opt, PreModelClass=None):
-        return cls(vocabs, opt)
+    def from_options(cls, vocabs, opt, PreModelClass=None, idx2count=None):
+        return cls(vocabs, opt, idx2count)
+    
+    # Load other model path
+    @classmethod
+    def from_file(cls, path, opt, idx2count):
+        model_dict = torch.load(
+            str(path), map_location=lambda storage, loc: storage
+        )
+        if cls.__name__ not in model_dict:
+            raise KeyError(
+                '{} model data not found in {}'.format(cls.__name__, path)
+            )
+
+        return cls.from_dict(model_dict, opt, idx2count=idx2count)
+    
+    @classmethod
+    def from_dict(cls, model_dict, opt, PreModelClass=None, idx2count=None):
+        vocabs = deserialize_vocabs(model_dict['vocab'], opt)
+        class_dict = model_dict[cls.__name__]
+        model = cls(vocabs=vocabs, opt=opt, idx2count=idx2count)
+        model.load_state_dict(class_dict['state_dict'])
+        return model
 
     def loss(self, model_out, batch, target_side=None):
         if not target_side:
@@ -157,9 +186,12 @@ class TransformerPredictor(Model):
         # There are no predictions for first/last element
         target = replace_token(target[:, 1:-1], self.opt.STOP_ID, self.opt.PAD_ID)
         # Predicted Class must be in dim 1 for xentropyloss
+        
+        # ce loss
         logits = model_out[target_side]
         logits = logits.transpose(1, 2)
         loss = self._loss(logits, target)
+        
         loss_dict = OrderedDict()
         loss_dict[target_side] = loss
         loss_dict['loss'] = loss
@@ -180,9 +212,12 @@ class TransformerPredictor(Model):
         # source_lengths = self.get_mask(batch, source_side)[:, 1:-1].sum(1)
         target_lengths = self.get_mask(batch, target_side).sum(1)
         
-        source_embeddings = self.embedding_source(source)*math.sqrt(self.hidden_pred)
+        source_embeddings = self.embedding_source(source)
+        source_embeddings = self.source_hidden(source_embeddings)*math.sqrt(self.hidden_pred)
         source_embeddings = self.pos_encoder_source(source_embeddings)
-        target_embeddings = self.embedding_target(target)*math.sqrt(self.hidden_pred)
+
+        target_embeddings = self.embedding_target(target)
+        target_embeddings = self.target_hidden(target_embeddings)*math.sqrt(self.hidden_pred)
         target_embeddings = self.pos_encoder_target(target_embeddings)
 
         ################## Transformer process ##################
@@ -223,6 +258,7 @@ class TransformerPredictor(Model):
         V = torch.einsum('bsj,jl->bsl', [target_embeddings, self.V])
         S = torch.einsum('bsk,kl->bsl', [target_contexts, self.S])
         t_tilde = C + V + S
+        
         # Maxout with pooling size 2
         t, _ = torch.max(
             t_tilde.view(
@@ -232,12 +268,12 @@ class TransformerPredictor(Model):
         )
 
         f = torch.einsum('oh,bso->bsh', [self.W2, t])
-        f = self.W0(f)
         logits = torch.einsum('vh,bsh->bsv', [self.W1.weight, f])
         PreQEFV = torch.einsum('bsh,bsh->bsh', [self.W1(target[:, 1:-1]), f])
         PostQEFV = torch.cat([forward_contexts, backward_contexts], dim=-1)
         return {
             target_side: logits,
+            'target_side_hidden': f,
             'PREQEFV': PreQEFV,
             'POSTQEFV': PostQEFV,
         }

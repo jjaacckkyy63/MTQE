@@ -51,3 +51,26 @@ https://docs.google.com/presentation/d/1scd7uLgS4FUexYf7AtmT33L59qtOMURi7YsKUrW0
 
 # Submission Link:
 https://competitions.codalab.org/competitions/24207
+
+# Apr. 17 Notes:
+Tasks:
+1. Embedding (XLM-R)
+2. Predictor arch (change to transformer), Pre/Post QEFV extraction
+3. Training objective (currently MLM)
+4. Training method for few-shot learning - word2vec
+
+7k training dataset:
+https://github.com/facebookresearch/mlqe/tree/master/data
+
+
+# Apr. 21 Notes:
+TODO:
+1. Check loading of vocabs
+2. Use more data
+   https://github.com/facebookresearch/mlqe?fbclid=IwAR3hEEWsklEGzm0qQ-FLD0_qFz5-VZEKijEhJtfVQhwAQDL_8TmGCRvpUUs
+3. Use XLM-R as predictor (extract feature)
+4. Draft report
+5. Baseline: Predictor train w/ all five languages, Estimator train w/o de and zh datasets
+
+Questions for FB:
+1. What dataset is used for training (predictor and estimator)?

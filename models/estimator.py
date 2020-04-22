@@ -17,9 +17,16 @@ class Estimator(Model):
         super().__init__(vocabs=vocabs, opt=opt)
 
         if not predictor_tgt:
-            predictor_tgt = eval(PreModelClass)(vocabs, opt, predict_inverse=False)
+            if opt.load_pred_target:
+                predictor_tgt = eval(PreModelClass).from_file(opt.load_pred_target, opt)
+            else:
+                predictor_tgt = eval(PreModelClass)(vocabs, opt, predict_inverse=False)
+        
         if not predictor_src:
-            predictor_src = eval(PreModelClass)(vocabs, opt, predict_inverse=True)
+            if opt.load_pred_source:
+                predictor_src = eval(PreModelClass).from_file(opt.load_pred_source, opt)
+            else:
+                predictor_src = eval(PreModelClass)(vocabs, opt, predict_inverse=True)
         
         if opt.token_level:
             if predictor_src:
@@ -186,19 +193,18 @@ class Estimator(Model):
         input_seq, target_lengths = self.make_input(
             model_out_tgt, batch, 'target'
         )
-
         contexts_tgt, h_tgt = apply_packed_sequence(
             self.lstm, input_seq, target_lengths
         )
 
         # Predict Source from Target
-        # model_out_src = self.predictor_src(batch)
-        # input_seq, target_lengths = self.make_input(
-        #     model_out_src, batch, 'source'
-        # )
-        # contexts_src, h_src = apply_packed_sequence(
-        #     self.lstm, input_seq, target_lengths
-        # )
+        #model_out_src = self.predictor_src(batch)
+        #input_seq, target_lengths = self.make_input(
+        #    model_out_src, batch, 'source'
+        #)
+        #contexts_src, h_src = apply_packed_sequence(
+        #    self.lstm, input_seq, target_lengths
+        #)
 
         sentence_input = self.make_sentence_input(h_tgt, h_src)
         outputs = self.predict_sentence(sentence_input)

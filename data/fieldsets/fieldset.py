@@ -41,12 +41,14 @@ class Fieldset:
         fields = {}
         files = []
         file_path = opt.paths.get(set_name)
-        for file_name in glob.glob(file_path + '*/*.tsv'):
+        for file_name in glob.glob(file_path + opt.used_set + '/*.tsv'):
+        #for file_name in glob.glob(file_path + '*/*.tsv'):
             if not file_name:
                 raise FileNotFoundError(
                     'File {} is required.'.format(file_name)
                 )
             elif file_name:
+                print(file_name)
                 files.append(file_name)
         fields = self._fields
         return fields, files
@@ -70,7 +72,7 @@ class Fieldset:
         self,
         name,
         opt,
-        embeddings_format='polyglot',
+        embeddings_format='word2vec',
         embeddings_binary=False
     ):
         if name not in self._vocab_vectors:
@@ -84,6 +86,7 @@ class Fieldset:
         if option_name:
             option_value = opt.vocabulary_options.get(option_name)
             if option_value:
+                # embeddings_format = opt.vocabulary_options.get('emb_format')
                 emb_model = AvailableVectors[embeddings_format]
                 vectors_fn = partial(
                     emb_model, option_value, binary=embeddings_binary

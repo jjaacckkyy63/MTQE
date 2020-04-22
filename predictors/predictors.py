@@ -27,6 +27,7 @@ class Predicter:
                 model_out = self.model(batch)
                 pred = {}
                 pred['scores'] = model_out['scores'].tolist()
+                #print(pred['scores'], batch.sentences_scores)
                 for key, values in pred.items():
                     if isinstance(values, list):
                         predictions[key] += values

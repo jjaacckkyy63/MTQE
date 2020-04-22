@@ -1,4 +1,5 @@
 from torchtext import data
+import glob
 
 class Corpus:
     def __init__(self, fields_examples=None, dataset_fields=None):
@@ -19,7 +20,7 @@ class Corpus:
         )
     
     @classmethod
-    def from_files(cls, fields, files):
+    def from_files(cls, opt, fields, files):
         """Create a QualityEstimationDataset given paths and fields.
         Arguments:
             fields: A dict between field name and field object.
@@ -30,8 +31,17 @@ class Corpus:
 
         for filename in files:
             pdata = cls.read_tabular_file(filename)
-            for source, target, score in zip(pdata['original'], pdata['translation'], pdata['z_mean']):
-                fields_examples.append(data.Example.fromlist([source, target, score], dataset_fields))
+            if filename in glob.glob('raw_data/*/*-en/*.tsv'):
+                print(filename)
+                for source, target, score in zip(pdata['original'], pdata['translation'], pdata['z_mean']):
+                    fields_examples.append(data.Example.fromlist([source, target, score], dataset_fields))
+            elif filename in glob.glob('raw_data/*/en-*/*.tsv'): # en-de, en-zh
+                print(filename)
+                ndata = len(pdata['z_mean'])
+                if opt.num_data:
+                    ndata = int(opt.num_data*ndata)
+                for source, target, score in zip(pdata['original'][0:ndata], pdata['translation'][0:ndata], pdata['z_mean'][0:ndata]):
+                    fields_examples.append(data.Example.fromlist([source, target, score], dataset_fields))
         
         return cls(fields_examples, dataset_fields)
     

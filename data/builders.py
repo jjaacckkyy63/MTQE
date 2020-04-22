@@ -20,7 +20,7 @@ def build_vocabulary(fields_vocab_options, *datasets):
         if not vocab_loaded_if_needed(field):
             kwargs_vocab = fields_vocab_options[name]
             # delete vectors_fn first
-            del kwargs_vocab['vectors_fn']
+            # del kwargs_vocab['vectors_fn']
             
             if 'vectors_fn' in kwargs_vocab:
                 vectors_fn = kwargs_vocab['vectors_fn']
@@ -35,7 +35,7 @@ def build_dataset(fieldset, opt, prefix='', filter_pred=None, **kwargs):
     """
 
     fields, files = fieldset.fields_and_files(prefix, opt, **kwargs)
-    corpus = Corpus.from_files(fields=fields, files=files)
+    corpus = Corpus.from_files(opt, fields=fields, files=files)
     dataset = QEDataset(
         examples=corpus.fields_examples, fields=corpus.dataset_fields, filter_pred=filter_pred
     )

@@ -92,3 +92,6 @@
 2020-04-20 22:10:42,016 - trainers.trainers - INFO - Current Training Loss at step 1280: 3.3476619720458984
 2020-04-20 22:10:53,588 - trainers.trainers - INFO - Current Training Loss at step 1300: 3.0296647548675537
 2020-04-20 22:11:22,426 - trainers.trainers - INFO -  ====== Current Validation Loss at step 1300: 7.035729885101318 ====== 
+2020-04-22 09:55:44,121 - trainers.trainers - INFO -  
+2020-04-22 09:55:44,121 - trainers.trainers - INFO - Start Logging...
+2020-04-22 09:55:44,121 - trainers.trainers - INFO - Epoch 0 of 4
