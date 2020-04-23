@@ -30,7 +30,7 @@ class TransformerPredictor(Model):
     
     title = 'Transformer based model (an embedder model)'
 
-    def __init__(self, vocabs, opt, idx2count=None, predict_inverse=False):
+    def __init__(self, vocabs, opt, predict_inverse=False):
         """
         Args:
           vocabs: Dictionary Mapping Field Names to Vocabularies.
@@ -155,12 +155,12 @@ class TransformerPredictor(Model):
             )
 
     @classmethod
-    def from_options(cls, vocabs, opt, PreModelClass=None, idx2count=None):
-        return cls(vocabs, opt, idx2count)
+    def from_options(cls, vocabs, opt, PreModelClass=None):
+        return cls(vocabs, opt)
     
     # Load other model path
     @classmethod
-    def from_file(cls, path, opt, idx2count):
+    def from_file(cls, path, opt):
         model_dict = torch.load(
             str(path), map_location=lambda storage, loc: storage
         )
@@ -169,13 +169,13 @@ class TransformerPredictor(Model):
                 '{} model data not found in {}'.format(cls.__name__, path)
             )
 
-        return cls.from_dict(model_dict, opt, idx2count=idx2count)
+        return cls.from_dict(model_dict, opt)
     
     @classmethod
-    def from_dict(cls, model_dict, opt, PreModelClass=None, idx2count=None):
+    def from_dict(cls, model_dict, opt, PreModelClass=None):
         vocabs = deserialize_vocabs(model_dict['vocab'], opt)
         class_dict = model_dict[cls.__name__]
-        model = cls(vocabs=vocabs, opt=opt, idx2count=idx2count)
+        model = cls(vocabs=vocabs, opt=opt)
         model.load_state_dict(class_dict['state_dict'])
         return model
 

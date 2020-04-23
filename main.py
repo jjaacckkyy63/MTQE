@@ -33,7 +33,7 @@ def predict():
     test_dataset = build_test_dataset(fieldset, opt, load_vocab=opt.model_path) # build vocabs from model?
     #test_dataset = build_test_dataset(fieldset, opt)
     #vocabs = fields_to_vocabs(test_dataset.fields)  # build vocab from test dataset?
-    print(len(test_dataset.fields['source'].vocab.stoi))
+    print(len(test_dataset.fields['target'].vocab.stoi))
 
     test_iter = build_bucket_iterator(
         test_dataset,
@@ -41,18 +41,22 @@ def predict():
         is_train=False,
         device=device
     )
-    for batch in test_iter:
-        print(batch.target[0])
-        for i in batch.target[0]:
-            print(test_dataset.fields['source'].vocab.itos[i.item()])
-        break
+    for i, batch in enumerate(test_iter):
+        #print(batch.target[0])
+        s = ""
+        for j in batch.target[0]:
+            s += " " + test_dataset.fields['target'].vocab.itos[j.item()]
+        print(i)
+        print(s)
+
+        
 
     predictions = predicter.run(test_iter, batch_size=opt.test_batch_size)
     save_predicted_probabilities(opt.pred_path, predictions)
 
 def evaluate():
     ## Ground-truth (z_mean)
-    file_path = opt.paths['valid']
+    file_path = opt.paths['test']
     gt = []
     for filename in glob.glob(file_path + '*/*.tsv'):
         pdata = Corpus.read_tabular_file(filename)
@@ -115,9 +119,9 @@ def train():
     #     break
 
 if __name__ == '__main__':
-    train()
-    # predict()
-    # evaluate()
+    #train()
+    predict()
+    #evaluate()
 
 
 

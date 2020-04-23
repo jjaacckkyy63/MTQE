@@ -19,7 +19,7 @@ class Config:
     paths = {'train': 'raw_data/train/',
              'valid': 'raw_data/valid/',
              'test': 'raw_data/test/'}
-    num_data = 0.5  # proportion of en-de and en-zh data used (0~1)
+    num_data = 1  # proportion of en-de and en-zh data used (0~1)
     used_set = '*'  # '*', '*-en', 'en-*'
     
     # Vocabulary
@@ -41,15 +41,15 @@ class Config:
 
 
     # Model
-    model_name = 'TransformerPredictor' #'BilstmPredictor'
+    model_name = 'Estimator' #'BilstmPredictor'
     pre_model_name = 'TransformerPredictor'
     # Save Model path
-    checkpoint_path = 'checkpoints/'+model_name+'_exp4/'
+    checkpoint_path = 'checkpoints/'+model_name+'/'
     # Load Model path
-    model_path = None #'checkpoints/'+model_name+'/'+model_name+'_tran.pth'
+    model_path = 'checkpoints/'+model_name+'/'+model_name+'_tran.pth'
     # Prediction path
-    # pred_path = 'prediction/'+model_name+'/'
-    pred_path = None
+    pred_path = 'prediction/'+model_name+'/'
+    #pred_path = None
     
 
 
@@ -105,10 +105,10 @@ class Config:
     # Requires setting train-sentence-scores, valid-sentence-scores
     binary_level = False
     
-    # load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
-    load_pred_source = None
-    # load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
-    load_pred_target = None
+    load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
+    #load_pred_source = None
+    load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
+    #load_pred_target = None
 
     # Include start and stop embedding
     start_stop = True
@@ -119,7 +119,7 @@ class Config:
     epochs = 10
     # Eval and checkpoint every n samples
     # Disable by setting to zero (default)
-    checkpoint_validation_steps = 100
+    checkpoint_validation_steps = 200
     # Save Model Every n epochs
     save_checkpoint_interval = 2
     # Keep Only the n best models according to the main metric (Perplexity by default)
