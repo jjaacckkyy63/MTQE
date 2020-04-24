@@ -70,29 +70,8 @@ class Model(nn.Module):
 
         for model_name in Model.subclasses:
             if model_name in model_dict:
-                model = Model.subclasses[model_name].from_dict(model_dict, opt)
+                model = Model.subclasses[model_name].from_dict(model_dict, opt, PreModelClass=opt.pre_model_name)
                 return model
-    
-    # Load other model path
-    @classmethod
-    def from_file(cls, path, opt):
-        model_dict = torch.load(
-            str(path), map_location=lambda storage, loc: storage
-        )
-        if cls.__name__ not in model_dict:
-            raise KeyError(
-                '{} model data not found in {}'.format(cls.__name__, path)
-            )
-
-        return cls.from_dict(model_dict, opt)
-    
-    @classmethod
-    def from_dict(cls, model_dict, opt):
-        vocabs = deserialize_vocabs(model_dict['vocab'], opt)
-        class_dict = model_dict[cls.__name__]
-        model = cls(vocabs=vocabs, opt=opt)
-        model.load_state_dict(class_dict['state_dict'])
-        return model
     
     def save(self, path):
         vocabs = serialize_vocabs(self.vocabs)

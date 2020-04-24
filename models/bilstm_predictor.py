@@ -4,6 +4,7 @@ from collections import OrderedDict
 
 from models import Model
 from models.utils import apply_packed_sequence, replace_token
+from data.utils import deserialize_vocabs
 
 class Attention(nn.Module):
     """Generic Attention Implementation.
@@ -203,6 +204,27 @@ class BilstmPredictor(Model):
     @classmethod
     def from_options(cls, vocabs, opt, PreModelClass=None):
         return cls(vocabs, opt)
+    
+    # Load other model path
+    @classmethod
+    def from_file(cls, path, opt):
+        model_dict = torch.load(
+            str(path), map_location=lambda storage, loc: storage
+        )
+        if cls.__name__ not in model_dict:
+            raise KeyError(
+                '{} model data not found in {}'.format(cls.__name__, path)
+            )
+
+        return cls.from_dict(model_dict, opt)
+    
+    @classmethod
+    def from_dict(cls, model_dict, opt, PreModelClass=None):
+        vocabs = deserialize_vocabs(model_dict['vocab'], opt)
+        class_dict = model_dict[cls.__name__]
+        model = cls(vocabs=vocabs, opt=opt)
+        model.load_state_dict(class_dict['state_dict'])
+        return model
 
     def loss(self, model_out, batch, target_side=None):
         if not target_side:
@@ -227,6 +249,7 @@ class BilstmPredictor(Model):
 
         source = getattr(batch, source_side)
         target = getattr(batch, target_side)
+
         batch_size, target_len = target.shape[:2]
         # Remove First and Last Element (Start / Stop Tokens)
         source_mask = self.get_mask(batch, source_side)[:, 1:-1]

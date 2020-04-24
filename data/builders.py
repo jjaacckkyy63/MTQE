@@ -20,7 +20,7 @@ def build_vocabulary(fields_vocab_options, *datasets):
         if not vocab_loaded_if_needed(field):
             kwargs_vocab = fields_vocab_options[name]
             # delete vectors_fn first
-            # del kwargs_vocab['vectors_fn']
+            del kwargs_vocab['vectors_fn']
             
             if 'vectors_fn' in kwargs_vocab:
                 vectors_fn = kwargs_vocab['vectors_fn']

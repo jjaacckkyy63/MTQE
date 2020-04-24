@@ -1,14 +1,27 @@
 import torch
 from torchtext import data
 import spacy
+import re
+import jieba
 
 from data.fieldsets.fieldset import Fieldset
 
-def tokenizer(sentence):
+def tokenizer(text):
     """Implement your own tokenize procedure."""
     # nlp = spacy.load("xx_ent_wiki_sm")
-    # return [tok.text for tok in nlp.tokenizer(sentence)]
-    return sentence.strip().split()
+    # return [tok.text for tok in nlp.tokenizer(text)]
+    # return text.strip().split()
+    
+    REPLACE_BY_SPACE_RE = re.compile(r'[/(){}\[\]\|@,;.#+_\"\']')
+    text = re.sub(REPLACE_BY_SPACE_RE, '', text)
+
+    if re.search('[\u4e00-\u9fa5]', text) is not None:
+        tokens = [word for word in jieba.cut(text) if word.strip()]
+    else:
+        text = text.lower()
+        tokens = text.strip().split()
+    
+    return tokens
 
 def build_text_field(opt):
     return data.Field(

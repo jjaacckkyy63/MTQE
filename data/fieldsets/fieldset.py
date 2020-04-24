@@ -41,6 +41,8 @@ class Fieldset:
         fields = {}
         files = []
         file_path = opt.paths.get(set_name)
+
+        print("\n========== Files to load ==========")
         for file_name in glob.glob(file_path + opt.used_set + '/*.tsv'):
         #for file_name in glob.glob(file_path + '*/*.tsv'):
             if not file_name:
@@ -50,6 +52,8 @@ class Fieldset:
             elif file_name:
                 print(file_name)
                 files.append(file_name)
+        print("========== Files to load ==========\n")
+
         fields = self._fields
         return fields, files
 

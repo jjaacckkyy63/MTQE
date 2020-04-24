@@ -41,12 +41,12 @@ class Config:
 
 
     # Model
-    model_name = 'Estimator' #'BilstmPredictor'
-    pre_model_name = 'TransformerPredictor'
+    model_name = 'BilstmPredictor' #'BilstmPredictor'
+    pre_model_name = 'BilstmPredictor'
     # Save Model path
     checkpoint_path = 'checkpoints/'+model_name+'/'
     # Load Model path
-    model_path = 'checkpoints/'+model_name+'/'+model_name+'_tran.pth'
+    model_path = None #'checkpoints/'+model_name+'/'+model_name+'_bi.pth'
     # Prediction path
     pred_path = 'prediction/'+model_name+'/'
     #pred_path = None

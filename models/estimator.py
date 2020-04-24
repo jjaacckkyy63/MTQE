@@ -5,6 +5,7 @@ from torch.distributions.normal import Normal
 
 from models import Model, BilstmPredictor, TransformerPredictor
 from models.utils import apply_packed_sequence, make_loss_weights
+from data.utils import deserialize_vocabs
 
 @Model.register_subclass
 class Estimator(Model):
@@ -96,6 +97,27 @@ class Estimator(Model):
 
         return cls(vocabs, opt, 
                 predictor_tgt=predictor_tgt, predictor_src=predictor_src, PreModelClass=PreModelClass)
+    
+    # Load other model path
+    @classmethod
+    def from_file(cls, path, opt):
+        model_dict = torch.load(
+            str(path), map_location=lambda storage, loc: storage
+        )
+        if cls.__name__ not in model_dict:
+            raise KeyError(
+                '{} model data not found in {}'.format(cls.__name__, path)
+            )
+
+        return cls.from_dict(model_dict, opt)
+    
+    @classmethod
+    def from_dict(cls, model_dict, opt, PreModelClass=None):
+        vocabs = deserialize_vocabs(model_dict['vocab'], opt)
+        class_dict = model_dict[cls.__name__]
+        model = cls(vocabs=vocabs, opt=opt, PreModelClass=PreModelClass)
+        model.load_state_dict(class_dict['state_dict'])
+        return model
     
     def loss(self, model_out, batch):
 
