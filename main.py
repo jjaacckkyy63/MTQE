@@ -45,8 +45,8 @@ def predict():
     for i, batch in enumerate(test_iter):
         #print(batch.target[0])
         s = ""
-        for j in batch.source[0]:
-            s += " " + test_dataset.fields['source'].vocab.itos[j.item()]
+        for j in batch.target[0]:
+            s += " " + test_dataset.fields['target'].vocab.itos[j.item()]
         print(i)
         print(s)
         
@@ -83,13 +83,14 @@ def train():
     if opt.model_name == 'Estimator':
         train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=False, load_vocab=opt.load_pred_source)
     else:
-        train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=True)
+        train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=False)
 
     vocabs = fields_to_vocabs(train_dataset.fields)
 
     # Call vocabulary
     print('Source vocabulary size: ', len(fieldset.fields['source'].vocab.itos))
     print('Target vocabulary size: ', len(fieldset.fields['target'].vocab.itos))
+    print()
     
     # Trainer
     ModelClass = eval(opt.model_name)

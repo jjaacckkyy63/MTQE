@@ -41,12 +41,12 @@ class Config:
 
 
     # Model
-    model_name = 'BilstmPredictor' #'BilstmPredictor'
-    pre_model_name = 'BilstmPredictor'
+    model_name = 'Estimator' #'BilstmPredictor'
+    pre_model_name = 'TransformerPredictor'
     # Save Model path
     checkpoint_path = 'checkpoints/'+model_name+'/'
     # Load Model path
-    model_path = None #'checkpoints/'+model_name+'/'+model_name+'_bi.pth'
+    model_path = 'checkpoints/'+model_name+'/'+model_name+'_tran.pth'
     # Prediction path
     pred_path = 'prediction/'+model_name+'/'
     #pred_path = None
@@ -71,9 +71,9 @@ class Config:
     predict_inverse = False
 
     # Transformer perdictor
-    nhead = 8
+    nhead = 4 #8
     tdropout_pred = 0.1
-    transformer_layers_pred = 6
+    transformer_layers_pred = 3 #6
     ###################### Predictor model setting ######################
 
     ###################### Estimator model setting ######################
@@ -133,7 +133,7 @@ class Config:
     log_interval = 20
     # Learning Rate
     # 1e_3 * (batch_size / 32) seems to work well
-    lr =  2e-3
+    lr =  1e-4 #2e-3
     learning_rate_decay = 0.6
     learning_rate_decay_start = 2
     train_batch_size = 64
