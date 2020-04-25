@@ -74,3 +74,8 @@ TODO:
 
 Questions for FB:
 1. What dataset is used for training (predictor and estimator)?
+
+# Experiments:
+1. Data
+2. Pre-trained
+3. Model - loss, (transformer, embedding)

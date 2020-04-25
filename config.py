@@ -105,9 +105,9 @@ class Config:
     # Requires setting train-sentence-scores, valid-sentence-scores
     binary_level = False
     
-    load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
+    load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'_10.pth'
     #load_pred_source = None
-    load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
+    load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'_10.pth'
     #load_pred_target = None
 
     # Include start and stop embedding
@@ -119,7 +119,7 @@ class Config:
     epochs = 10
     # Eval and checkpoint every n samples
     # Disable by setting to zero (default)
-    checkpoint_validation_steps = 200
+    checkpoint_validation_steps = 5
     # Save Model Every n epochs
     save_checkpoint_interval = 2
     # Keep Only the n best models according to the main metric (Perplexity by default)

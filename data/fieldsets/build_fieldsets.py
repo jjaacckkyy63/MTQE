@@ -20,7 +20,7 @@ def tokenizer(text):
     else:
         text = text.lower()
         tokens = text.strip().split()
-    
+    #tokens = text.strip().split() 
     return tokens
 
 def build_text_field(opt):
