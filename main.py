@@ -1,6 +1,8 @@
 import torch
 import numpy as np
 import glob
+import logging
+from tqdm import tqdm
 
 from data.fieldsets.build_fieldsets import build_fieldset
 from data.builders import build_training_datasets, build_test_dataset
@@ -42,13 +44,13 @@ def predict():
         is_train=False,
         device=device
     )
-    for i, batch in enumerate(test_iter):
-        #print(batch.target[0])
-        s = ""
-        for j in batch.source[0]:
-            s += " " + test_dataset.fields['source'].vocab.itos[j.item()]
-        print(i)
-        print(s)
+    #for i, batch in enumerate(test_iter):
+    #    #print(batch.target[0])
+    #    s = ""
+    #    for j in batch.source[0]:
+    #        s += " " + test_dataset.fields['source'].vocab.itos[j.item()]
+    #    print(i)
+    #    print(s)
         
 
     predictions = predicter.run(test_iter, batch_size=opt.test_batch_size)
@@ -60,6 +62,7 @@ def evaluate():
     gt = []
     for filename in glob.glob(file_path + '*/*.tsv'):
         pdata = Corpus.read_tabular_file(filename)
+        #print(pdata['original'])
         #print(len(pdata['z_mean']))
         gt.extend(pdata['z_mean'])
     gt = np.array(gt).astype(float)
@@ -76,6 +79,7 @@ def evaluate():
 def train():
 
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    configure_seed(opt.seed)
 
     # Data
     fieldset = build_fieldset(opt)
@@ -83,14 +87,14 @@ def train():
     if opt.model_name == 'Estimator':
         train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=False, load_vocab=opt.load_pred_source)
     else:
-        train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=True)
+        train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=False)
 
     vocabs = fields_to_vocabs(train_dataset.fields)
 
     # Call vocabulary
     print('Source vocabulary size: ', len(fieldset.fields['source'].vocab.itos))
     print('Target vocabulary size: ', len(fieldset.fields['target'].vocab.itos))
-    
+
     # Trainer
     ModelClass = eval(opt.model_name)
     trainer = retrieve_trainer(ModelClass, opt, vocabs, device)
@@ -113,27 +117,71 @@ def train():
     trainer.run(train_iter, valid_iter, opt)
     
 
-    # for batch in valid_iter:
-    #     s_train = ""
-    #     for j in batch.source[0]:
-    #         s_train += " " + train_dataset.fields['source'].vocab.itos[j.item()]
-    #     st_train = ""
-    #     for j in batch.target[0]:
-    #         st_train += " " + train_dataset.fields['target'].vocab.itos[j.item()]
-    #     s = ""
-    #     for j in batch.source[0]:
-    #         s += " " + valid_dataset.fields['source'].vocab.itos[j.item()]
-    #     st = ""
-    #     for j in batch.target[0]:
-    #         st += " " + valid_dataset.fields['target'].vocab.itos[j.item()]
-        
-    #     print(batch.source[0])
-    #     print(batch.target[0])
-    #     print(s_train)
-    #     print(st_train)
-    #     print(s)
-    #     print(st)
-    #     break
+    #for batch in valid_iter:
+    #    s_train = ""
+    #    for j in batch.source[0]:
+    #        s_train += " " + train_dataset.fields['source'].vocab.itos[j.item()]
+    #    st_train = ""
+    #    for j in batch.target[0]:
+    #        st_train += " " + train_dataset.fields['target'].vocab.itos[j.item()]
+    #    s = ""
+    #    for j in batch.source[0]:
+    #        s += " " + valid_dataset.fields['source'].vocab.itos[j.item()]
+    #    st = ""
+    #    for j in batch.target[0]:
+    #       st += " " + valid_dataset.fields['target'].vocab.itos[j.item()]
+    #    
+    #    print(batch.source[0])
+    #    print(batch.target[0])
+    #    print(s_train)
+    #    print(st_train)
+    #    print(s)
+    #    print(st)
+    #    break
+
+def validate():
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    configure_seed(opt.seed)
+    fieldset = build_fieldset(opt)
+
+    if opt.model_name == 'Estimator':
+        train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=False, load_vocab=opt.load_pred_source)
+    else:
+        load_vocab_path = opt.checkpoint_path + opt.model_name + '_0.pth'
+        train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=False, load_vocab=load_vocab_path)
+
+    vocabs = fields_to_vocabs(train_dataset.fields)
+
+    # Call vocabulary
+    print('Source vocabulary size: ', len(fieldset.fields['source'].vocab.itos))
+    print('Target vocabulary size: ', len(fieldset.fields['target'].vocab.itos))
+    
+    valid_iter = build_bucket_iterator(
+        valid_dataset,
+        batch_size=opt.valid_batch_size,
+        is_train=False,
+        device=device
+    )
+
+    ModelClass = eval(opt.model_name)
+    LOG_FILENAME = opt.checkpoint_path + opt.model_name + '.log'
+    logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO)
+    for ep in range(0, opt.epochs+1, opt.save_checkpoint_interval):
+        checkpoint = opt.checkpoint_path + opt.model_name + '_{}.pth'.format(ep)
+        print(checkpoint)
+        model = ModelClass.create_from_file(checkpoint, opt)
+        model = model.to(device)
+        model.eval()
+        validation_loss = 0
+        with torch.no_grad():
+            for batch in tqdm(valid_iter, total=len(valid_iter)):
+                model_out = model(batch)
+                loss_dict = model.loss(model_out, batch)
+                validation_loss += loss_dict['loss']
+            validation_loss /= len(valid_iter)
+            logging.info(" ====== Validation Loss at epoch {}: {} ====== ".format(ep, validation_loss))
+            print(" ====== Validation Loss at epoch {}: {} ====== ".format(ep, validation_loss))
+
 
 if __name__ == '__main__':
     import argparse
@@ -146,5 +194,7 @@ if __name__ == '__main__':
         predict()
     elif args.mode == 'evaluate':
         evaluate()
+    elif args.mode == 'validate':
+        validate()
     else:
         pass
