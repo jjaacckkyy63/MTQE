@@ -60,7 +60,7 @@ def evaluate():
     ## Ground-truth (z_mean)
     file_path = opt.paths['test']
     gt = []
-    for filename in glob.glob(file_path + '*/*.tsv'):
+    for filename in glob.glob(file_path + 'en-*/*.tsv'):
         pdata = Corpus.read_tabular_file(filename)
         #print(pdata['original'])
         #print(len(pdata['z_mean']))
