@@ -3,6 +3,7 @@ import torch.nn as nn
 import math
 
 from data.utils import *
+from models.utils import AliasMultinomial
 
 class Model(nn.Module):
 
@@ -152,6 +153,7 @@ class NCELoss(nn.Module):
 
         # Re-norm the given noise frequency list and compensate words with
         # extremely low prob for numeric stability
+        
         noise = self.build_unigram_noise(
         torch.FloatTensor(idx2count)
         )

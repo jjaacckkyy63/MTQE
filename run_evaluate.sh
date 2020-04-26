@@ -38,3 +38,5 @@ python main.py -m predict -d valid -f ro-en/*.tsv
 python main.py -m evaluate -d valid -f ro-en/*.tsv
 echo ============ Results for validation files ============ 
 echo ======================================================
+
+

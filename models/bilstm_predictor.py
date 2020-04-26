@@ -215,7 +215,7 @@ class BilstmPredictor(Model):
     
     # Load other model path
     @classmethod
-    def from_file(cls, path, opt, idx2count):
+    def from_file(cls, path, opt, idx2count=None):
         model_dict = torch.load(
             str(path), map_location=lambda storage, loc: storage
         )
@@ -224,7 +224,7 @@ class BilstmPredictor(Model):
                 '{} model data not found in {}'.format(cls.__name__, path)
             )
 
-        return cls.from_dict(model_dict, opt)
+        return cls.from_dict(model_dict, opt, idx2count=idx2count)
     
     @classmethod
     def from_dict(cls, model_dict, opt, PreModelClass=None, vocabs=None, idx2count=None):
@@ -243,7 +243,7 @@ class BilstmPredictor(Model):
         
         # Load directly
         #model.load_state_dict(pretrained_dict)
-        return cls.from_dict(model_dict, opt, idx2count=idx2count)
+        return model
 
     def loss(self, model_out, batch, target_side=None):
         if not target_side:

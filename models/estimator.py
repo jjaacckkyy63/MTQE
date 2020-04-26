@@ -19,13 +19,13 @@ class Estimator(Model):
 
         if not predictor_tgt:
             if opt.load_pred_target:
-                predictor_tgt = eval(PreModelClass).from_file(opt.load_pred_target, opt)
+                predictor_tgt = eval(PreModelClass).from_file(opt.load_pred_target, opt, idx2count=idx2count)
             else:
                 predictor_tgt = eval(PreModelClass)(vocabs, opt, predict_inverse=False, idx2count=idx2count)
         
         if not predictor_src:
             if opt.load_pred_source:
-                predictor_src = eval(PreModelClass).from_file(opt.load_pred_source, opt)
+                predictor_src = eval(PreModelClass).from_file(opt.load_pred_source, opt, idx2count=idx2count)
             else:
                 predictor_src = eval(PreModelClass)(vocabs, opt, predict_inverse=True, idx2count=idx2count)
         

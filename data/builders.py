@@ -132,7 +132,7 @@ def build_test_dataset(fieldset, opt, load_vocab=None):
         A Dataset object.
     """
 
-    test_dataset = build_dataset(fieldset, opt, prefix=opt.dataset)
+    test_dataset, _ = build_dataset(fieldset, opt, prefix=opt.dataset)
     
     fields_vocab_options = fieldset.fields_vocab_options(opt)
     if load_vocab:
