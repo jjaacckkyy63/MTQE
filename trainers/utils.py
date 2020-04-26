@@ -25,7 +25,7 @@ def retrieve_trainer(ModelClass, opt, vocabs, device):
 
     # Build model
     if opt.model_path:
-        model = ModelClass.create_from_file(opt.model_path, opt)
+        model = ModelClass.create_from_file(opt.model_path, opt, vocabs=vocabs)
     else:
         model = ModelClass.from_options(vocabs=vocabs, opt=opt, PreModelClass=opt.pre_model_name)
     

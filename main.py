@@ -87,7 +87,7 @@ def train():
     if opt.model_name == 'Estimator':
         train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=False, load_vocab=opt.load_pred_source)
     else:
-        train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=False)
+        train_dataset, valid_dataset = build_training_datasets(fieldset, opt, split = 0.8, has_valid=True, rebuild=True)
 
     vocabs = fields_to_vocabs(train_dataset.fields)
 

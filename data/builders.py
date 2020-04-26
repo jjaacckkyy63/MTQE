@@ -6,7 +6,7 @@ from data.qe_dataset import QEDataset
 from data.fieldsets.fieldset import Fieldset
 from data.utils import filter_len, load_vocabularies_to_datasets
 
-def build_vocabulary(fields_vocab_options, *datasets):
+def build_vocabulary(fields_vocab_options, *datasets, rebuild=False):
     
     def vocab_loaded_if_needed(field):
         return not field.use_vocab or (hasattr(field, 'vocab') and field.vocab)
@@ -17,7 +17,7 @@ def build_vocabulary(fields_vocab_options, *datasets):
 
     for name, field in fields.items():
         
-        if not vocab_loaded_if_needed(field):
+        if rebuild or not vocab_loaded_if_needed(field):
             kwargs_vocab = fields_vocab_options[name]
             # delete vectors_fn first
             del kwargs_vocab['vectors_fn']
@@ -46,7 +46,8 @@ def build_training_datasets(
     opt,
     split=0.0,
     has_valid=None,
-    load_vocab=None
+    load_vocab=None,
+    rebuild=False
 ):
     """Build a training and validation QE datasets.
     Required Args:
@@ -115,7 +116,7 @@ def build_training_datasets(
         load_vocabularies_to_datasets(vocab_path, opt, train_dataset, valid_dataset)
     
     fields_vocab_options = fieldset.fields_vocab_options(opt)
-    build_vocabulary(fields_vocab_options, *datasets_for_vocab)
+    build_vocabulary(fields_vocab_options, *datasets_for_vocab, rebuild=rebuild)
 
 
     return train_dataset, valid_dataset

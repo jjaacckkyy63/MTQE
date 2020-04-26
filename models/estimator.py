@@ -112,7 +112,7 @@ class Estimator(Model):
         return cls.from_dict(model_dict, opt)
     
     @classmethod
-    def from_dict(cls, model_dict, opt, PreModelClass=None):
+    def from_dict(cls, model_dict, opt, PreModelClass=None, vocabs=None):
         vocabs = deserialize_vocabs(model_dict['vocab'], opt)
         class_dict = model_dict[cls.__name__]
         model = cls(vocabs=vocabs, opt=opt, PreModelClass=PreModelClass)

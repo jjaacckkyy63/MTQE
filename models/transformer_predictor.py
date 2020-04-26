@@ -55,6 +55,8 @@ class TransformerPredictor(Model):
         self.target_vocab_size = len(vocabs['target'])
         self.hidden_pred = opt.hidden_pred
 
+        self.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
         self.embedding_source = nn.Embedding(
             self.source_vocab_size,
             opt.source_embeddings_size,
@@ -109,13 +111,13 @@ class TransformerPredictor(Model):
             )
         self.W2 = nn.Parameter(
             torch.zeros(
-                opt.out_embeddings_size, opt.out_embeddings_size
+                4 * opt.out_embeddings_size, opt.out_embeddings_size
             )
         )
         self.V = nn.Parameter(
             torch.zeros(
                 2 * opt.hidden_pred,
-                2 * opt.out_embeddings_size,
+                2 *opt.out_embeddings_size,
             )
         )
         self.C = nn.Parameter(
@@ -123,11 +125,7 @@ class TransformerPredictor(Model):
                 2 * opt.hidden_pred, 2 * opt.out_embeddings_size
             )
         )
-        self.S = nn.Parameter(
-            torch.zeros(
-                2 * opt.hidden_pred, 2 * opt.out_embeddings_size
-            )
-        )
+        
         for p in self.parameters():
             if len(p.shape) > 1:
                 nn.init.xavier_uniform_(p)
@@ -172,11 +170,22 @@ class TransformerPredictor(Model):
         return cls.from_dict(model_dict, opt)
     
     @classmethod
-    def from_dict(cls, model_dict, opt, PreModelClass=None):
-        vocabs = deserialize_vocabs(model_dict['vocab'], opt)
+    def from_dict(cls, model_dict, opt, PreModelClass=None, vocabs=None):
+        if not vocabs:
+            vocabs = deserialize_vocabs(model_dict['vocab'], opt)
         class_dict = model_dict[cls.__name__]
         model = cls(vocabs=vocabs, opt=opt)
-        model.load_state_dict(class_dict['state_dict'])
+
+        pretrained_dict = class_dict['state_dict']
+
+        # Only load dict that matches our model
+        model_dict = model.state_dict()
+        pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict and v.size() == model_dict[k].size()}
+        model_dict.update(pretrained_dict) 
+        model.load_state_dict(model_dict)
+        
+        # Load directly
+        #model.load_state_dict(pretrained_dict)
         return model
 
     def loss(self, model_out, batch, target_side=None):
@@ -207,10 +216,16 @@ class TransformerPredictor(Model):
         target = getattr(batch, target_side)
         batch_size, target_len = target.shape[:2]
 
-        # source_mask = self.get_mask(batch, source_side)
-        # target_mask = self.get_mask(batch, target_side)
-        # source_lengths = self.get_mask(batch, source_side)[:, 1:-1].sum(1)
+        source_mask = (1-self.get_mask(batch, source_side)).bool()
+        target_mask = (1-self.get_mask(batch, target_side)).bool()
+        source_lengths = self.get_mask(batch, source_side)[:, 1:-1].sum(1)
         target_lengths = self.get_mask(batch, target_side).sum(1)
+        # print(source[0])
+        # print(target[0])
+        # print(source_mask[0])
+        # print(target_mask[0])
+        # print(source_lengths[0])
+        # print(target_lengths[0])
         
         source_embeddings = self.embedding_source(source)
         source_embeddings = self.source_hidden(source_embeddings)*math.sqrt(self.hidden_pred)
@@ -223,26 +238,32 @@ class TransformerPredictor(Model):
         ################## Transformer process ##################
         source_embeddings_t = source_embeddings.permute(1,0,2)
         target_embeddings_t = target_embeddings.permute(1,0,2)
+        target_attention_mask = self.src_mask(target_embeddings_t.shape[0]).to(self.device)
 
         # Source Encoding
-        hidden = self.encoder_source(src = source_embeddings_t)
+        hidden = self.encoder_source(src = source_embeddings_t, 
+                                     src_key_padding_mask = source_mask)
         # Target Encoding.
-        forward_contexts = self.forward_decoder_target(tgt = target_embeddings_t, memory = hidden)
+        forward_contexts = self.forward_decoder_target(tgt = target_embeddings_t,
+                                                       memory = hidden,
+                                                       tgt_key_padding_mask = target_mask,
+                                                       memory_key_padding_mask = source_mask
+                                                       )
         
-        target_emb_rev = self._reverse_padded_seq(
-            target_lengths, target_embeddings
-        ).permute(1,0,2)
+        target_emb_rev = self._reverse_padded_seq(target_lengths, target_embeddings).permute(1,0,2)
+        target_mask_rev = self._reverse_padded_seq(target_lengths, target_mask.unsqueeze(-1)).squeeze(-1)
+        backward_contexts = self.backward_decoder_target(tgt = target_emb_rev, 
+                                                         memory = hidden,
+                                                         tgt_key_padding_mask = target_mask_rev,
+                                                         memory_key_padding_mask = source_mask
+                                                         )
         
-        backward_contexts = self.backward_decoder_target(tgt = target_emb_rev, memory = hidden)
         ################## Transformer process ##################
 
         source_contexts = hidden.permute(1,0,2)
         forward_contexts = forward_contexts.permute(1,0,2)
         backward_contexts = backward_contexts.permute(1,0,2)
-        
-        backward_contexts = self._reverse_padded_seq(
-            target_lengths, backward_contexts
-        )
+        backward_contexts = self._reverse_padded_seq(target_lengths, backward_contexts)
 
         # For each position, concatenate left context i-1 and right context i+1
         target_contexts = torch.cat(
@@ -256,19 +277,11 @@ class TransformerPredictor(Model):
         # Combine attention, embeddings and target context vectors
         C = torch.einsum('bsi,il->bsl', [target_contexts, self.C])
         V = torch.einsum('bsj,jl->bsl', [target_embeddings, self.V])
-        S = torch.einsum('bsk,kl->bsl', [target_contexts, self.S])
-        t_tilde = C + V + S
-        
-        # Maxout with pooling size 2
-        t, _ = torch.max(
-            t_tilde.view(
-                t_tilde.shape[0], t_tilde.shape[1], t_tilde.shape[-1] // 2, 2
-            ),
-            dim=-1,
-        )
+        _pre_qefv = torch.cat([C, V], dim=-1)
 
-        f = torch.einsum('oh,bso->bsh', [self.W2, t])
+        f = torch.einsum('oh,bso->bsh', [self.W2, _pre_qefv])
         logits = torch.einsum('vh,bsh->bsv', [self.W1.weight, f])
+
         PreQEFV = torch.einsum('bsh,bsh->bsh', [self.W1(target[:, 1:-1]), f])
         PostQEFV = torch.cat([forward_contexts, backward_contexts], dim=-1)
         return {
@@ -295,6 +308,12 @@ class TransformerPredictor(Model):
         flat_sequence = sequence.contiguous().view(batch_size * max_length, -1)
         reversed_seq = flat_sequence[reversed_idx, :].view(*sequence.shape)
         return reversed_seq
+    
+    @staticmethod
+    def src_mask(sz):
+        mask = (torch.triu(torch.ones(sz, sz)) == 1).transpose(0, 1)
+        mask = mask.float().masked_fill(mask == 0, float('-inf')).masked_fill(mask == 1, float(0.0))
+        return mask
 
     def metrics(self):
         metrics = []

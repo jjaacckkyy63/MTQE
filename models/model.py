@@ -58,7 +58,7 @@ class Model(nn.Module):
     
     # Load main model path
     @staticmethod
-    def create_from_file(path, opt):
+    def create_from_file(path, opt, vocabs=None):
 
         try:
             model_dict = torch.load(path, map_location=lambda s,l: s)
@@ -69,8 +69,10 @@ class Model(nn.Module):
             )
 
         for model_name in Model.subclasses:
+            if 'Predictor' in model_dict:
+                model_dict[model_name] = model_dict['Predictor']
             if model_name in model_dict:
-                model = Model.subclasses[model_name].from_dict(model_dict, opt, PreModelClass=opt.pre_model_name)
+                model = Model.subclasses[model_name].from_dict(model_dict, opt, PreModelClass=opt.pre_model_name, vocabs=vocabs)
                 return model
     
     def save(self, path):

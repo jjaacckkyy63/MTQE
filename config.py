@@ -42,11 +42,11 @@ class Config:
 
     # Model
     model_name = 'Estimator' #'BilstmPredictor'
-    pre_model_name = 'TransformerPredictor'
+    pre_model_name = 'BilstmPredictor'
     # Save Model path
     checkpoint_path = 'checkpoints/'+model_name+'/'
     # Load Model path
-    model_path = 'checkpoints/'+model_name+'/'+model_name+'_tran.pth'
+    model_path =  'checkpoints/'+model_name+'/'+model_name+'_bi.pth' #'checkpoints/BilstmPredictor/en-de/openkiwi-predictor/best_model.torch' #'checkpoints/'+model_name+'/'+model_name+'_tran.pth'
     # Prediction path
     pred_path = 'prediction/'+model_name+'/'
     #pred_path = None
@@ -73,7 +73,7 @@ class Config:
     # Transformer perdictor
     nhead = 4 #8
     tdropout_pred = 0.1
-    transformer_layers_pred = 3 #6
+    transformer_layers_pred = 6
     ###################### Predictor model setting ######################
 
     ###################### Estimator model setting ######################
@@ -105,9 +105,9 @@ class Config:
     # Requires setting train-sentence-scores, valid-sentence-scores
     binary_level = False
     
-    load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'_10.pth'
+    load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
     #load_pred_source = None
-    load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'_10.pth'
+    load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'.pth'
     #load_pred_target = None
 
     # Include start and stop embedding
@@ -119,7 +119,7 @@ class Config:
     epochs = 10
     # Eval and checkpoint every n samples
     # Disable by setting to zero (default)
-    checkpoint_validation_steps = 5
+    checkpoint_validation_steps = 10000
     # Save Model Every n epochs
     save_checkpoint_interval = 2
     # Keep Only the n best models according to the main metric (Perplexity by default)
@@ -133,7 +133,7 @@ class Config:
     log_interval = 20
     # Learning Rate
     # 1e_3 * (batch_size / 32) seems to work well
-    lr =  1e-4 #2e-3
+    lr =  2e-3 #2e-3
     learning_rate_decay = 0.6
     learning_rate_decay_start = 2
     train_batch_size = 64

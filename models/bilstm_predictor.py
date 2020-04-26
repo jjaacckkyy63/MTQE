@@ -219,11 +219,22 @@ class BilstmPredictor(Model):
         return cls.from_dict(model_dict, opt)
     
     @classmethod
-    def from_dict(cls, model_dict, opt, PreModelClass=None):
-        vocabs = deserialize_vocabs(model_dict['vocab'], opt)
+    def from_dict(cls, model_dict, opt, PreModelClass=None, vocabs=None):
+        if not vocabs:
+            vocabs = deserialize_vocabs(model_dict['vocab'], opt)
         class_dict = model_dict[cls.__name__]
         model = cls(vocabs=vocabs, opt=opt)
-        model.load_state_dict(class_dict['state_dict'])
+
+        pretrained_dict = class_dict['state_dict']
+
+        # Only load dict that matches our model
+        model_dict = model.state_dict()
+        pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict and v.size() == model_dict[k].size()}
+        model_dict.update(pretrained_dict) 
+        model.load_state_dict(model_dict)
+        
+        # Load directly
+        #model.load_state_dict(pretrained_dict)
         return model
 
     def loss(self, model_out, batch, target_side=None):
