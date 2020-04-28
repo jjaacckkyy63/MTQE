@@ -3,7 +3,7 @@ from torch import nn
 from collections import OrderedDict
 from torch.distributions.normal import Normal
 
-from models import Model, BilstmPredictor, TransformerPredictor
+from models import Model, BilstmPredictor, TransformerPredictor, XLMRPredictor
 from models.utils import apply_packed_sequence, make_loss_weights
 from data.utils import deserialize_vocabs
 

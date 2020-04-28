@@ -3,6 +3,7 @@ import numpy as np
 import glob
 import logging
 from tqdm import tqdm
+from joblib import dump, load
 
 from data.fieldsets.build_fieldsets import build_fieldset
 from data.builders import build_training_datasets, build_test_dataset
@@ -11,11 +12,46 @@ from data.utils import *
 from data.corpus import Corpus
 from trainers.utils import retrieve_trainer
 from config import opt
-from models import Model, BilstmPredictor, Estimator, TransformerPredictor
+from models import Model, BilstmPredictor, Estimator, TransformerPredictor, XLMREstimator
 
 from predictors.utils import setup_output_directory, configure_seed
-from predictors.predictors import Predicter
+from predictors import Predicter, Ensembler
 from metrics.functions import *
+
+def ensemble(mode):
+
+    output_dir = setup_output_directory(opt.pred_path, create=True)
+    configure_seed(opt.seed)
+    
+    # models = ['_bi',
+    #           '_bi_ende', 
+    #           '_bi_enzh', 
+    #           '_bi_eten',
+    #           '_bi_neen', 
+    #           '_bi_roen']
+    models = ['_bi',
+              '_D1',
+              '_D2',
+              '_D3',
+              '_D5']
+    
+    prefix = 'checkpoints/'+opt.model_name+'/'+opt.model_name
+    model_path_list = [prefix+name+'.pth' for name in models]
+    
+    ensembler = Ensembler(model_path_list, opt)
+    predictions = ensembler.inference()
+
+    if mode == 'ensemble_train':
+        
+        ensembler.train(predictions)
+    
+    elif mode == 'ensemble_predict':
+        
+        clf = load('predictors/ensembler.joblib') 
+
+        new_predictions = {'scores': clf.predict(predictions).tolist()}
+
+        save_predicted_probabilities(opt.pred_path, new_predictions)
 
 def predict():
     
@@ -56,11 +92,11 @@ def predict():
     predictions = predicter.run(test_iter, batch_size=opt.test_batch_size)
     save_predicted_probabilities(opt.pred_path, predictions)
 
-def evaluate():
+def evaluate(dataset, file):
     ## Ground-truth (z_mean)
-    file_path = opt.paths['test']
+    file_path = opt.paths[dataset]
     gt = []
-    for filename in glob.glob(file_path + 'en-*/*.tsv'):
+    for filename in glob.glob(file_path + file):
         pdata = Corpus.read_tabular_file(filename)
         #print(pdata['original'])
         #print(len(pdata['z_mean']))
@@ -188,14 +224,23 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='Put arguments for train, predict, or evaluate')
     parser.add_argument('-m', '--mode', dest='mode', default='train', help='Input the mode: train, predict or evaluate')
+    parser.add_argument('-d', '--dataset', dest='dataset', default='test', help='train, valid, test dataset')
+    parser.add_argument('-f', '--file', dest='file', default='en-*/*.tsv', help='file to use')
+
     args = parser.parse_args()
     if args.mode == 'train':
         train()
     elif args.mode == 'predict':
+        opt.dataset = args.dataset
+        opt.file = args.file
         predict()
     elif args.mode == 'evaluate':
-        evaluate()
+        evaluate(args.dataset, args.file)
     elif args.mode == 'validate':
         validate()
+    elif args.mode == 'ensemble_train' or args.mode == 'ensemble_predict':
+        opt.dataset = args.dataset
+        opt.file = args.file
+        ensemble(args.mode)
     else:
         pass

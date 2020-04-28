@@ -58,3 +58,5 @@ checkpoints/
 checkpoints/*/*.pth
 prediction/
 __pycache__/
+predictors/*.joblib
+data.pkl

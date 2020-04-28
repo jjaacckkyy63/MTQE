@@ -46,13 +46,16 @@ class Config:
     # Save Model path
     checkpoint_path = 'checkpoints/'+model_name+'/'
     # Load Model path
-    model_path =  'checkpoints/'+model_name+'/'+model_name+'_bi_enzh.pth' 
+    model_path = None
     #'checkpoints/BilstmPredictor/en-zh/openkiwi-predictor/best_model.torch' 
     #'checkpoints/'+model_name+'/'+model_name+'_bi_enzh.pth'
     
     # Prediction path
     pred_path = 'prediction/'+model_name+'/'
     #pred_path = None
+
+    dataset = 'train'
+    file = '*/*.tsv'
     
 
 
@@ -108,9 +111,9 @@ class Config:
     # Requires setting train-sentence-scores, valid-sentence-scores
     binary_level = False
     
-    load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'_enzh.pth'
+    load_pred_source = None #'checkpoints/'+pre_model_name+'/'+pre_model_name+'_neen.pth'
     #load_pred_source = None
-    load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'_enzh.pth'
+    load_pred_target = None #'checkpoints/'+pre_model_name+'/'+pre_model_name+'_neen.pth'
     #load_pred_target = None
 
     # Include start and stop embedding

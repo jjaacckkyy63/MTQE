@@ -32,19 +32,19 @@ class Corpus:
         print("\n========== Loaded Files ==========")
         for filename in files:
             pdata = cls.read_tabular_file(filename)
-
-            if filename in glob.glob('raw_data/*/*-en/*.tsv'):
+            
+            if filename in glob.glob('raw_data/*/'+opt.file):
                 for source, target, score in zip(pdata['original'], pdata['translation'], pdata['z_mean']):
                     fields_examples.append(data.Example.fromlist([source, target, score], dataset_fields))
                 print(filename)
                 
-            elif filename in glob.glob('raw_data/*/en-*/*.tsv'): # en-de, en-zh
-                ndata = len(pdata['z_mean'])
-                if opt.num_data:
-                    ndata = int(opt.num_data*ndata)
-                for source, target, score in zip(pdata['original'][0:ndata], pdata['translation'][0:ndata], pdata['z_mean'][0:ndata]):
-                    fields_examples.append(data.Example.fromlist([source, target, score], dataset_fields))
-                print(filename)
+            # elif filename in glob.glob('raw_data/*/en-*/*.tsv'): # en-de, en-zh
+            #     ndata = len(pdata['z_mean'])
+            #     if opt.num_data:
+            #         ndata = int(opt.num_data*ndata)
+            #     for source, target, score in zip(pdata['original'][0:ndata], pdata['translation'][0:ndata], pdata['z_mean'][0:ndata]):
+            #         fields_examples.append(data.Example.fromlist([source, target, score], dataset_fields))
+            #     print(filename)
         print("========== Loaded Files ==========\n")
         
         return cls(fields_examples, dataset_fields)
