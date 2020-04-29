@@ -28,15 +28,15 @@ from transformers import XLMRobertaTokenizer, XLMRobertaForMaskedLM
 ###################### DATA ######################
 class Data(Dataset):
     
-    def __init__(self, dataset, done=True):
+    def __init__(self, dataset, data_path, done=True):
         
         self.tokenizer = XLMRobertaTokenizer.from_pretrained('xlm-roberta-base')
         if done:
-            with open('data.pkl', 'rb') as f:
+            with open(data_path, 'rb') as f:
                 self.data = pickle.load(f)
         else:
             self.data = self.parse_data(opt.paths[dataset])
-            with open('data.pkl', 'wb') as f:
+            with open(data_path, 'wb') as f:
                 pickle.dump(self.data, f)
         
         self.all_data, self.score = self.data
@@ -55,8 +55,6 @@ class Data(Dataset):
                 source_id_p = self.tokenizer.encode(source, add_special_tokens=False)
                 target_id_p = self.tokenizer.encode(target, add_special_tokens=False)
                 pair_id = self.tokenizer.build_inputs_with_special_tokens(source_id_p, target_id_p)
-                if len(pair_id) >= 200:
-                    pair_id = pair_id[:200]
                 data.append((source_id, target_id, pair_id, float(score)))
         
         source_data, target_data, all_data, score = zip(*data)
@@ -78,8 +76,8 @@ class Data(Dataset):
     def __len__(self):
         return len(self.all_data)
 
-def get_dataloader(dataset, done=True):
-    dataset = Data(dataset, done)
+def get_dataloader(dataset, data_path, done=True):
+    dataset = Data(dataset, data_path, done)
     return DataLoader(dataset, batch_size=opt.train_batch_size, shuffle=False)
 ###################### DATA ######################
 
@@ -95,7 +93,7 @@ def predict():
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     configure_seed(opt.seed)
 
-    test_iter = get_dataloader('test', False)
+    test_iter = get_dataloader('test', 'raw_data/processed/test.pkl', False)
 
     # Model
     ModelClass = eval(opt.model_name)
@@ -114,12 +112,13 @@ def train():
     opt.out_embeddings_size = 768
     opt.train_batch_size = 16
     opt.valid_batch_size = 16
+    opt.lr = 2e-3
 
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     configure_seed(opt.seed)
 
-    train_iter = get_dataloader('train', True)
-    valid_iter = get_dataloader('valid', True)
+    train_iter = get_dataloader('train', 'raw_data/processed/train.pkl', True)
+    valid_iter = get_dataloader('valid', 'raw_data/processed/valid.pkl', True)
     print(len(train_iter))
     print(len(valid_iter))
 

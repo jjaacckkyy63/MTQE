@@ -17,8 +17,8 @@ class XLMREstimator(Estimator):
         ):
 
         super().__init__(vocabs=vocabs, opt=opt, PreModelClass=PreModelClass)
+        
         self.lstm_input_size = 768
-
         self.lstm = nn.LSTM(
             input_size=self.lstm_input_size,
             hidden_size=self.opt.hidden_est,
@@ -28,8 +28,8 @@ class XLMREstimator(Estimator):
             bidirectional=True,
         )
 
-        # for name, param in self.predictor_tgt.named_parameters():
-        #     param.requires_grad = False
+        for name, param in self.predictor_tgt.named_parameters():
+            param.requires_grad = False
 
         self.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     
@@ -37,6 +37,9 @@ class XLMREstimator(Estimator):
         
         target, sentence_scores = batch
         sentence_pred = model_out['scores']
+        print(sentence_pred)
+        print(sentence_scores)
+        
         sentence_scores = sentence_scores.to(self.device)
 
         if not self.sentence_sigma:
@@ -67,14 +70,12 @@ class XLMREstimator(Estimator):
 
         mask = torch.ones_like(input_tensor, dtype=torch.uint8)
 
-        possible_padding = [0, 1, 2]
-        for pad_id in possible_padding:
-
-            mask &= torch.as_tensor(
-                input_tensor != pad_id,
-                device=mask.device,
-                dtype=torch.uint8,
-            )
+        pad_id = 1
+        mask &= torch.as_tensor(
+            input_tensor != pad_id,
+            device=mask.device,
+            dtype=torch.uint8,
+        )
 
         return mask
     

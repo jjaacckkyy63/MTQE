@@ -23,17 +23,17 @@ def ensemble(mode):
     output_dir = setup_output_directory(opt.pred_path, create=True)
     configure_seed(opt.seed)
     
-    # models = ['_bi',
-    #           '_bi_ende', 
-    #           '_bi_enzh', 
-    #           '_bi_eten',
-    #           '_bi_neen', 
-    #           '_bi_roen']
     models = ['_bi',
+              '_bi_ende', 
+              '_bi_enzh', 
+              '_bi_eten',
+              '_bi_neen', 
+              '_bi_roen',
               '_D1',
               '_D2',
               '_D3',
               '_D5']
+    
     
     prefix = 'checkpoints/'+opt.model_name+'/'+opt.model_name
     model_path_list = [prefix+name+'.pth' for name in models]

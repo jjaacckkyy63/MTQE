@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 import numpy as np
-from transformers import XLMRobertaTokenizer, XLMRobertaForMaskedLM
+from transformers import XLMRobertaTokenizer, XLMRobertaForMaskedLM, XLMRobertaModel
 from models.utils import apply_packed_sequence, make_loss_weights
 from models import Model
 from data.utils import deserialize_vocabs
@@ -12,7 +12,7 @@ class XLMRPredictor(Model):
     def __init__(self, vocabs, opt, predict_inverse=False):
         super(XLMRPredictor, self).__init__(vocabs=vocabs, opt=opt)
         
-        self.xlmr = XLMRobertaForMaskedLM.from_pretrained('xlm-roberta-base')
+        self.xlmr = XLMRobertaModel.from_pretrained('xlm-roberta-base')
         self.model = nn.Sequential(*list(self.xlmr.children())[:-1])
         self.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     
@@ -34,7 +34,7 @@ class XLMRPredictor(Model):
     def forward(self, batch):
         target, score = batch
         target = target.to(self.device)
-        source_outputs = self.model(target)
+        source_outputs = self.xlmr(target)
         return source_outputs
     
     @classmethod
