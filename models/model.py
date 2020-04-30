@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from torch.autograd import Variable
 import math
 
 from data.utils import *
@@ -107,6 +108,63 @@ class Model(nn.Module):
         }
         torch.save(model_dict, path)
 
+
+
+##################  Negative Sampling Loss ####################
+
+class NEGLoss(nn.Module):
+    def __init__(self, num_classes, idx2count=None):
+        """
+        :param num_classes: An int. The number of possible classes.
+        :param embed_size: An int. EmbeddingLockup size
+        :param num_sampled: An int. The number of sampled from noise examples
+        :param weights: A list of non negative floats. Class weights. None if
+            using uniform sampling. The weights are calculated prior to
+            estimation and can be of any form, e.g equation (5) in [1]
+        """
+
+        super(NEGLoss, self).__init__()
+
+        self.num_classes = num_classes
+        self.idx2count = idx2count
+        self.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+        self.logsigmoid = nn.LogSigmoid()
+
+    def forward(self, logits, target, num_sample):
+
+        [time_step, batch_size, vocab_size] = logits.size()
+        
+        logits = logits.view(time_step * batch_size, vocab_size)
+        target = target.view(-1)
+
+        log_target = logits.gather(dim=1, index=target.view(-1,1)).squeeze()
+        log_target = self.logsigmoid(log_target).sum()
+
+        sum_log_sampled = 0
+        for _ in range(num_sample):
+            noise_sample_count = batch_size * time_step
+            noise = torch.multinomial(torch.FloatTensor(self.idx2count), noise_sample_count, True)
+            noise = noise.to(self.device)
+
+            sum_log_sampled += -logits.gather(dim=1, index=noise.view(-1,1)).squeeze()
+
+        sum_log_sampled = self.logsigmoid(sum_log_sampled).sum()
+        
+        loss =  - (log_target + sum_log_sampled) / batch_size
+        
+        # logits = logits.unsqueeze(1).expand(time_step * batch_size, num_sample, vocab_size)
+
+        # noise = Variable(torch.Tensor(batch_size * time_step, num_sample).
+        #                      uniform_(0, self.num_classes - 1).long())
+        # noise = noise.to(self.device)
+
+        # sum_log_sampled = -logits.gather(dim=2, index=noise.unsqueeze(-1)).squeeze()
+
+        # sum_log_sampled = self.logsigmoid(sum_log_sampled).sum()
+        
+        # loss =  - (log_target + sum_log_sampled) / batch_size
+        
+        return loss
 
 ########################## NCE Loss ##########################
 

@@ -48,7 +48,7 @@ def ensemble(mode):
     
     elif mode == 'ensemble_predict':
         
-        clf = load('predictors/ensembler.joblib') 
+        clf = load('predictors/ensembler_all.joblib') 
 
         new_predictions = {'scores': clf.predict(predictions).tolist()}
 
@@ -148,7 +148,7 @@ def train():
     train_iter = build_bucket_iterator(
         train_dataset,
         batch_size=opt.train_batch_size,
-        is_train=False,
+        is_train=True,
         device=device
     )
     valid_iter = build_bucket_iterator(

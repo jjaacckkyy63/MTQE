@@ -50,7 +50,7 @@ class Config:
     # Save Model path
     checkpoint_path = 'checkpoints/'+model_name+'/'
     # Load Model path
-    model_path = None
+    model_path = 'checkpoints/'+model_name+'/'+model_name+'_bi_ende.pth'
     #'checkpoints/BilstmPredictor/en-zh/openkiwi-predictor/best_model.torch' 
     #'checkpoints/'+model_name+'/'+model_name+'_bi_enzh.pth'
     
@@ -115,15 +115,9 @@ class Config:
     # Requires setting train-sentence-scores, valid-sentence-scores
     binary_level = False
     
-<<<<<<< HEAD
-    load_pred_source = None #'checkpoints/'+pre_model_name+'/'+pre_model_name+'_neen.pth'
+    load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'_ende.pth'
     #load_pred_source = None
-    load_pred_target = None #'checkpoints/'+pre_model_name+'/'+pre_model_name+'_neen.pth'
-=======
-    load_pred_source = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'_nce.pth'
-    #load_pred_source = None
-    load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'_nce.pth'
->>>>>>> evaluate sciprt & add nce loss
+    load_pred_target = 'checkpoints/'+pre_model_name+'/'+pre_model_name+'_ende.pth'
     #load_pred_target = None
 
     # Include start and stop embedding

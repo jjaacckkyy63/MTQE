@@ -2,7 +2,7 @@ import torch
 from torch import nn
 from collections import OrderedDict
 
-from models import Model, NCELoss
+from models import Model, NCELoss, NEGLoss
 from models.utils import apply_packed_sequence, replace_token
 from data.utils import deserialize_vocabs
 
@@ -191,6 +191,8 @@ class BilstmPredictor(Model):
             target_vocab_size=self.target_vocab_size,
             opt=opt)
 
+        self._negloss = NEGLoss(self.target_vocab_size, idx2count=idx2count)
+
         self.opt = opt
 
         self.source_side, self.target_side = (
@@ -259,8 +261,12 @@ class BilstmPredictor(Model):
         # loss = self._loss(logits, target)
         
         # nce loss
-        logits = model_out['target_side_hidden']
-        loss = self._nceloss(target, logits)
+        # logits = model_out['target_side_hidden']
+        # loss = self._nceloss(target, logits)
+
+        # neg loss
+        logits = model_out[target_side]
+        loss = self._negloss(logits, target, 100)
         
         loss_dict = OrderedDict()
         loss_dict[target_side] = loss
