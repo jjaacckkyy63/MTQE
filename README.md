@@ -28,7 +28,7 @@ Data types: ``*/*.tsv`` for all files in Dataset folder specified above.
     bash run_evaluate.sh
 
     ** Ensemble **
-    bash run_evaluate.sh
+    bash run_ensemble.sh
 
 
 
