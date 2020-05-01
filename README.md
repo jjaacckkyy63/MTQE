@@ -1,7 +1,12 @@
 # Overview
+This is the final project for Georgia Tech CS 7643: Deep Learning Course.
+
 Task: [Machine translation quality estimation](./Capstone_Proposal_QE.PDF)
 
 Sentence-level Quality Estimation Shared Task of [WMT20](http://www.statmt.org/wmt20/)
+
+**Acknowledgement:** <br>
+Thanks to Facebook AI collaborators in this course for sharing the project topic and guidelines.
 
 # Datasets
 1) QE data from WMT20: https://github.com/facebookresearch/mlqe
@@ -39,31 +44,3 @@ Sentence-level Quality Estimation Shared Task of [WMT20](http://www.statmt.org/w
 
 # Submission Link:
 https://competitions.codalab.org/competitions/24207
-
-# Apr. 17 Notes:
-Tasks:
-1. Embedding (XLM-R)
-2. Predictor arch (change to transformer), Pre/Post QEFV extraction
-3. Training objective (currently MLM)
-4. Training method for few-shot learning - word2vec
-
-7k training dataset:
-https://github.com/facebookresearch/mlqe/tree/master/data
-
-
-# Apr. 21 Notes:
-TODO:
-1. Check loading of vocabs
-2. Use more data
-   https://github.com/facebookresearch/mlqe?fbclid=IwAR3hEEWsklEGzm0qQ-FLD0_qFz5-VZEKijEhJtfVQhwAQDL_8TmGCRvpUUs
-3. Use XLM-R as predictor (extract feature)
-4. Draft report
-5. Baseline: Predictor train w/ all five languages, Estimator train w/o de and zh datasets
-
-Questions for FB:
-1. What dataset is used for training (predictor and estimator)?
-
-# Experiments:
-1. Data
-2. Pre-trained
-3. Model - loss, (transformer, embedding)
