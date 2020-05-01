@@ -12,6 +12,31 @@ Thanks to Facebook AI collaborators in this course for sharing the project topic
 1) QE data from WMT20: https://github.com/facebookresearch/mlqe
 2) English-German and English-Chinese parallel data from [News-Commentary](http://opus.nlpl.eu/News-Commentary.php)
 
+# To run the codes
+1) Set up configurations in ``config.py``
+2) Type in the following command:
+
+>
+    python main.py -m <option> \\
+                   -d <dataset type> \\
+                   -f <data type>
+
+Five options: ``train``, ``validate``, ``predict``, ``evaluate``, ``ensemble`` <br>
+Dataset types: ``train``, ``valid``, `test` <br>
+Data types: ``*/*.tsv`` for all files in Dataset folder specified above.
+
+
+3) Or run scripts directly as follows: <br>
+
+>  
+    ** Evaluation **
+    bash run_evaluate.sh
+
+    ** Ensemble **
+    bash run_evaluate.sh
+
+
+
 # Baseline model
 1) [OpenKiwi tool](https://github.com/Unbabel/OpenKiwi/blob/master/kiwi/models/predictor_estimator.py) + 
    [mbert pretrained vectors](https://github.com/google-research/bert/blob/master/multilingual.md)
@@ -42,5 +67,5 @@ Thanks to Facebook AI collaborators in this course for sharing the project topic
 
     e) automatic label for two other languages
 
-# Submission Link:
+# Submission Link
 https://competitions.codalab.org/competitions/24207
