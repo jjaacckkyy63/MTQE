@@ -226,7 +226,7 @@ class TransformerPredictor(Model):
         # print(target_mask[0])
         # print(source_lengths[0])
         # print(target_lengths[0])
-        
+        // TODO #maybe the b,t in pos encoder is wrong 
         source_embeddings = self.embedding_source(source)
         source_embeddings = self.source_hidden(source_embeddings)*math.sqrt(self.hidden_pred)
         source_embeddings = self.pos_encoder_source(source_embeddings)
