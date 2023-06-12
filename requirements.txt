@@ -1,5 +1,5 @@
 polyglot==16.7.4
 torchtext==0.5.0
 pathlib==1.0.1
-transformers==2.8.0
+transformers==4.30.0
 torch
